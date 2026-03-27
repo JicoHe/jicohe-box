@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人博客 | 极简主义风格</title>
+    <style>
+        /* 全局样式 - 模仿 James Clear 的纯净感 */
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #555555;
+            --accent-color: #f39c12; /* 类似书封的金色点缀 */
+            --font-serif: "Georgia", "Times New Roman", serif;
+            --font-sans: "Helvetica Neue", Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 导航栏 */
+        nav {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Hero 区域 - 核心视觉 */
+        .hero {
+            padding: 5rem 5% 8rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--text-main);
+            color: white;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero-image img {
+            width: 100%;
+            box-shadow: 30px 30px 0px var(--accent-color);
+            border: 1px solid #eee;
+        }
+
+        /* 社交证明/特征栏 */
+        .featured-in {
+            background: #f9f9f9;
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .featured-in span {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #999;
+            margin-bottom: 1.5rem;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            opacity: 0.6;
+            filter: grayscale(1);
+        }
+
+        /* 文章列表部分 */
+        .articles {
+            padding: 8rem 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .articles h2 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .article-card {
+            display: flex;
+            margin-bottom: 4rem;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .article-date {
+            font-size: 0.8rem;
+            color: #999;
+            min-width: 100px;
+            text-transform: uppercase;
+        }
+
+        .article-info h3 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-info h3 a {
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .article-info h3 a:hover {
+            color: var(--accent-color);
+        }
+
+        /* 底部订阅栏 */
+        .newsletter {
+            background: #1a1a1a;
+            color: white;
+            padding: 6rem 5%;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+
+        .subscribe-form {
+            display: flex;
+            justify-content: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .subscribe-form input {
+            padding: 1rem;
+            flex-grow: 1;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .subscribe-form button {
+            padding: 1rem 2rem;
+            background: var(--accent-color);
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .hero-content p { margin: 0 auto 2.5rem; }
+            .article-card { flex-direction: column; gap: 0.5rem; }
+            .logos { flex-wrap: wrap; gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">Jico He.</a>
+        <div class="nav-links">
+            <a href="#">文章</a>
+            <a href="#">关于</a>
+            <a href="#">书籍</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>微小的改变，<br>惊人的结果。</h1>
+                <p>我通过跨学科的视角探索思维模型、效率工具与自动化技术，分享如何通过构建系统来优化生活与工作。</p>
+                <a href="#" class="btn">开始阅读</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://via.placeholder.com/500x650/f0f0f0/333333?text=Profile+or+Book+Cover" alt="Hero Image">
+            </div>
+        </section>
+
+        <section class="featured-in">
+            <span>我的内容曾出现在</span>
+            <div class="logos">
+                <strong>Forbes</strong>
+                <strong>The New York Times</strong>
+                <strong>Time</strong>
+                <strong>Wired</strong>
+            </div>
+        </section>
+
+        <section class="articles">
+            <h2>热门文章</h2>
+            
+            <div class="article-card">
+                <div class="article-date">2026年3月</div>
+                <div class="article-info">
+                    <h3><a href="#">系统思维：如何让自动化为你节省 1000 小时？</a></h3>
+                    <p>通过构建可靠的反馈环和控制逻辑，我们可以在日常琐事中实现真正的解放...</p>
+                </div>
+            </div>
+
+            <div class="article-card">
+                <div class="article-date">2026年2月</div>
+                <div class="article-info">
+                    <h3><a href="#">深度工作环境：Linux 生产力配置指南</a></h3>
+                    <p>环境的一点点摩擦都会阻碍创意的流动。本文探讨如何配置一个无干扰的工作空间...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section class="newsletter">
+        <h2>加入 100,000+ 读者</h2>
+        <p>每周一发送一封包含三个实用技巧的邮件。</p>
+        <form class="subscribe-form">
+            <input type="email" placeholder="你的邮箱地址">
+            <button type="submit">订阅</button>
+        </form>
+    </section>
+
+</body>
+</html>
