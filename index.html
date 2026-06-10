@@ -268,14 +268,13 @@
                 <h3>DeepSeek API <button class="refresh-btn" onclick="fetchBalance()" title="刷新">↻</button></h3>
                 <div class="token-balance" id="ds-balance">—</div>
                 <div class="token-meta" id="ds-meta">加载中…</div>
-                <div class="token-bar"><div class="token-bar-fill" id="ds-bar" style="width:0%"></div></div>
-            </a>
+            </div>
 
-            <!-- GitHub -->
-            <a href="https://github.com/JicoHe" target="_blank" class="card">
-                <div class="icon">📦</div>
-                <h3>GitHub</h3>
-                <p>开源项目与代码 →</p>
+            <!-- Code Editor -->
+            <a href="#" class="card" id="code-card" style="opacity:0.5">
+                <div class="icon">💻</div>
+                <h3>Code Editor</h3>
+                <p>VS Code 在线编辑器 · 即将上线 →</p>
             </a>
         </section>
 
@@ -306,17 +305,13 @@
                         <div class="value" id="admin-balance">—</div>
                     </div>
                     <div class="stat-card">
-                        <div class="label">已用 Token</div>
-                        <div class="value" id="admin-used">—</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="label">总 Token</div>
-                        <div class="value" id="admin-total">—</div>
+                        <div class="label">状态</div>
+                        <div class="value" style="color:var(--green);font-size:1rem;">🟢 在线</div>
                     </div>
                 </div>
                 <p style="margin-top:1rem;color:var(--muted);font-size:0.85rem;">
-                    🏠 <a href="https://ha.jicohe-box.cn" target="_blank" style="color:var(--accent);">打开 Home Assistant</a>  ·
-                    📊 数据每 60 秒自动刷新
+                    🏠 <a href="https://ha.jicohe-box.cn" target="_blank" style="color:var(--accent);">Home Assistant</a>  ·
+                    💻 <a href="#" style="color:var(--accent);" onclick="alert('即将上线：在线 VS Code 编辑器')">Code Editor</a>
                 </p>
                 <button class="logout-btn" onclick="logout()">退出管理</button>
             </div>
@@ -498,58 +493,30 @@
         async function fetchBalance() {
             const balanceEl = document.getElementById("ds-balance");
             const metaEl = document.getElementById("ds-meta");
-            const barEl = document.getElementById("ds-bar");
             const shortEl = document.getElementById("ds-short");
             const dotEl = document.getElementById("ds-dot");
 
             try {
-                // 通过 Cloudflare Pages Function 代理（需在 Cloudflare 设置 DEEPSEEK_API_KEY 环境变量）
                 const resp = await fetch("/api/deepseek");
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 
                 const data = await resp.json();
                 const balance = parseFloat(data.balance_infos?.[0]?.total_balance ?? data.total_balance ?? 0);
-                const used = parseFloat(data.balance_infos?.[0]?.used_balance ?? data.used_balance ?? 0);
-                const total = parseFloat(data.balance_infos?.[0]?.granted_balance ?? 0) + balance;
-                const remaining = balance;
-                const pct = total > 0 ? (remaining / total * 100) : 100;
 
-                // 格式化
-                const fmt = (n) => {
-                    if (n >= 1000000) return (n / 1000000).toFixed(2) + "M";
-                    if (n >= 1000) return (n / 1000).toFixed(1) + "K";
-                    return n.toFixed(0);
-                };
-
-                balanceEl.textContent = `¥${remaining.toFixed(2)}`;
-                metaEl.textContent = `剩余 ${fmt(remaining)} / 总计 ${fmt(total)} tokens`;
-                barEl.style.width = `${Math.min(100, Math.max(0, pct))}%`;
-
-                // 小 badge
-                shortEl.textContent = `DeepSeek ¥${remaining.toFixed(0)}`;
-                dotEl.className = remaining > 1 ? "dot online" : "dot";
+                balanceEl.textContent = `¥${balance.toFixed(2)}`;
+                metaEl.textContent = "DeepSeek API 余额";
+                shortEl.textContent = `DeepSeek ¥${balance.toFixed(0)}`;
+                dotEl.className = balance > 1 ? "dot online" : "dot";
 
                 // 管理面板
-                document.getElementById("admin-balance").textContent = `¥${remaining.toFixed(2)}`;
-                document.getElementById("admin-used").textContent = fmt(used);
-                document.getElementById("admin-total").textContent = fmt(total);
-
-                // 根据余额调整进度条颜色
-                if (remaining < 5) {
-                    barEl.style.background = "linear-gradient(90deg, var(--red), #f87171)";
-                } else if (remaining < 20) {
-                    barEl.style.background = "linear-gradient(90deg, #f59e0b, #fbbf24)";
-                } else {
-                    barEl.style.background = "linear-gradient(90deg, var(--accent), #818cf8)";
-                }
+                const adminBal = document.getElementById("admin-balance");
+                if (adminBal) adminBal.textContent = `¥${balance.toFixed(2)}`;
 
             } catch (err) {
                 balanceEl.textContent = "—";
                 metaEl.textContent = "余额查询失败";
-                barEl.style.width = "0%";
                 shortEl.textContent = "DeepSeek ⚠️";
                 dotEl.className = "dot";
-                console.error("DeepSeek fetch error:", err);
             }
         }
 
