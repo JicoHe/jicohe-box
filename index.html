@@ -242,7 +242,6 @@
                 <span class="dot" id="ds-dot"></span>
                 <span id="ds-short">查询中…</span>
             </div>
-            <button onclick="toggleAdmin()" id="admin-nav-btn">🔒 管理</button>
         </div>
     </nav>
 
@@ -278,11 +277,8 @@
             </a>
         </section>
 
-        <!-- 管理区 -->
-        <section class="admin-section">
-            <button class="admin-trigger" onclick="toggleAdmin()">
-                🔐 管理入口 — 需 iPhone 扫码验证
-            </button>
+        <section class="admin-section" id="admin-section">
+            <!-- 管理入口通过 ?admin 参数触发，无可见按钮 -->
 
             <div class="admin-login" id="admin-login">
                 <h3>📱 用 iPhone 扫描二维码</h3>
@@ -462,9 +458,6 @@
             clearInterval(qrInterval);
             clearInterval(pollInterval);
             document.getElementById("admin-panel").classList.add("active");
-            document.getElementById("admin-nav-btn").textContent = "🔓 管理中";
-            document.getElementById("admin-nav-btn").style.color = "var(--accent)";
-            // 存储 session（会话期间有效）
             sessionStorage.setItem("admin_unlocked", "true");
             fetchBalance(); // 刷新详细数据
             document.getElementById("admin-panel").scrollIntoView({ behavior: "smooth" });
@@ -473,17 +466,15 @@
         function logout() {
             sessionStorage.removeItem("admin_unlocked");
             document.getElementById("admin-panel").classList.remove("active");
-            document.getElementById("admin-nav-btn").textContent = "🔒 管理";
-            document.getElementById("admin-nav-btn").style.color = "";
-            document.querySelector(".admin-trigger").scrollIntoView({ behavior: "smooth" });
         }
 
-        // 页面加载时恢复 session
+        // 页面加载时恢复 session，或检测 ?admin 参数
         (function() {
             if (sessionStorage.getItem("admin_unlocked") === "true") {
                 document.getElementById("admin-panel").classList.add("active");
-                document.getElementById("admin-nav-btn").textContent = "🔓 管理中";
-                document.getElementById("admin-nav-btn").style.color = "var(--accent)";
+            }
+            if (window.location.search.includes("admin")) {
+                toggleAdmin();
             }
         })();
 

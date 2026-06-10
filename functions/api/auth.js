@@ -15,23 +15,25 @@
 // ── 会话存储 ──
 const sessions = new Map();
 
-// ── Base64URL 编解码 ──
-function b64url(buf) {
-    return btoa(String.fromCharCode(...new Uint8Array(buf)))
-        .replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+// ── Base64URL 编解码（避免 spread 操作符，Cloudflare Workers 兼容） ──
+function b64urlEncode(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
 }
 
 function b64urlDecode(str) {
-    // 防御性解码
     str = str.replace(/-/g, "+").replace(/_/g, "/");
     while (str.length % 4) str += "=";
-    // 只保留有效的 base64 字符
-    str = str.replace(/[^A-Za-z0-9+/=]/g, "");
-    try {
-        return Uint8Array.from(atob(str), c => c.charCodeAt(0));
-    } catch (e) {
-        throw new Error("base64 decode failed: " + e.message);
+    const binary = atob(str);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
     }
+    return bytes;
 }
 
 // ── 解析 credential public key (CBOR → JWK/CryptoKey) ──
@@ -109,7 +111,7 @@ export async function onRequest(context) {
 
         // 生成随机 challenge
         const challengeBytes = crypto.getRandomValues(new Uint8Array(32));
-        const challenge = b64url(challengeBytes);
+        const challenge = b64urlEncode(challengeBytes);
 
         // 获取存储的 credential（用于 allowCredentials）
         let storedCred = null;

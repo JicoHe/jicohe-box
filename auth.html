@@ -39,15 +39,24 @@
                 `<div class="result ${cls || ''}">${msg}</div>`;
         }
 
-        function b64url(buf) {
-            return btoa(String.fromCharCode(...new Uint8Array(buf)))
-                .replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+        function b64urlEncode(buffer) {
+            const bytes = new Uint8Array(buffer);
+            let binary = "";
+            for (let i = 0; i < bytes.length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
         }
 
-        function b64urlToBytes(str) {
+        function b64urlDecode(str) {
             str = str.replace(/-/g, "+").replace(/_/g, "/");
             while (str.length % 4) str += "=";
-            return Uint8Array.from(atob(str), c => c.charCodeAt(0));
+            const binary = atob(str);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            return bytes;
         }
 
         async function run() {
@@ -64,13 +73,13 @@
 
                 // 2) Face ID — 直接弹，不等用户操作
                 const allowCredentials = cd.allowCredentials.map(ac => ({
-                    id: b64urlToBytes(ac.id),
+                    id: b64urlDecode(ac.id),
                     type: ac.type
                 }));
 
                 const credential = await navigator.credentials.get({
                     publicKey: {
-                        challenge: b64urlToBytes(cd.challenge),
+                        challenge: b64urlDecode(cd.challenge),
                         rpId: cd.rpId,
                         allowCredentials: allowCredentials,
                         timeout: cd.timeout,
@@ -87,11 +96,11 @@
                         credential: {
                             id: credential.id,
                             response: {
-                                authenticatorData: b64url(credential.response.authenticatorData),
-                                clientDataJSON: b64url(credential.response.clientDataJSON),
-                                signature: b64url(credential.response.signature),
+                                authenticatorData: b64urlEncode(credential.response.authenticatorData),
+                                clientDataJSON: b64urlEncode(credential.response.clientDataJSON),
+                                signature: b64urlEncode(credential.response.signature),
                                 userHandle: credential.response.userHandle
-                                    ? b64url(credential.response.userHandle) : null
+                                    ? b64urlEncode(credential.response.userHandle) : null
                             }
                         }
                     })
