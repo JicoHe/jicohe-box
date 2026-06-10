@@ -7,103 +7,131 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0f0f0f;
-            color: #e0e0e0;
+            background: #0f0f0f; color: #e0e0e0;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; text-align: center;
         }
         .card {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            padding: 3rem 2rem;
-            max-width: 360px;
-            width: 90%;
+            background: #1a1a1a; border: 1px solid #2a2a2a;
+            border-radius: 16px; padding: 2.5rem 2rem;
+            max-width: 360px; width: 90%;
         }
+        .icon { font-size: 3.5rem; margin-bottom: 1rem; }
         .spinner {
-            width: 48px; height: 48px;
-            border: 3px solid #2a2a2a;
-            border-top-color: #6366f1;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 1.5rem;
+            width: 44px; height: 44px; border: 3px solid #2a2a2a;
+            border-top-color: #6366f1; border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .icon { font-size: 3rem; margin-bottom: 1rem; }
-        .success { color: #22c55e; }
-        .error { color: #ef4444; }
         .btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.8rem 2rem;
-            background: #6366f1;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 600;
+            display: inline-block; margin-top: 1.2rem;
+            padding: 0.8rem 2.2rem; background: #6366f1; color: white;
+            border: none; border-radius: 10px; font-size: 1rem;
+            cursor: pointer; font-weight: 600;
         }
         .btn:hover { opacity: 0.9; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
         p { color: #888; font-size: 0.9rem; margin-top: 0.5rem; }
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
     </style>
 </head>
 <body>
     <div class="card">
-        <div id="loading">
+        <div id="init">
+            <div class="icon">😀</div>
+            <h3>身份验证</h3>
+            <p>点击下方按钮，使用 Face ID 验证身份</p>
+            <button class="btn" onclick="authWithFaceID()" id="authBtn">🔐 面容识别</button>
+        </div>
+        <div id="loading" style="display:none;">
             <div class="spinner"></div>
-            <p>正在验证身份…</p>
+            <p>正在进行面容识别…</p>
         </div>
         <div id="result" style="display:none;"></div>
     </div>
 
     <script>
-        async function verify() {
+        function b64url(buf) {
+            return btoa(String.fromCharCode(...new Uint8Array(buf)))
+                .replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+        }
+
+        async function authWithFaceID() {
             const params = new URLSearchParams(window.location.search);
             const session = params.get("s");
-            const challenge = params.get("c");
 
+            const btn = document.getElementById("authBtn");
+            const initEl = document.getElementById("init");
+            const loadEl = document.getElementById("loading");
             const resultEl = document.getElementById("result");
-            const loadingEl = document.getElementById("loading");
 
-            if (!session || !challenge) {
-                loadingEl.style.display = "none";
+            if (!session) {
+                initEl.style.display = "none";
                 resultEl.style.display = "block";
-                resultEl.innerHTML = '<div class="icon error">✗</div><h3>无效的验证链接</h3><p>请重新扫描二维码</p>';
+                resultEl.innerHTML = '<div class="icon error">✗</div><h3>无效链接</h3><p>请重新扫描二维码</p>';
                 return;
             }
 
+            btn.disabled = true;
+            initEl.style.display = "none";
+            loadEl.style.display = "block";
+
             try {
-                const resp = await fetch("/api/auth", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ session, challenge })
+                // 1. 获取 challenge
+                const challengeResp = await fetch(`/api/auth/challenge?session=${session}`);
+                if (!challengeResp.ok) throw new Error("获取验证请求失败");
+                const challengeData = await challengeResp.json();
+
+                // 2. 调用 WebAuthn（触发 Face ID）
+                const credential = await navigator.credentials.get({
+                    publicKey: {
+                        challenge: Uint8Array.from(atob(challengeData.challenge.replace(/-/g, "+").replace(/_/g, "/")), c => c.charCodeAt(0)),
+                        rpId: challengeData.rpId,
+                        allowCredentials: challengeData.allowCredentials,
+                        timeout: challengeData.timeout,
+                        userVerification: "required"
+                    }
                 });
 
-                const data = await resp.json();
+                // 3. 序列化并发送验证
+                const verifyResp = await fetch("/api/auth/verify", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        session,
+                        credential: {
+                            id: credential.id,
+                            response: {
+                                authenticatorData: b64url(credential.response.authenticatorData),
+                                clientDataJSON: b64url(credential.response.clientDataJSON),
+                                signature: b64url(credential.response.signature),
+                                userHandle: credential.response.userHandle ? b64url(credential.response.userHandle) : null
+                            }
+                        }
+                    })
+                });
 
-                loadingEl.style.display = "none";
+                const verifyData = await verifyResp.json();
+                loadEl.style.display = "none";
                 resultEl.style.display = "block";
 
-                if (data.status === "authenticated") {
-                    resultEl.innerHTML = '<div class="icon success">✓</div><h3>验证成功</h3><p>电脑端将自动解锁管理面板</p>';
+                if (verifyData.status === "authenticated") {
+                    resultEl.innerHTML = '<div class="icon success">✅</div><h3>验证成功</h3><p>电脑端管理面板已解锁</p>';
                 } else {
-                    resultEl.innerHTML = '<div class="icon error">✗</div><h3>验证失败</h3><p>验证码错误或已过期，请重新扫描</p>';
-                    resultEl.innerHTML += '<a href="https://www.jicohe-box.cn" class="btn">返回首页</a>';
+                    resultEl.innerHTML = '<div class="icon error">✗</div><h3>验证失败</h3><p class="error">' + (verifyData.error || "请重试") + '</p>';
                 }
             } catch (err) {
-                loadingEl.style.display = "none";
+                loadEl.style.display = "none";
                 resultEl.style.display = "block";
-                resultEl.innerHTML = '<div class="icon error">✗</div><h3>网络错误</h3><p>请检查网络后重试</p>';
+                if (err.name === "NotAllowedError" || err.message?.includes("cancel")) {
+                    resultEl.innerHTML = '<div class="icon">😐</div><h3>已取消</h3><p>你取消了面容识别</p><button class="btn" onclick="location.reload()">重试</button>';
+                } else {
+                    resultEl.innerHTML = '<div class="icon error">✗</div><h3>验证失败</h3><p class="error">' + (err.message || "未知错误") + '</p><button class="btn" onclick="location.reload()">重试</button>';
+                }
             }
         }
-
-        verify();
     </script>
 </body>
 </html>

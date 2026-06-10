@@ -401,10 +401,9 @@
         let currentSessionId = null;
 
         async function updateQR() {
-            // 生成 session ID + TOTP challenge
+            // 只需要 session ID（不再需要 TOTP challenge）
             currentSessionId = crypto.randomUUID();
-            const challenge = await generateTOTP(TOTP_SECRET);
-            const authUrl = `https://www.jicohe-box.cn/auth?s=${currentSessionId}&c=${challenge}`;
+            const authUrl = `https://www.jicohe-box.cn/auth?s=${currentSessionId}`;
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(authUrl)}&bgcolor=fff&color=000`;
             document.getElementById("totp-qr").src = qrUrl;
         }
@@ -414,7 +413,7 @@
             pollInterval = setInterval(async () => {
                 if (!currentSessionId) return;
                 try {
-                    const resp = await fetch(`/api/auth?session=${currentSessionId}`);
+                    const resp = await fetch(`/api/auth/status?session=${currentSessionId}`);
                     const data = await resp.json();
                     if (data.status === "authenticated") {
                         clearInterval(pollInterval);
