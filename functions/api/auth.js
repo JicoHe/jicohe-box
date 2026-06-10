@@ -22,9 +22,16 @@ function b64url(buf) {
 }
 
 function b64urlDecode(str) {
+    // 防御性解码
     str = str.replace(/-/g, "+").replace(/_/g, "/");
     while (str.length % 4) str += "=";
-    return Uint8Array.from(atob(str), c => c.charCodeAt(0));
+    // 只保留有效的 base64 字符
+    str = str.replace(/[^A-Za-z0-9+/=]/g, "");
+    try {
+        return Uint8Array.from(atob(str), c => c.charCodeAt(0));
+    } catch (e) {
+        throw new Error("base64 decode failed: " + e.message);
+    }
 }
 
 // ── 解析 credential public key (CBOR → JWK/CryptoKey) ──
