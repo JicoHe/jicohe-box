@@ -75,16 +75,14 @@ async function generateTOTPForCounter(secret, counter) {
     return binary % 1000000;
 }
 
-// 清理过期会话
-setInterval(() => {
+export async function onRequest(context) {
+    const { request, env } = context;
+
+    // 清理过期会话（每次请求时检查）
     const now = Date.now();
     for (const [sid, data] of sessions) {
         if (now > data.expires) sessions.delete(sid);
     }
-}, 10000);
-
-export async function onRequest(context) {
-    const { request, env } = context;
     const url = new URL(request.url);
 
     // CORS
