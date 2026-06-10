@@ -524,9 +524,9 @@
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 
                 const data = await resp.json();
-                const balance = data.balance_infos?.[0]?.total_balance ?? data.total_balance ?? 0;
-                const used = data.balance_infos?.[0]?.used_balance ?? data.used_balance ?? 0;
-                const total = balance + used || balance;
+                const balance = parseFloat(data.balance_infos?.[0]?.total_balance ?? data.total_balance ?? 0);
+                const used = parseFloat(data.balance_infos?.[0]?.used_balance ?? data.used_balance ?? 0);
+                const total = parseFloat(data.balance_infos?.[0]?.granted_balance ?? 0) + balance;
                 const remaining = balance;
                 const pct = total > 0 ? (remaining / total * 100) : 100;
 
