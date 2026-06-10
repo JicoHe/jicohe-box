@@ -63,11 +63,16 @@
                 const cd = await cr.json();
 
                 // 2) Face ID — 直接弹，不等用户操作
+                const allowCredentials = cd.allowCredentials.map(ac => ({
+                    id: b64urlToBytes(ac.id),
+                    type: ac.type
+                }));
+
                 const credential = await navigator.credentials.get({
                     publicKey: {
                         challenge: b64urlToBytes(cd.challenge),
                         rpId: cd.rpId,
-                        allowCredentials: cd.allowCredentials,
+                        allowCredentials: allowCredentials,
                         timeout: cd.timeout,
                         userVerification: "required"
                     }
