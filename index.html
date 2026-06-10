@@ -286,25 +286,13 @@
             </button>
 
             <div class="admin-login" id="admin-login">
-                <h3>📱 扫描二维码获取验证码</h3>
-                <p style="color:var(--muted);margin-bottom:0.5rem;">用 iPhone 相机扫描下方二维码</p>
+                <h3>📱 用 iPhone 扫描二维码</h3>
+                <p style="color:var(--muted);margin-bottom:0.5rem;">打开 iPhone 相机，扫描下方二维码</p>
                 <div class="qr-wrap">
-                    <img id="totp-qr" src="" alt="TOTP QR Code">
+                    <img id="totp-qr" src="" alt="Auth QR Code">
                 </div>
-                <p style="font-size:0.8rem;color:var(--muted);">二维码每 30 秒自动刷新</p>
-
-                <div class="code-input-group">
-                    <input type="text" id="totp-input" placeholder="6位验证码" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
-                    <button onclick="verifyCode()">验证</button>
-                </div>
+                <p style="font-size:0.8rem;color:var(--muted);" id="qr-status">等待扫码…</p>
                 <div id="auth-msg"></div>
-
-                <div class="setup-hint">
-                    <details>
-                        <summary style="cursor:pointer;color:var(--muted);">📌 首次设置</summary>
-                        <p style="margin-top:0.5rem;">用 iPhone 的 <strong>密码 App</strong> 或 Google Authenticator 扫描上方二维码完成绑定，之后即可扫码登录。</p>
-                    </details>
-                </div>
             </div>
 
             <div class="admin-panel" id="admin-panel">
@@ -406,16 +394,48 @@
         }
 
         // ═══════════════════════════════════════════
-        //  认证逻辑
+        //  认证逻辑 — 扫码自动解锁
         // ═══════════════════════════════════════════
         let qrInterval = null;
+        let pollInterval = null;
+        let currentSessionId = null;
+
+        async function updateQR() {
+            // 生成 session ID + TOTP challenge
+            currentSessionId = crypto.randomUUID();
+            const challenge = await generateTOTP(TOTP_SECRET);
+            const authUrl = `https://www.jicohe-box.cn/auth?s=${currentSessionId}&c=${challenge}`;
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(authUrl)}&bgcolor=fff&color=000`;
+            document.getElementById("totp-qr").src = qrUrl;
+        }
+
+        async function startPolling() {
+            document.getElementById("qr-status").textContent = "等待扫码…";
+            pollInterval = setInterval(async () => {
+                if (!currentSessionId) return;
+                try {
+                    const resp = await fetch(`/api/auth?session=${currentSessionId}`);
+                    const data = await resp.json();
+                    if (data.status === "authenticated") {
+                        clearInterval(pollInterval);
+                        document.getElementById("qr-status").textContent = "✅ 验证成功！";
+                        document.getElementById("auth-msg").innerHTML = '<div class="success-text">✅ iPhone 已确认，正在解锁…</div>';
+                        setTimeout(unlockAdmin, 500);
+                    } else if (data.status === "expired") {
+                        document.getElementById("qr-status").textContent = "二维码已过期，正在刷新…";
+                        updateQR();
+                    }
+                } catch (e) {
+                    // 网络错误，继续轮询
+                }
+            }, 1500);
+        }
 
         function toggleAdmin() {
             const login = document.getElementById("admin-login");
             const panel = document.getElementById("admin-panel");
 
             if (panel.classList.contains("active")) {
-                // 已登录，滚动到管理面板
                 panel.scrollIntoView({ behavior: "smooth" });
                 return;
             }
@@ -424,64 +444,26 @@
             if (isOpen) {
                 login.classList.remove("active");
                 clearInterval(qrInterval);
+                clearInterval(pollInterval);
             } else {
                 login.classList.add("active");
                 updateQR();
-                qrInterval = setInterval(updateQR, 5000); // 每5秒刷新QR
+                startPolling();
+                // 每 30 秒刷新 QR （新的 session + challenge）
+                qrInterval = setInterval(() => {
+                    updateQR();
+                    clearInterval(pollInterval);
+                    startPolling();
+                }, 30000);
                 login.scrollIntoView({ behavior: "smooth" });
-                document.getElementById("totp-input").value = "";
                 document.getElementById("auth-msg").innerHTML = "";
             }
-        }
-
-        async function verifyCode() {
-            const input = document.getElementById("totp-input").value.trim();
-            const msgEl = document.getElementById("auth-msg");
-
-            if (input.length !== 6 || !/^\d+$/.test(input)) {
-                msgEl.innerHTML = '<div class="error-text">请输入6位数字验证码</div>';
-                return;
-            }
-
-            const currentCode = await generateTOTP(TOTP_SECRET);
-            // 也接受上一個30秒窗口的碼（時間偏差容忍）
-            const prevCode = await generateTOTP(TOTP_SECRET, TOTP_PERIOD, TOTP_DIGITS);
-            // 手動計算上一個窗口
-            const prevCounter = Math.floor((Date.now() / 1000 - TOTP_PERIOD) / TOTP_PERIOD);
-
-            if (input === currentCode || input === await getPrevTOTP()) {
-                msgEl.innerHTML = '<div class="success-text">✅ 验证成功！</div>';
-                unlockAdmin();
-            } else {
-                msgEl.innerHTML = '<div class="error-text">❌ 验证码错误，请重试</div>';
-            }
-        }
-
-        async function getPrevTOTP() {
-            const key = base32ToHex(TOTP_SECRET);
-            const counter = Math.floor((Date.now() / 1000 - TOTP_PERIOD) / TOTP_PERIOD);
-            const counterHex = counter.toString(16).padStart(16, "0");
-            const keyBytes = new Uint8Array(key.match(/.{2}/g).map(b => parseInt(b, 16)));
-            const msgBytes = new Uint8Array(counterHex.match(/.{2}/g).map(b => parseInt(b, 16)));
-
-            const cryptoKey = await crypto.subtle.importKey(
-                "raw", keyBytes, { name: "HMAC", hash: "SHA-1" }, false, ["sign"]
-            );
-            const sig = await crypto.subtle.sign("HMAC", cryptoKey, msgBytes);
-            const hmac = new Uint8Array(sig);
-            const offset = hmac[hmac.length - 1] & 0x0f;
-            const binary =
-                ((hmac[offset] & 0x7f) << 24) |
-                ((hmac[offset + 1] & 0xff) << 16) |
-                ((hmac[offset + 2] & 0xff) << 8) |
-                (hmac[offset + 3] & 0xff);
-            const otp = binary % Math.pow(10, TOTP_DIGITS);
-            return otp.toString().padStart(TOTP_DIGITS, "0");
         }
 
         function unlockAdmin() {
             document.getElementById("admin-login").classList.remove("active");
             clearInterval(qrInterval);
+            clearInterval(pollInterval);
             document.getElementById("admin-panel").classList.add("active");
             document.getElementById("admin-nav-btn").textContent = "🔓 管理中";
             document.getElementById("admin-nav-btn").style.color = "var(--accent)";
@@ -574,11 +556,9 @@
         setInterval(fetchBalance, 60000);
 
         // ═══════════════════════════════════════════
-        //  键盘快捷键：Enter 提交验证码
+        //  键盘快捷键
         // ═══════════════════════════════════════════
-        document.getElementById("totp-input").addEventListener("keydown", (e) => {
-            if (e.key === "Enter") verifyCode();
-        });
+
     </script>
 </body>
 </html>
