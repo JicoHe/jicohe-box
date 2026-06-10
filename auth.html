@@ -3,135 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>验证中…</title>
+    <title>验证</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0f0f0f; color: #e0e0e0;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex; align-items: center; justify-content: center;
-            min-height: 100vh; text-align: center;
+            min-height: 100vh;
         }
-        .card {
-            background: #1a1a1a; border: 1px solid #2a2a2a;
-            border-radius: 16px; padding: 2.5rem 2rem;
-            max-width: 360px; width: 90%;
-        }
-        .icon { font-size: 3.5rem; margin-bottom: 1rem; }
+        .status { text-align: center; padding: 2rem; }
         .spinner {
-            width: 44px; height: 44px; border: 3px solid #2a2a2a;
+            width: 40px; height: 40px; border: 3px solid #2a2a2a;
             border-top-color: #6366f1; border-radius: 50%;
             animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .btn {
-            display: inline-block; margin-top: 1.2rem;
-            padding: 0.8rem 2.2rem; background: #6366f1; color: white;
-            border: none; border-radius: 10px; font-size: 1rem;
-            cursor: pointer; font-weight: 600;
-        }
-        .btn:hover { opacity: 0.9; }
-        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        p { color: #888; font-size: 0.9rem; margin-top: 0.5rem; }
+        .result { font-size: 1.1rem; }
         .success { color: #22c55e; }
         .error { color: #ef4444; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div id="init">
-            <div class="icon">😀</div>
-            <h3>身份验证</h3>
-            <p>点击下方按钮，使用 Face ID 验证身份</p>
-            <button class="btn" onclick="authWithFaceID()" id="authBtn">🔐 面容识别</button>
-        </div>
-        <div id="loading" style="display:none;">
-            <div class="spinner"></div>
-            <p>正在进行面容识别…</p>
-        </div>
-        <div id="result" style="display:none;"></div>
+    <div class="status" id="status">
+        <div class="spinner"></div>
+        <div class="result">正在进行面容识别…</div>
     </div>
 
     <script>
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get("s");
+
+        function show(msg, cls) {
+            document.getElementById("status").innerHTML =
+                `<div class="result ${cls || ''}">${msg}</div>`;
+        }
+
         function b64url(buf) {
             return btoa(String.fromCharCode(...new Uint8Array(buf)))
                 .replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
         }
 
-        async function authWithFaceID() {
-            const params = new URLSearchParams(window.location.search);
-            const session = params.get("s");
+        function b64urlToBytes(str) {
+            str = str.replace(/-/g, "+").replace(/_/g, "/");
+            while (str.length % 4) str += "=";
+            return Uint8Array.from(atob(str), c => c.charCodeAt(0));
+        }
 
-            const btn = document.getElementById("authBtn");
-            const initEl = document.getElementById("init");
-            const loadEl = document.getElementById("loading");
-            const resultEl = document.getElementById("result");
-
-            if (!session) {
-                initEl.style.display = "none";
-                resultEl.style.display = "block";
-                resultEl.innerHTML = '<div class="icon error">✗</div><h3>无效链接</h3><p>请重新扫描二维码</p>';
+        async function run() {
+            if (!sessionId) {
+                show("无效链接", "error");
                 return;
             }
 
-            btn.disabled = true;
-            initEl.style.display = "none";
-            loadEl.style.display = "block";
-
             try {
-                // 1. 获取 challenge
-                const challengeResp = await fetch(`/api/auth/challenge?session=${session}`);
-                if (!challengeResp.ok) throw new Error("获取验证请求失败");
-                const challengeData = await challengeResp.json();
+                // 1) 获取 challenge
+                const cr = await fetch(`/api/auth/challenge?session=${sessionId}`);
+                if (!cr.ok) throw new Error("服务器错误");
+                const cd = await cr.json();
 
-                // 2. 调用 WebAuthn（触发 Face ID）
+                // 2) Face ID — 直接弹，不等用户操作
                 const credential = await navigator.credentials.get({
                     publicKey: {
-                        challenge: Uint8Array.from(atob(challengeData.challenge.replace(/-/g, "+").replace(/_/g, "/")), c => c.charCodeAt(0)),
-                        rpId: challengeData.rpId,
-                        allowCredentials: challengeData.allowCredentials,
-                        timeout: challengeData.timeout,
+                        challenge: b64urlToBytes(cd.challenge),
+                        rpId: cd.rpId,
+                        allowCredentials: cd.allowCredentials,
+                        timeout: cd.timeout,
                         userVerification: "required"
                     }
                 });
 
-                // 3. 序列化并发送验证
-                const verifyResp = await fetch("/api/auth/verify", {
+                // 3) 发送验证
+                const vr = await fetch("/api/auth/verify", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        session,
+                        session: sessionId,
                         credential: {
                             id: credential.id,
                             response: {
                                 authenticatorData: b64url(credential.response.authenticatorData),
                                 clientDataJSON: b64url(credential.response.clientDataJSON),
                                 signature: b64url(credential.response.signature),
-                                userHandle: credential.response.userHandle ? b64url(credential.response.userHandle) : null
+                                userHandle: credential.response.userHandle
+                                    ? b64url(credential.response.userHandle) : null
                             }
                         }
                     })
                 });
 
-                const verifyData = await verifyResp.json();
-                loadEl.style.display = "none";
-                resultEl.style.display = "block";
-
-                if (verifyData.status === "authenticated") {
-                    resultEl.innerHTML = '<div class="icon success">✅</div><h3>验证成功</h3><p>电脑端管理面板已解锁</p>';
+                const vd = await vr.json();
+                if (vd.status === "authenticated") {
+                    show("✅ 已验证，电脑端已解锁", "success");
                 } else {
-                    resultEl.innerHTML = '<div class="icon error">✗</div><h3>验证失败</h3><p class="error">' + (verifyData.error || "请重试") + '</p>';
+                    show("验证失败: " + (vd.error || "未知"), "error");
                 }
+
             } catch (err) {
-                loadEl.style.display = "none";
-                resultEl.style.display = "block";
-                if (err.name === "NotAllowedError" || err.message?.includes("cancel")) {
-                    resultEl.innerHTML = '<div class="icon">😐</div><h3>已取消</h3><p>你取消了面容识别</p><button class="btn" onclick="location.reload()">重试</button>';
+                if (err.name === "NotAllowedError" || String(err).includes("cancel")) {
+                    show("面容识别已取消", "error");
                 } else {
-                    resultEl.innerHTML = '<div class="icon error">✗</div><h3>验证失败</h3><p class="error">' + (err.message || "未知错误") + '</p><button class="btn" onclick="location.reload()">重试</button>';
+                    show("错误: " + (err.message || "未知"), "error");
                 }
             }
         }
+
+        run();
     </script>
 </body>
 </html>
