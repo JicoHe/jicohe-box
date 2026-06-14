@@ -26,7 +26,7 @@ function b64urlEncode(buffer) {
 }
 
 function b64urlDecode(str) {
-    str = str.replace(/-/g, "+").replace(/_/g, "/");
+    str = (str || "").trim().replace(/-/g, "+").replace(/_/g, "/");
     while (str.length % 4) str += "=";
     const binary = atob(str);
     const bytes = new Uint8Array(binary.length);
@@ -116,7 +116,11 @@ export async function onRequest(context) {
         // 获取存储的 credential（用于 allowCredentials）
         let storedCred = null;
         try {
-            storedCred = JSON.parse(env.WEBAUTHN_CREDENTIAL || "null");
+            const raw = env.WEBAUTHN_CREDENTIAL || "null";
+            storedCred = JSON.parse(raw);
+            // 清理可能来自 env var 的空白字符
+            if (storedCred && storedCred.id) storedCred.id = storedCred.id.trim();
+            if (storedCred && storedCred.publicKey) storedCred.publicKey = storedCred.publicKey.trim();
         } catch {}
 
         sessions.set(sessionId, {
@@ -163,7 +167,10 @@ export async function onRequest(context) {
         // 获取存储的 credential
         let storedCred = null;
         try {
-            storedCred = JSON.parse(env.WEBAUTHN_CREDENTIAL || "null");
+            const raw = env.WEBAUTHN_CREDENTIAL || "null";
+            storedCred = JSON.parse(raw);
+            if (storedCred && storedCred.id) storedCred.id = storedCred.id.trim();
+            if (storedCred && storedCred.publicKey) storedCred.publicKey = storedCred.publicKey.trim();
         } catch {}
 
         if (!storedCred) {
