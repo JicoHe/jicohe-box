@@ -189,7 +189,7 @@
             const pw = document.getElementById("pw-input").value;
             const msg = document.getElementById("lock-msg");
             if (!pw) { msg.textContent = "请输入密码"; msg.className = "lock-msg error"; return; }
-            msg.textContent = "";
+            msg.textContent = "验证中…";
             msg.className = "lock-msg";
 
             try {
@@ -201,14 +201,17 @@
                 const data = await resp.json();
                 if (data.status === "ok") {
                     unlockSite();
+                } else if (data.error && data.error.includes("not configured")) {
+                    msg.textContent = "后台未配置密码，请在 Cloudflare 添加 SITE_PASSWORD 环境变量";
+                    msg.className = "lock-msg error";
                 } else {
                     msg.textContent = "密码错误";
                     msg.className = "lock-msg error";
                     document.getElementById("pw-input").value = "";
                     document.getElementById("pw-input").focus();
                 }
-            } catch {
-                msg.textContent = "网络错误，请重试";
+            } catch (e) {
+                msg.textContent = "请求失败: " + (e.message || "网络错误");
                 msg.className = "lock-msg error";
             }
         }
