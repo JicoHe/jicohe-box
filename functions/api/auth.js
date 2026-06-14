@@ -100,6 +100,31 @@ export async function onRequest(context) {
         return new Response(null, { headers: corsHeaders });
     }
 
+    // ── POST /api/auth/password ──
+    if (request.method === "POST" && url.pathname.endsWith("/password")) {
+        let body;
+        try { body = await request.json(); } catch {
+            return new Response(JSON.stringify({ status: "error", error: "invalid json" }), {
+                status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" }
+            });
+        }
+        const pw = body.password || "";
+        const expected = env.SITE_PASSWORD || "";
+        if (!expected) {
+            return new Response(JSON.stringify({ status: "error", error: "SITE_PASSWORD not configured" }), {
+                status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" }
+            });
+        }
+        if (pw === expected) {
+            return new Response(JSON.stringify({ status: "ok" }), {
+                headers: { ...corsHeaders, "Content-Type": "application/json" }
+            });
+        }
+        return new Response(JSON.stringify({ status: "wrong" }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+    }
+
     // ── GET /api/auth/challenge?session=XXX ──
     if (request.method === "GET" && url.pathname.endsWith("/challenge")) {
         const sessionId = url.searchParams.get("session");
