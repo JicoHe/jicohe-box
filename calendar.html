@@ -72,6 +72,12 @@
             cursor:pointer; font-family:inherit; transition:all 0.2s;
         }
         .btn-add:hover { opacity:0.9; transform:translateY(-1px); }
+        .btn-refresh {
+            padding:0.65rem 1.2rem; border:1px solid var(--border); border-radius:8px;
+            background:var(--card); color:var(--text); font-weight:500; font-size:0.9rem;
+            cursor:pointer; font-family:inherit; transition:all 0.2s;
+        }
+        .btn-refresh:hover { border-color:var(--muted); }
 
         /* Stats */
         .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:0.75rem; margin-bottom:2rem; }
@@ -190,7 +196,10 @@
                 <h1>📅 日程<span>时间线</span></h1>
                 <div class="meta" id="update-time">同步中…</div>
             </div>
-            <button class="btn-add" onclick="openModal()">+ 新增日程</button>
+            <div style="display:flex;gap:0.5rem;">
+                <button class="btn-refresh" onclick="loadCalendar()" title="刷新日程数据">🔄 刷新</button>
+                <button class="btn-add" onclick="openModal()">+ 新增日程</button>
+            </div>
         </div>
 
         <div class="stats" id="stats"></div>
