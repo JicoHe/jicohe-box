@@ -1,7 +1,20 @@
 {
-  "updated": "2026-06-14T08:37:25.742707+00:00",
+  "updated": "2026-06-14T09:43:01.646182+00:00",
   "count": 200,
   "events": [
+    {
+      "summary": "支部任务",
+      "start": "2026-06-14T11:00:00+00:00",
+      "end": "2026-06-14T12:00:00+00:00",
+      "start_readable": "2026-06-14 19:00",
+      "end_readable": "2026-06-14 20:00",
+      "all_day": false,
+      "timezone": "Asia/Shanghai",
+      "calendar": "工作",
+      "color": "#FF383CFF",
+      "description": null,
+      "url": null
+    },
     {
       "summary": "🏁 FORMULA 1 MSC CRUISES GRAN PREMIO DE BARCELONA-CATALUNYA 2026 - Race",
       "start": "2026-06-14T13:00:00+00:00",
@@ -2582,19 +2595,6 @@
       "end": "2029-06-21T23:59:59+00:00",
       "start_readable": "2029-06-21 08:00",
       "end_readable": "2029-06-22 07:59",
-      "all_day": true,
-      "timezone": null,
-      "calendar": "中国大陆节假日",
-      "color": "#FF9500",
-      "description": null,
-      "url": null
-    },
-    {
-      "summary": "小暑",
-      "start": "2029-07-07T00:00:00+00:00",
-      "end": "2029-07-07T23:59:59+00:00",
-      "start_readable": "2029-07-07 08:00",
-      "end_readable": "2029-07-08 07:59",
       "all_day": true,
       "timezone": null,
       "calendar": "中国大陆节假日",
