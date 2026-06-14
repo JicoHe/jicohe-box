@@ -5,23 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>验证</title>
     <style>
+        :root {
+            --bg: #0f0f0f;
+            --text: #e0e0e0;
+            --border: #2a2a2a;
+            --accent: #6366f1;
+            --green: #22c55e;
+            --red: #ef4444;
+        }
+        [data-theme="light"] {
+            --bg: #f5f5f5;
+            --text: #1a1a1a;
+            --border: #e0e0e0;
+            --accent: #4f46e5;
+            --green: #16a34a;
+            --red: #dc2626;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0f0f0f; color: #e0e0e0;
+            background: var(--bg); color: var(--text);
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex; align-items: center; justify-content: center;
             min-height: 100vh;
         }
         .status { text-align: center; padding: 2rem; }
         .spinner {
-            width: 40px; height: 40px; border: 3px solid #2a2a2a;
-            border-top-color: #6366f1; border-radius: 50%;
+            width: 40px; height: 40px; border: 3px solid var(--border);
+            border-top-color: var(--accent); border-radius: 50%;
             animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         .result { font-size: 1.1rem; }
-        .success { color: #22c55e; }
-        .error { color: #ef4444; }
+        .success { color: var(--green); }
+        .error { color: var(--red); }
     </style>
 </head>
 <body>
@@ -31,6 +47,13 @@
     </div>
 
     <script>
+        // Theme
+        (function() {
+            const theme = localStorage.getItem("theme") || "auto";
+            const isDark = theme === "dark" || (theme === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+            document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+        })();
+
         const params = new URLSearchParams(window.location.search);
         const sessionId = params.get("s");
 
@@ -66,12 +89,10 @@
             }
 
             try {
-                // 1) 获取 challenge
                 const cr = await fetch(`/api/auth/challenge?session=${sessionId}`);
                 if (!cr.ok) throw new Error("服务器错误");
                 const cd = await cr.json();
 
-                // 2) Face ID — 直接弹，不等用户操作
                 const allowCredentials = cd.allowCredentials.map(ac => ({
                     id: b64urlDecode(ac.id),
                     type: ac.type
@@ -87,7 +108,6 @@
                     }
                 });
 
-                // 3) 发送验证
                 const vr = await fetch("/api/auth/verify", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
