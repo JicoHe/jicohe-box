@@ -81,6 +81,20 @@ async function verifyWebAuthn(credential, storedCred, challenge) {
 
 // ── 主 Handler ──
 export async function onRequest(context) {
+    try {
+        return await handleRequest(context);
+    } catch (err) {
+        return new Response(JSON.stringify({ status: "error", error: "internal error: " + (err.message || "unknown") }), {
+            status: 500,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        });
+    }
+}
+
+async function handleRequest(context) {
     const { request, env } = context;
     const url = new URL(request.url);
 
@@ -98,6 +112,13 @@ export async function onRequest(context) {
 
     if (request.method === "OPTIONS") {
         return new Response(null, { headers: corsHeaders });
+    }
+
+    // ── GET /api/auth/ping ──
+    if (request.method === "GET" && url.pathname.endsWith("/ping")) {
+        return new Response(JSON.stringify({ status: "ok", hasPassword: !!env.SITE_PASSWORD }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
     }
 
     // ── POST /api/auth/password ──
