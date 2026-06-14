@@ -193,7 +193,7 @@
             msg.className = "lock-msg";
 
             try {
-                const resp = await fetch("/api/auth/password", {
+                const resp = await fetch("/api/password", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ password: pw })
