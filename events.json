@@ -1,33 +1,7 @@
 {
-  "updated": "2026-06-14T09:43:01.646182+00:00",
+  "updated": "2026-06-15T00:00:42.595317+00:00",
   "count": 200,
   "events": [
-    {
-      "summary": "支部任务",
-      "start": "2026-06-14T11:00:00+00:00",
-      "end": "2026-06-14T12:00:00+00:00",
-      "start_readable": "2026-06-14 19:00",
-      "end_readable": "2026-06-14 20:00",
-      "all_day": false,
-      "timezone": "Asia/Shanghai",
-      "calendar": "工作",
-      "color": "#FF383CFF",
-      "description": null,
-      "url": null
-    },
-    {
-      "summary": "🏁 FORMULA 1 MSC CRUISES GRAN PREMIO DE BARCELONA-CATALUNYA 2026 - Race",
-      "start": "2026-06-14T13:00:00+00:00",
-      "end": "2026-06-14T15:00:00+00:00",
-      "start_readable": "2026-06-14 21:00",
-      "end_readable": "2026-06-14 23:00",
-      "all_day": false,
-      "timezone": "GMT",
-      "calendar": "Formula 1",
-      "color": "#AC7F5EFF",
-      "description": "Follow all the action on F1 TV and F1.com. \n\nUnlock the inside world of F1 by signing up to F1 Unlocked at F1.com/F1Unlocked\n\nFollow on the go with F1 TV\nhttps://cal.f1.com/f/28TdFx/3dCK7\n\nVisit the Race Hub\nhttps://cal.f1.com/f/28TdFV/3dCK7\n\nFree sign up to F1 Unlocked\nhttps://cal.f1.com/f/28TdGm/3dCK7\n\nDownload the Official F1 Race Programme App\nhttps://cal.f1.com/f/28TdGL/3dCK7\n\nWear your favourite teams colours with F1 store\nhttps://cal.f1.com/f/28TdH8/3dCK7\n\nChoose where to watch a race with F1 Tickets\nhttps://cal.f1.com/f/28TdHs/3dCK7\n\nFollow us on Facebook\nhttps://cal.f1.com/f/28TdHY/3dCK7\n\nFollow us on X\nhttps://cal.f1.com/f/28TdJt/3dCK7\n\nFollow us on Instagram\nhttps://cal.f1.com/f/28TdJL/3dCK7\n\nFollow us on TikTok\nhttps://cal.f1.com/f/28TdKh/3dCK7\n\nManage my ECAL\nhttps://cal.f1.com/f/28TdLM/3dCK7\n\n",
-      "url": null
-    },
     {
       "summary": "本科自动化创卓党支部转正会议",
       "start": "2026-06-15T05:30:00+00:00",
@@ -2595,6 +2569,32 @@
       "end": "2029-06-21T23:59:59+00:00",
       "start_readable": "2029-06-21 08:00",
       "end_readable": "2029-06-22 07:59",
+      "all_day": true,
+      "timezone": null,
+      "calendar": "中国大陆节假日",
+      "color": "#FF9500",
+      "description": null,
+      "url": null
+    },
+    {
+      "summary": "小暑",
+      "start": "2029-07-07T00:00:00+00:00",
+      "end": "2029-07-07T23:59:59+00:00",
+      "start_readable": "2029-07-07 08:00",
+      "end_readable": "2029-07-08 07:59",
+      "all_day": true,
+      "timezone": null,
+      "calendar": "中国大陆节假日",
+      "color": "#FF9500",
+      "description": null,
+      "url": null
+    },
+    {
+      "summary": "大暑",
+      "start": "2029-07-22T00:00:00+00:00",
+      "end": "2029-07-22T23:59:59+00:00",
+      "start_readable": "2029-07-22 08:00",
+      "end_readable": "2029-07-23 07:59",
       "all_day": true,
       "timezone": null,
       "calendar": "中国大陆节假日",
