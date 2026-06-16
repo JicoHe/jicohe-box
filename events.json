@@ -1,20 +1,7 @@
 {
-  "updated": "2026-06-15T00:00:42.595317+00:00",
+  "updated": "2026-06-16T00:00:17.863458+00:00",
   "count": 200,
   "events": [
-    {
-      "summary": "本科自动化创卓党支部转正会议",
-      "start": "2026-06-15T05:30:00+00:00",
-      "end": "2026-06-15T07:30:00+00:00",
-      "start_readable": "2026-06-15 13:30",
-      "end_readable": "2026-06-15 15:30",
-      "all_day": false,
-      "timezone": "Asia/Shanghai",
-      "calendar": "工作",
-      "color": "#FF383CFF",
-      "description": "党建空间",
-      "url": null
-    },
     {
       "summary": "暑假实习动员大会",
       "start": "2026-06-16T10:30:00+00:00",
@@ -2595,6 +2582,19 @@
       "end": "2029-07-22T23:59:59+00:00",
       "start_readable": "2029-07-22 08:00",
       "end_readable": "2029-07-23 07:59",
+      "all_day": true,
+      "timezone": null,
+      "calendar": "中国大陆节假日",
+      "color": "#FF9500",
+      "description": null,
+      "url": null
+    },
+    {
+      "summary": "立秋",
+      "start": "2029-08-07T00:00:00+00:00",
+      "end": "2029-08-07T23:59:59+00:00",
+      "start_readable": "2029-08-07 08:00",
+      "end_readable": "2029-08-08 07:59",
       "all_day": true,
       "timezone": null,
       "calendar": "中国大陆节假日",
