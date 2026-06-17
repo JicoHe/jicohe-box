@@ -1,17 +1,17 @@
 {
-  "updated": "2026-06-16T00:00:17.863458+00:00",
+  "updated": "2026-06-17T00:00:10.191995+00:00",
   "count": 200,
   "events": [
     {
-      "summary": "暑假实习动员大会",
-      "start": "2026-06-16T10:30:00+00:00",
-      "end": "2026-06-16T12:00:00+00:00",
-      "start_readable": "2026-06-16 18:30",
-      "end_readable": "2026-06-16 20:00",
+      "summary": "集中实习预报名问卷",
+      "start": "2026-06-17T04:00:00+00:00",
+      "end": "2026-06-17T04:00:00+00:00",
+      "start_readable": "2026-06-17 12:00",
+      "end_readable": "2026-06-17 12:00",
       "all_day": false,
       "timezone": "Asia/Shanghai",
-      "calendar": "工作",
-      "color": "#FF383CFF",
+      "calendar": "Scheduled Reminders",
+      "color": "#1BADF8",
       "description": null,
       "url": null
     },
