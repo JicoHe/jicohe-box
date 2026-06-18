@@ -1,33 +1,7 @@
 {
-  "updated": "2026-06-17T00:00:10.191995+00:00",
+  "updated": "2026-06-18T00:00:08.444178+00:00",
   "count": 200,
   "events": [
-    {
-      "summary": "集中实习预报名问卷",
-      "start": "2026-06-17T04:00:00+00:00",
-      "end": "2026-06-17T04:00:00+00:00",
-      "start_readable": "2026-06-17 12:00",
-      "end_readable": "2026-06-17 12:00",
-      "all_day": false,
-      "timezone": "Asia/Shanghai",
-      "calendar": "Scheduled Reminders",
-      "color": "#1BADF8",
-      "description": null,
-      "url": null
-    },
-    {
-      "summary": "嵌入式系统设计与开发",
-      "start": "2026-06-17T10:25:00+00:00",
-      "end": "2026-06-17T12:00:00+00:00",
-      "start_readable": "2026-06-17 18:25",
-      "end_readable": "2026-06-17 20:00",
-      "all_day": false,
-      "timezone": null,
-      "calendar": "课程表",
-      "color": "#83D754FF",
-      "description": "教师: 李军毅\n班级: 自动化(创新班)23(1)",
-      "url": null
-    },
     {
       "summary": "模式识别",
       "start": "2026-06-18T08:30:00+00:00",
@@ -2595,6 +2569,32 @@
       "end": "2029-08-07T23:59:59+00:00",
       "start_readable": "2029-08-07 08:00",
       "end_readable": "2029-08-08 07:59",
+      "all_day": true,
+      "timezone": null,
+      "calendar": "中国大陆节假日",
+      "color": "#FF9500",
+      "description": null,
+      "url": null
+    },
+    {
+      "summary": "七夕节",
+      "start": "2029-08-16T00:00:00+00:00",
+      "end": "2029-08-16T23:59:59+00:00",
+      "start_readable": "2029-08-16 08:00",
+      "end_readable": "2029-08-17 07:59",
+      "all_day": true,
+      "timezone": null,
+      "calendar": "中国大陆节假日",
+      "color": "#FF9500",
+      "description": null,
+      "url": null
+    },
+    {
+      "summary": "处暑",
+      "start": "2029-08-23T00:00:00+00:00",
+      "end": "2029-08-23T23:59:59+00:00",
+      "start_readable": "2029-08-23 08:00",
+      "end_readable": "2029-08-24 07:59",
       "all_day": true,
       "timezone": null,
       "calendar": "中国大陆节假日",
