@@ -1,20 +1,7 @@
 {
-  "updated": "2026-06-20T00:01:30.269828+00:00",
+  "updated": "2026-06-21T01:04:17.490270+00:00",
   "count": 200,
   "events": [
-    {
-      "summary": "夏至",
-      "start": "2026-06-21T00:00:00+00:00",
-      "end": "2026-06-21T23:59:59+00:00",
-      "start_readable": "2026-06-21 08:00",
-      "end_readable": "2026-06-22 07:59",
-      "all_day": true,
-      "timezone": null,
-      "calendar": "中国大陆节假日",
-      "color": "#FF9500",
-      "description": null,
-      "url": null
-    },
     {
       "summary": "嵌入式系统设计与开发",
       "start": "2026-06-24T10:25:00+00:00",
@@ -2595,6 +2582,19 @@
       "end": "2029-10-16T23:59:59+00:00",
       "start_readable": "2029-10-16 08:00",
       "end_readable": "2029-10-17 07:59",
+      "all_day": true,
+      "timezone": null,
+      "calendar": "中国大陆节假日",
+      "color": "#FF9500",
+      "description": null,
+      "url": null
+    },
+    {
+      "summary": "霜降",
+      "start": "2029-10-23T00:00:00+00:00",
+      "end": "2029-10-23T23:59:59+00:00",
+      "start_readable": "2029-10-23 08:00",
+      "end_readable": "2029-10-24 07:59",
       "all_day": true,
       "timezone": null,
       "calendar": "中国大陆节假日",
