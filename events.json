@@ -1,20 +1,7 @@
 {
-  "updated": "2026-06-25T00:00:22.923237+00:00",
+  "updated": "2026-06-26T00:00:06.366810+00:00",
   "count": 200,
   "events": [
-    {
-      "summary": "模式识别",
-      "start": "2026-06-25T08:30:00+00:00",
-      "end": "2026-06-25T10:05:00+00:00",
-      "start_readable": "2026-06-25 16:30",
-      "end_readable": "2026-06-25 18:05",
-      "all_day": false,
-      "timezone": null,
-      "calendar": "课程表",
-      "color": "#83D754FF",
-      "description": "教师: 邢玛丽\n班级: 自动化(创新班)23(1)",
-      "url": null
-    },
     {
       "summary": "🏎 FORMULA 1 LENOVO AUSTRIAN GRAND PRIX 2026 - Practice 1",
       "start": "2026-06-26T11:30:00+00:00",
@@ -2595,6 +2582,19 @@
       "end": "2029-11-22T23:59:59+00:00",
       "start_readable": "2029-11-22 08:00",
       "end_readable": "2029-11-23 07:59",
+      "all_day": true,
+      "timezone": null,
+      "calendar": "中国大陆节假日",
+      "color": "#FF9500",
+      "description": null,
+      "url": null
+    },
+    {
+      "summary": "大雪",
+      "start": "2029-12-07T00:00:00+00:00",
+      "end": "2029-12-07T23:59:59+00:00",
+      "start_readable": "2029-12-07 08:00",
+      "end_readable": "2029-12-08 07:59",
       "all_day": true,
       "timezone": null,
       "calendar": "中国大陆节假日",
