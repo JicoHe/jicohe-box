@@ -1,46 +1,7 @@
 {
-  "updated": "2026-06-26T00:00:06.366810+00:00",
-  "count": 200,
+  "updated": "2026-06-27T00:00:39.707496+00:00",
+  "count": 198,
   "events": [
-    {
-      "summary": "🏎 FORMULA 1 LENOVO AUSTRIAN GRAND PRIX 2026 - Practice 1",
-      "start": "2026-06-26T11:30:00+00:00",
-      "end": "2026-06-26T12:30:00+00:00",
-      "start_readable": "2026-06-26 19:30",
-      "end_readable": "2026-06-26 20:30",
-      "all_day": false,
-      "timezone": "GMT",
-      "calendar": "Formula 1",
-      "color": "#AC7F5EFF",
-      "description": "Follow all the action on F1 TV and F1.com. \n\nUnlock the inside world of F1 by signing up to F1 Unlocked at F1.com/F1Unlocked\n\nFollow on the go with F1 TV\nhttps://cal.f1.com/f/28T6jZ/3dCK7\n\nVisit the Race Hub\nhttps://cal.f1.com/f/28T6kr/3dCK7\n\nFree sign up to F1 Unlocked\nhttps://cal.f1.com/f/28T6kF/3dCK7\n\nDownload the Official F1 Race Programme App\nhttps://cal.f1.com/f/28T6l7/3dCK7\n\nWear your favourite teams colours with F1 store\nhttps://cal.f1.com/f/28T6lt/3dCK7\n\nChoose where to watch a race with F1 Tickets\nhttps://cal.f1.com/f/28T6lR/3dCK7\n\nFollow us on Facebook\nhttps://cal.f1.com/f/28T6m9/3dCK7\n\nFollow us on X\nhttps://cal.f1.com/f/28T6mt/3dCK7\n\nFollow us on Instagram\nhttps://cal.f1.com/f/28T6mS/3dCK7\n\nFollow us on TikTok\nhttps://cal.f1.com/f/28T6nd/3dCK7\n\nManage my ECAL\nhttps://cal.f1.com/f/28T6pt/3dCK7\n\n",
-      "url": null
-    },
-    {
-      "summary": "马克思主义基本原理",
-      "start": "2026-06-26T14:40:00+00:00",
-      "end": "2026-06-26T16:15:00+00:00",
-      "start_readable": "2026-06-26 22:40",
-      "end_readable": "2026-06-27 00:15",
-      "all_day": false,
-      "timezone": null,
-      "calendar": "课程表",
-      "color": "#83D754FF",
-      "description": "教师: 徐立文\n班级: 自动化(卓越工程师班)23(1),自动化(创新班)23(1),自动化23(5),自动化23(6)\n内容: 第七章、共产主义崇高理想及其最终实现。第二节、实现共产主义是历史发展的必然趋势：一、实现共产主义是历史发展的必然；二、实现共产主义是长期的历史过程。第三节、共产主义远大理想与中国特色社会主义共同理想：一、坚持远大理想与共同理想的辩证统一；二、坚定理想信念，投身新时代中国特色社会主义伟大事业。",
-      "url": null
-    },
-    {
-      "summary": "🏎 FORMULA 1 LENOVO AUSTRIAN GRAND PRIX 2026 - Practice 2",
-      "start": "2026-06-26T15:00:00+00:00",
-      "end": "2026-06-26T16:00:00+00:00",
-      "start_readable": "2026-06-26 23:00",
-      "end_readable": "2026-06-27 00:00",
-      "all_day": false,
-      "timezone": "GMT",
-      "calendar": "Formula 1",
-      "color": "#AC7F5EFF",
-      "description": "Follow all the action on F1 TV and F1.com. \n\nUnlock the inside world of F1 by signing up to F1 Unlocked at F1.com/F1Unlocked\n\nFollow on the go with F1 TV\nhttps://cal.f1.com/f/28T6pY/3dCK7\n\nVisit the Race Hub\nhttps://cal.f1.com/f/28T6qd/3dCK7\n\nFree sign up to F1 Unlocked\nhttps://cal.f1.com/f/28T6qz/3dCK7\n\nDownload the Official F1 Race Programme App\nhttps://cal.f1.com/f/28T6r1/3dCK7\n\nWear your favourite teams colours with F1 store\nhttps://cal.f1.com/f/28T6rt/3dCK7\n\nChoose where to watch a race with F1 Tickets\nhttps://cal.f1.com/f/28T6rR/3dCK7\n\nFollow us on Facebook\nhttps://cal.f1.com/f/28T6sb/3dCK7\n\nFollow us on X\nhttps://cal.f1.com/f/28T6sB/3dCK7\n\nFollow us on Instagram\nhttps://cal.f1.com/f/28T6t1/3dCK7\n\nFollow us on TikTok\nhttps://cal.f1.com/f/28T6tr/3dCK7\n\nManage my ECAL\nhttps://cal.f1.com/f/28T6vK/3dCK7\n\n",
-      "url": null
-    },
     {
       "summary": "🏎 FORMULA 1 LENOVO AUSTRIAN GRAND PRIX 2026 - Practice 3",
       "start": "2026-06-27T10:30:00+00:00",
@@ -2595,6 +2556,19 @@
       "end": "2029-12-07T23:59:59+00:00",
       "start_readable": "2029-12-07 08:00",
       "end_readable": "2029-12-08 07:59",
+      "all_day": true,
+      "timezone": null,
+      "calendar": "中国大陆节假日",
+      "color": "#FF9500",
+      "description": null,
+      "url": null
+    },
+    {
+      "summary": "冬至",
+      "start": "2029-12-21T00:00:00+00:00",
+      "end": "2029-12-21T23:59:59+00:00",
+      "start_readable": "2029-12-21 08:00",
+      "end_readable": "2029-12-22 07:59",
       "all_day": true,
       "timezone": null,
       "calendar": "中国大陆节假日",
