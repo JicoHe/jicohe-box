@@ -3,876 +3,733 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人主义 · Jico He.</title>
+    <title>Jico He · 何健聪</title>
     <style>
         /* ═══════════════════════════════════════
-           液态玻璃 · 设计系统
-           Liquid Glass Design System
+           液态玻璃 · 深浅模式
            ═══════════════════════════════════════ */
-
         :root {
-            --bg-deep: #08080f;
-            --glass-heavy: rgba(18, 18, 30, 0.55);
-            --glass-medium: rgba(22, 22, 36, 0.45);
-            --glass-light: rgba(30, 30, 48, 0.30);
+            --bg: #08080f;
+            --bg-soft: #0e0e18;
+            --glass: rgba(20, 20, 35, 0.55);
+            --glass-hover: rgba(25, 25, 42, 0.65);
             --glass-border: rgba(255, 255, 255, 0.06);
             --glass-border-hover: rgba(255, 255, 255, 0.12);
             --glass-border-focus: rgba(255, 255, 255, 0.18);
-            --glass-highlight: rgba(255, 255, 255, 0.04);
-            --text-primary: rgba(255, 255, 255, 0.92);
+            --text: rgba(255, 255, 255, 0.92);
             --text-secondary: rgba(255, 255, 255, 0.55);
             --text-muted: rgba(255, 255, 255, 0.30);
-            --accent-blue: #6d8cff;
-            --accent-purple: #a78bfa;
+            --accent: #6d8cff;
+            --accent-2: #a78bfa;
             --accent-teal: #5eead4;
-            --accent-amber: #fbbf24;
-            --blur-heavy: blur(80px) saturate(200%);
-            --blur-medium: blur(40px) saturate(180%);
+            --blur: blur(40px) saturate(180%);
             --blur-light: blur(20px) saturate(160%);
-            --radius: 20px;
+            --radius: 18px;
             --radius-sm: 12px;
-            --transition: 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            --transition: 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+            --nav-bg: rgba(8, 8, 15, 0.75);
+            --light-brightness: 1;
+        }
+        [data-theme="light"] {
+            --bg: #eef0f4;
+            --bg-soft: #e4e6ec;
+            --glass: rgba(255, 255, 255, 0.55);
+            --glass-hover: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --glass-border-hover: rgba(0, 0, 0, 0.10);
+            --glass-border-focus: rgba(0, 0, 0, 0.15);
+            --text: rgba(0, 0, 0, 0.85);
+            --text-secondary: rgba(0, 0, 0, 0.50);
+            --text-muted: rgba(0, 0, 0, 0.30);
+            --accent: #4f5fd4;
+            --accent-2: #7b61c8;
+            --accent-teal: #2ea894;
+            --nav-bg: rgba(238, 240, 244, 0.75);
+            --light-brightness: 0.4;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html, body {
-            height: 100%;
-            overflow-x: hidden;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
-            background: var(--bg-deep);
-            color: var(--text-primary);
+            background: var(--bg);
+            color: var(--text);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             position: relative;
+            min-height: 100vh;
         }
 
         /* ═══════════════════════════════════════
-           背景 · 液态光斑
-           Animated liquid light blobs
+           背景光斑 · 仅深色模式
            ═══════════════════════════════════════ */
-
         .bg-blobs {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
+            position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
         }
-
         .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.22;
-            animation-timing-function: ease-in-out;
-            animation-iteration-count: infinite;
+            position: absolute; border-radius: 50%; filter: blur(120px);
+            animation-timing-function: ease-in-out; animation-iteration-count: infinite;
+            opacity: calc(0.18 * var(--light-brightness));
         }
-
         .blob-1 {
             width: 600px; height: 600px;
-            background: radial-gradient(circle, var(--accent-blue), transparent 70%);
+            background: radial-gradient(circle, var(--accent), transparent 70%);
             top: -10%; left: -10%;
-            animation: float-blob-1 20s infinite alternate;
+            animation: float-1 22s infinite alternate;
         }
-
         .blob-2 {
             width: 500px; height: 500px;
-            background: radial-gradient(circle, var(--accent-purple), transparent 70%);
-            top: 50%; right: -15%;
-            animation: float-blob-2 25s infinite alternate;
+            background: radial-gradient(circle, var(--accent-2), transparent 70%);
+            bottom: -10%; right: -10%;
+            animation: float-2 26s infinite alternate;
         }
-
         .blob-3 {
             width: 400px; height: 400px;
             background: radial-gradient(circle, var(--accent-teal), transparent 70%);
-            bottom: -15%; left: 30%;
-            animation: float-blob-3 22s infinite alternate;
+            top: 50%; left: 50%;
+            animation: float-3 30s infinite alternate;
+        }
+        @keyframes float-1 {
+            0% { transform: translate(0,0) scale(1); }
+            100% { transform: translate(100px, 60px) scale(1.2); }
+        }
+        @keyframes float-2 {
+            0% { transform: translate(0,0) scale(1.1); }
+            100% { transform: translate(-60px, -80px) scale(0.9); }
+        }
+        @keyframes float-3 {
+            0% { transform: translate(0,0) scale(0.9); }
+            100% { transform: translate(-80px, -40px) scale(1.1); }
         }
 
-        .blob-4 {
-            width: 350px; height: 350px;
-            background: radial-gradient(circle, rgba(129, 140, 248, 0.4), transparent 70%);
-            top: 20%; left: 50%;
-            animation: float-blob-4 28s infinite alternate;
-        }
-
-        @keyframes float-blob-1 {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(120px, 80px) scale(1.2); }
-        }
-        @keyframes float-blob-2 {
-            0% { transform: translate(0, 0) scale(1.1); }
-            100% { transform: translate(-80px, -100px) scale(0.85); }
-        }
-        @keyframes float-blob-3 {
-            0% { transform: translate(0, 0) scale(0.9); }
-            100% { transform: translate(-60px, -120px) scale(1.15); }
-        }
-        @keyframes float-blob-4 {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(100px, -60px) scale(1.3) rotate(10deg); }
-        }
-
-        /* Grain texture overlay */
         .grain {
-            position: fixed; inset: 0; z-index: 1;
-            pointer-events: none; opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            position: fixed; inset: 0; z-index: 1; pointer-events: none;
+            opacity: calc(0.025 * var(--light-brightness));
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* ═══════════════════════════════════════
+           导航
+           ═══════════════════════════════════════ */
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 2rem;
+            background: var(--nav-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .nav-name {
+            font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
+        }
+        .nav-name span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .theme-btn {
+            background: none; border: none; font-size: 1.2rem;
+            cursor: pointer; padding: 0.3rem 0.6rem; border-radius: 8px;
+            transition: background 0.2s; line-height: 1;
+        }
+        .theme-btn:hover { background: var(--glass-border); }
+
+        /* ═══════════════════════════════════════
+           玻璃组件
+           ═══════════════════════════════════════ */
+        .glass {
+            background: var(--glass);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.05) 0%,
+                transparent 50%,
+                rgba(255,255,255,0.01) 100%);
+            border-radius: inherit; pointer-events: none;
+        }
+        .glass:hover {
+            border-color: var(--glass-border-hover);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
+            transform: translateY(-2px);
+        }
+        [data-theme="light"] .glass:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+        .glass-light {
+            background: var(--glass);
+            backdrop-filter: var(--blur-light);
+            -webkit-backdrop-filter: var(--blur-light);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
         }
 
         /* ═══════════════════════════════════════
            主容器
            ═══════════════════════════════════════ */
-
-        .main-container {
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
+        .container {
+            position: relative; z-index: 2;
+            max-width: 900px; margin: 0 auto; padding: 2rem;
         }
 
         /* ═══════════════════════════════════════
-           玻璃面板组件
+           Hero
            ═══════════════════════════════════════ */
-
-        .glass-panel {
-            background: var(--glass-medium);
-            backdrop-filter: var(--blur-medium);
-            -webkit-backdrop-filter: var(--blur-medium);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            transition: all var(--transition);
-            position: relative;
-            overflow: hidden;
+        .hero {
+            display: flex; gap: 2.5rem; align-items: center;
+            padding: 3rem 0 2rem; flex-wrap: wrap;
         }
-
-        .glass-panel::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                135deg,
-                rgba(255,255,255,0.06) 0%,
-                transparent 50%,
-                rgba(255,255,255,0.02) 100%
-            );
-            border-radius: inherit;
-            pointer-events: none;
+        .hero-avatar {
+            flex-shrink: 0;
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 0 60px rgba(109, 140, 255, 0.15);
         }
-
-        .glass-panel:hover {
-            border-color: var(--glass-border-hover);
-            box-shadow: 
-                0 8px 40px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.05);
-            transform: translateY(-2px);
+        [data-theme="light"] .hero-avatar {
+            box-shadow: 0 0 40px rgba(0,0,0,0.08);
         }
-
-        /* Heavy glass (for hero) */
-        .glass-heavy {
-            background: var(--glass-heavy);
-            backdrop-filter: var(--blur-heavy);
-            -webkit-backdrop-filter: var(--blur-heavy);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
+        .hero-text { flex: 1; min-width: 240px; }
+        .hero-text h1 {
+            font-size: 2.2rem; font-weight: 700; letter-spacing: -0.03em;
+            margin-bottom: 0.35rem;
         }
-
-        /* Light glass (for subtle elements) */
-        .glass-light {
-            background: var(--glass-light);
-            backdrop-filter: var(--blur-light);
-            -webkit-backdrop-filter: var(--blur-light);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-sm);
-        }
-
-        /* ═══════════════════════════════════════
-           首页 · Hero
-           ═══════════════════════════════════════ */
-
-        .hero-section {
-            margin-top: 8vh;
-            margin-bottom: 6vh;
-            text-align: center;
-            max-width: 700px;
-            width: 100%;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            font-size: 0.78rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            color: var(--text-secondary);
-            padding: 0.4rem 1.2rem;
-            background: var(--glass-light);
-            backdrop-filter: var(--blur-light);
-            -webkit-backdrop-filter: var(--blur-light);
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-        }
-
-        .hero-title {
-            font-size: clamp(2.4rem, 6vw, 4rem);
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(
-                135deg,
-                rgba(255,255,255,0.95) 0%,
-                rgba(200,210,255,0.85) 40%,
-                rgba(180,200,240,0.75) 70%,
-                rgba(255,255,255,0.9) 100%
-            );
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .hero-subtitle {
-            font-size: 1.15rem;
+        .hero-text .subtitle {
+            font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.8rem;
+        }
+        .hero-tags {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+        }
+        .tag {
+            font-size: 0.78rem; font-weight: 500;
+            padding: 0.25rem 0.8rem; border-radius: 100px;
+            background: var(--glass);
+            backdrop-filter: var(--blur-light);
+            -webkit-backdrop-filter: var(--blur-light);
+            border: 1px solid var(--glass-border);
             color: var(--text-secondary);
-            max-width: 480px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.7;
         }
 
         /* ═══════════════════════════════════════
-           哲学卡片网格
+           板块标题
            ═══════════════════════════════════════ */
+        .section-title {
+            font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em;
+            margin-bottom: 1.2rem;
+            display: flex; align-items: center; gap: 0.6rem;
+        }
+        .section-title::after {
+            content: ''; flex: 1; height: 1px;
+            background: var(--glass-border);
+        }
 
-        .philosophy-grid {
+        /* ═══════════════════════════════════════
+           About 卡片
+           ═══════════════════════════════════════ */
+        .about-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.2rem;
-            max-width: 860px;
-            width: 100%;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem; margin-bottom: 3rem;
+        }
+        .about-card {
+            padding: 1.4rem; text-align: center;
+        }
+        .about-card .num {
+            font-size: 1.8rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .about-card .lbl {
+            font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;
         }
 
-        .philosophy-card {
-            padding: 2rem 1.8rem;
-            cursor: default;
+        /* ═══════════════════════════════════════
+           项目卡片
+           ═══════════════════════════════════════ */
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem; margin-bottom: 3rem;
+        }
+        .project-card {
+            padding: 1.8rem;
+        }
+        .project-card .p-icon {
+            font-size: 1.6rem; margin-bottom: 0.8rem;
+        }
+        .project-card h3 {
+            font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .project-card p {
+            font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;
+        }
+        .project-card .p-tags {
+            display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem;
+        }
+        .p-tags .ptag {
+            font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px;
+            background: rgba(109,140,255,0.08);
+            color: var(--accent);
+        }
+        [data-theme="light"] .p-tags .ptag {
+            background: rgba(79,95,212,0.08);
         }
 
-        .philosophy-card .card-icon {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            display: block;
+        /* ═══════════════════════════════════════
+           其他经历
+           ═══════════════════════════════════════ */
+        .other-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.8rem; margin-bottom: 3rem;
         }
-
-        .philosophy-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.01em;
+        .other-card {
+            padding: 1.3rem 1.5rem;
         }
-
-        .philosophy-card p {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            line-height: 1.65;
+        .other-card h4 {
+            font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem;
+        }
+        .other-card p {
+            font-size: 0.8rem; color: var(--text-secondary);
         }
 
         /* ═══════════════════════════════════════
            页脚 & 管理入口
            ═══════════════════════════════════════ */
-
-        .footer-area {
-            margin-top: auto;
-            padding: 2rem 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
+        footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 2rem 0; font-size: 0.8rem; color: var(--text-muted);
+            border-top: 1px solid var(--glass-border);
+            flex-wrap: wrap; gap: 1rem;
         }
-
-        .footer-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .admin-entrance {
-            position: relative;
-        }
-
         .admin-dot {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--glass-light);
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--glass);
             backdrop-filter: var(--blur-light);
             -webkit-backdrop-filter: var(--blur-light);
             border: 1px solid var(--glass-border);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            color: var(--text-muted);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; color: var(--text-muted);
             transition: all var(--transition);
-            position: relative;
         }
-
         .admin-dot:hover {
             border-color: var(--glass-border-hover);
             color: var(--text-secondary);
-            box-shadow: 0 0 24px rgba(109, 140, 255, 0.15);
-        }
-
-        .admin-dot::after {
-            content: '管理';
-            position: absolute;
-            top: 50%;
-            left: calc(100% + 10px);
-            transform: translateY(-50%);
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-
-        .admin-dot:hover::after {
-            opacity: 1;
+            box-shadow: 0 0 20px rgba(109,140,255,0.12);
         }
 
         /* ═══════════════════════════════════════
-           管理面板 · Modal
+           管理 Modal
            ═══════════════════════════════════════ */
-
         .admin-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            background: rgba(4, 4, 8, 0.85);
+            position: fixed; inset: 0; z-index: 1000;
+            background: rgba(4,4,8,0.82);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            display: none;
-            align-items: center;
-            justify-content: center;
+            display: none; align-items: center; justify-content: center;
             padding: 1.5rem;
         }
-
-        .admin-overlay.active {
-            display: flex;
-        }
-
+        .admin-overlay.active { display: flex; }
         .admin-modal {
-            width: 100%;
-            max-width: 440px;
-            animation: modal-in 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            width: 100%; max-width: 420px;
+            animation: modal-in 0.35s cubic-bezier(0.22,0.61,0.36,1);
         }
-
         @keyframes modal-in {
-            from {
-                opacity: 0;
-                transform: scale(0.95) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
-
-        .admin-modal-header {
-            padding: 2rem 2rem 1rem;
-            text-align: center;
+        .admin-modal .am-header {
+            padding: 2rem 2rem 1rem; text-align: center;
         }
-
-        .admin-modal-header .lock-icon {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .admin-modal-header h2 {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .admin-modal-body {
-            padding: 0 2rem 2rem;
-        }
-
-        .pw-group {
-            display: flex;
-            gap: 0.6rem;
-        }
-
-        .pw-group input {
-            flex: 1;
-            padding: 0.85rem 1rem;
-            background: rgba(255,255,255,0.05);
+        .admin-modal .am-header .lock-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+        .admin-modal .am-header h2 { font-size: 1.1rem; font-weight: 600; }
+        .admin-modal .am-body { padding: 0 2rem 2rem; }
+        .pw-row { display: flex; gap: 0.5rem; }
+        .pw-row input {
+            flex: 1; padding: 0.8rem 1rem;
+            background: rgba(255,255,255,0.04);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-family: inherit;
-            outline: none;
+            color: var(--text); font-size: 0.95rem;
+            outline: none; font-family: inherit;
             transition: border-color 0.3s;
         }
-
-        .pw-group input:focus {
-            border-color: var(--glass-border-focus);
-            box-shadow: 0 0 20px rgba(109, 140, 255, 0.1);
-        }
-
-        .pw-group input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .pw-group button {
-            padding: 0.85rem 1.5rem;
-            background: rgba(109, 140, 255, 0.15);
-            border: 1px solid rgba(109, 140, 255, 0.25);
+        .pw-row input:focus { border-color: var(--glass-border-focus); }
+        .pw-row button {
+            padding: 0.8rem 1.4rem;
+            background: rgba(109,140,255,0.12);
+            border: 1px solid rgba(109,140,255,0.2);
             border-radius: var(--radius-sm);
-            color: var(--accent-blue);
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            font-family: inherit;
+            color: var(--accent); font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; font-family: inherit;
             transition: all 0.3s;
-            white-space: nowrap;
         }
-
-        .pw-group button:hover {
-            background: rgba(109, 140, 255, 0.25);
-            border-color: rgba(109, 140, 255, 0.4);
+        .pw-row button:hover {
+            background: rgba(109,140,255,0.22);
+            border-color: rgba(109,140,255,0.35);
         }
-
         .lock-msg {
-            font-size: 0.82rem;
-            text-align: center;
-            min-height: 1.4em;
-            margin-top: 0.8rem;
-            color: var(--text-muted);
+            font-size: 0.8rem; text-align: center; min-height: 1.3em;
+            margin-top: 0.7rem; color: var(--text-muted);
         }
-
-        .lock-msg.error {
-            color: #f87171;
+        .lock-msg.error { color: #f87171; }
+        .am-footer {
+            padding: 0.5rem 2rem 1.5rem; text-align: center;
         }
-
-        .admin-modal-footer {
-            padding: 1rem 2rem 2rem;
-            text-align: center;
-        }
-
-        .admin-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.82rem;
-            font-family: inherit;
+        .am-close {
+            background: none; border: none; color: var(--text-muted);
+            cursor: pointer; font-size: 0.82rem; font-family: inherit;
             transition: color 0.2s;
         }
+        .am-close:hover { color: var(--text-secondary); }
 
-        .admin-close:hover {
-            color: var(--text-secondary);
-        }
-
-        /* ═══════════════════════════════════════
-           管理面板 · 解锁后内容
-           ═══════════════════════════════════════ */
-
+        /* 解锁后面板 */
         .admin-dashboard {
-            display: none;
-            width: 100%;
-            max-width: 700px;
-            animation: modal-in 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+            display: none; width: 100%; max-width: 660px;
+            animation: modal-in 0.4s cubic-bezier(0.22,0.61,0.36,1);
         }
-
-        .admin-dashboard.active {
-            display: block;
-        }
-
-        .admin-dashboard .dash-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .admin-dashboard.active { display: block; }
+        .dash-header {
+            display: flex; justify-content: space-between; align-items: center;
             padding: 1.5rem 2rem 1rem;
         }
-
-        .admin-dashboard .dash-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-secondary);
+        .dash-title { font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); }
+        .dash-close {
+            background: none; border: none; color: var(--text-muted);
+            cursor: pointer; font-size: 1.1rem;
         }
-
-        .admin-dashboard .dash-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: color 0.2s;
-        }
-
-        .admin-dashboard .dash-close:hover {
-            color: var(--text-primary);
-        }
-
+        .dash-close:hover { color: var(--text); }
         .service-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.8rem;
-            padding: 0 2rem 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.7rem; padding: 0 2rem 2rem;
         }
-
         .service-card {
-            padding: 1.4rem;
-            text-decoration: none;
-            color: inherit;
-            display: block;
+            padding: 1.2rem; text-decoration: none; color: inherit; display: block;
         }
-
-        .service-card .s-icon {
-            font-size: 1.4rem;
-            margin-bottom: 0.6rem;
-        }
-
-        .service-card .s-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .service-card .s-desc {
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-        }
-
-        .token-card {
-            padding: 1.4rem;
-        }
-
-        .token-card .token-balance {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin: 0.3rem 0;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        .service-card .s-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .service-card .s-title { font-size: 0.9rem; font-weight: 600; }
+        .service-card .s-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+        .token-num {
+            font-size: 1.4rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .token-card .token-meta {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .token-card .refresh-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.8rem;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            transition: color 0.2s;
-        }
-
-        .token-card .refresh-btn:hover {
-            color: var(--text-secondary);
-        }
-
-        .admin-footer {
-            text-align: center;
-            padding: 0 2rem 2rem;
-            font-size: 0.72rem;
-            color: var(--text-muted);
+        .dash-footer {
+            text-align: center; padding: 0 2rem 1.5rem;
+            font-size: 0.7rem; color: var(--text-muted);
         }
 
         /* ═══════════════════════════════════════
            响应式
            ═══════════════════════════════════════ */
-
         @media (max-width: 640px) {
-            .main-container {
-                padding: 1rem;
-            }
-            .hero-section {
-                margin-top: 4vh;
-            }
-            .hero-title {
-                font-size: 2rem;
-            }
-            .philosophy-grid {
-                grid-template-columns: 1fr;
-            }
-            .service-grid {
-                grid-template-columns: 1fr;
-            }
-            .pw-group {
-                flex-direction: column;
-            }
-            .admin-modal {
-                max-width: 100%;
-            }
+            nav { padding: 1rem; }
+            .container { padding: 1rem; }
+            .hero { flex-direction: column; text-align: center; gap: 1.5rem; }
+            .hero-tags { justify-content: center; }
+            .hero-text h1 { font-size: 1.7rem; }
+            .hero-avatar { width: 120px; height: 120px; }
+            .projects { grid-template-columns: 1fr; }
+            .about-grid { grid-template-columns: repeat(2, 1fr); }
+            .other-grid { grid-template-columns: 1fr; }
+            .service-grid { grid-template-columns: 1fr; }
+            .pw-row { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ════ 背景光斑 ════ -->
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
         <div class="blob blob-3"></div>
-        <div class="blob blob-4"></div>
     </div>
     <div class="grain"></div>
 
+    <!-- ════ 导航 ════ -->
+    <nav>
+        <div class="nav-name">Jico <span>He</span></div>
+        <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="切换深色/浅色">🌙</button>
+    </nav>
+
     <!-- ════ 主内容 ════ -->
-    <div class="main-container" id="main-content">
+    <div class="container">
 
         <!-- Hero -->
-        <section class="hero-section">
-            <div class="hero-badge">个人主义</div>
-            <h1 class="hero-title">我就是我自己的<br>全部意义所在</h1>
-            <p class="hero-subtitle">
-                不依附任何体系，不借由任何标签。<br>
-                以自主意志构建生活的秩序，以审美直觉雕琢数字世界的每一寸。
-            </p>
-        </section>
-
-        <!-- 哲学卡片 -->
-        <section class="philosophy-grid">
-            <div class="glass-panel philosophy-card">
-                <span class="card-icon">🧠</span>
-                <h3>独立思考</h3>
-                <p>不盲从权威，不被算法驯化。每一个判断经过自己的审视，每一个选择源于内在价值而非外部压力。</p>
-            </div>
-            <div class="glass-panel philosophy-card">
-                <span class="card-icon">🎨</span>
-                <h3>审美即秩序</h3>
-                <p>美不是装饰，是认知的外化。从代码结构到生活空间，美感是效率的最高形式。</p>
-            </div>
-            <div class="glass-panel philosophy-card">
-                <span class="card-icon">⚡</span>
-                <h3>自动化生存</h3>
-                <p>重复的事情交给机器，把精力留给不可替代的创造。工具不应是负担，而是思维的延伸。</p>
-            </div>
-            <div class="glass-panel philosophy-card">
-                <span class="card-icon">🔬</span>
-                <h3>跨界探索</h3>
-                <p>学科是人造的边界。硬件、软件、哲学、设计——真正的洞察来自交叉地带的碰撞。</p>
-            </div>
-            <div class="glass-panel philosophy-card">
-                <span class="card-icon">🌱</span>
-                <h3>持续进化</h3>
-                <p>今天的答案限制不了明天的问题。保持开放，保持好奇，保持「未完成」的状态。</p>
-            </div>
-            <div class="glass-panel philosophy-card">
-                <span class="card-icon">🔒</span>
-                <h3>数字主权</h3>
-                <p>自己的数据、自己的工具、自己的规则。不被平台绑定，不被云服务裹挟。</p>
+        <section class="hero">
+            <img src="webpicme.jpg" alt="Jico He" class="hero-avatar" loading="eager">
+            <div class="hero-text">
+                <h1>何健聪 <span>Jico He</span></h1>
+                <p class="subtitle">广东工业大学 · 自动化专业 · 创新班</p>
+                <div class="hero-tags">
+                    <span class="tag">GPA 4.11</span>
+                    <span class="tag">排名 14/361</span>
+                    <span class="tag">CET-6 514</span>
+                    <span class="tag">中共党员</span>
+                </div>
             </div>
         </section>
 
-        <!-- 页脚 & 管理入口 -->
-        <div class="footer-area">
-            <div class="admin-entrance">
-                <div class="admin-dot" onclick="openAdmin()" title="管理入口">✦</div>
+        <!-- About -->
+        <h2 class="section-title">关于我</h2>
+        <div class="about-grid">
+            <div class="glass about-card">
+                <div class="num">国家A类</div>
+                <div class="lbl">自动化专业 · 学科评估</div>
             </div>
-            <p class="footer-text">个人主义 · 液态玻璃 · 由 Cloudflare Pages 驱动</p>
+            <div class="glass about-card">
+                <div class="num">ECS Lab</div>
+                <div class="lbl">课题组 · 科研起步</div>
+            </div>
+            <div class="glass about-card">
+                <div class="num">PRICAI</div>
+                <div class="lbl">论文投稿 · 2026</div>
+            </div>
+            <div class="glass about-card">
+                <div class="num">多项</div>
+                <div class="lbl">数学建模 · 蓝桥杯 · Raicom</div>
+            </div>
         </div>
+
+        <!-- 项目经历 -->
+        <h2 class="section-title">项目经历</h2>
+        <div class="projects">
+            <div class="glass project-card">
+                <div class="p-icon">📡</div>
+                <h3>车联网虚拟机调度优化</h3>
+                <p>图神经网络预测 + 深度强化学习调度，优化服务质量与能耗。已投稿 PRICAI 2026。</p>
+                <div class="p-tags">
+                    <span class="ptag">GNN</span><span class="ptag">DRL</span><span class="ptag">PPO</span><span class="ptag">PyTorch</span>
+                </div>
+            </div>
+            <div class="glass project-card">
+                <div class="p-icon">🛸</div>
+                <h3>无人机空地协同路径规划</h3>
+                <p>大创项目主持。YOLO 部署至 Tello 摄像头，博弈论多机协同。实现目标识别与短距位移。</p>
+                <div class="p-tags">
+                    <span class="ptag">YOLO</span><span class="ptag">博弈论</span><span class="ptag">ROS</span><span class="ptag">Tello</span>
+                </div>
+            </div>
+            <div class="glass project-card">
+                <div class="p-icon">🔧</div>
+                <h3>ABB 机械臂电池装配</h3>
+                <p>D-H 建模 → PLC 梯形图 → PROFINET 通信 → ROS 双臂协同。完整工业装配生产线。</p>
+                <div class="p-tags">
+                    <span class="ptag">PLC</span><span class="ptag">ROS</span><span class="ptag">PROFINET</span><span class="ptag">D-H</span>
+                </div>
+            </div>
+            <div class="glass project-card">
+                <div class="p-icon">🌐</div>
+                <h3>个人网站 & 内网穿透</h3>
+                <p>自主搭建 jicohe-box.cn，Cloudflare Tunnel 穿透至 WSL 开发环境，外网访问本地 IDE。</p>
+                <div class="p-tags">
+                    <span class="ptag">WSL</span><span class="ptag">Cloudflare</span><span class="ptag">HTML/CSS</span><span class="ptag">VS Code</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 其他经历 -->
+        <h2 class="section-title">其他经历</h2>
+        <div class="other-grid">
+            <div class="glass-light other-card">
+                <h4>🇨🇳 国旗护卫队</h4>
+                <p>省级比赛一等奖 · 作训部副部长</p>
+            </div>
+            <div class="glass-light other-card">
+                <h4>🎓 新生学长</h4>
+                <p>优秀新生学长证明</p>
+            </div>
+            <div class="glass-light other-card">
+                <h4>📋 支部副书记</h4>
+                <p>2025.12 正式党员 · 2026.6 接任</p>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer>
+            <span>© 2026 Jico He · Cloudflare Pages</span>
+            <div class="admin-dot" onclick="openAdmin()" title="管理">✦</div>
+        </footer>
     </div>
 
-    <!-- ════ 管理面板 · 密码锁 ════ -->
+    <!-- ════ 管理面板 ════ -->
     <div class="admin-overlay" id="admin-overlay">
-        <div class="glass-panel admin-modal" id="admin-modal">
-            <div class="admin-modal-header">
+        <div class="glass admin-modal" id="admin-modal">
+            <div class="am-header">
                 <div class="lock-icon">🔐</div>
-                <h2>管理员入口</h2>
+                <h2>管理入口</h2>
             </div>
-            <div class="admin-modal-body">
-                <div class="pw-group">
+            <div class="am-body">
+                <div class="pw-row">
                     <input type="password" id="pw-input" placeholder="输入密码…" autocomplete="off">
                     <button onclick="verifyPassword()">解锁</button>
                 </div>
                 <div class="lock-msg" id="lock-msg"></div>
             </div>
-            <div class="admin-modal-footer">
-                <button class="admin-close" onclick="closeAdmin()">← 返回首页</button>
+            <div class="am-footer">
+                <button class="am-close" onclick="closeAdmin()">← 返回主页</button>
             </div>
         </div>
 
-        <!-- 解锁后的管理面板 -->
-        <div class="glass-heavy admin-dashboard" id="admin-dashboard">
+        <div class="glass admin-dashboard" id="admin-dashboard">
             <div class="dash-header">
                 <span class="dash-title">⚙️ 管理面板</span>
                 <button class="dash-close" onclick="closeDashboard()">✕</button>
             </div>
             <div class="service-grid">
-                <a href="https://ha.jicohe-box.cn" target="_blank" class="glass-panel service-card">
+                <a href="https://ha.jicohe-box.cn" target="_blank" class="glass-light service-card">
                     <div class="s-icon">🏠</div>
                     <div class="s-title">智能家居 HAOS</div>
-                    <div class="s-desc">Home Assistant 控制面板 →</div>
+                    <div class="s-desc">Home Assistant →</div>
                 </a>
-                <div class="glass-panel service-card token-card">
+                <div class="glass-light service-card">
                     <div class="s-icon">🤖</div>
-                    <div class="s-title">DeepSeek API <button class="refresh-btn" onclick="fetchBalance()" title="刷新">↻</button></div>
-                    <div class="token-balance" id="ds-balance">—</div>
-                    <div class="token-meta" id="ds-meta">加载中…</div>
+                    <div class="s-title">DeepSeek API</div>
+                    <div class="token-num" id="ds-balance">—</div>
+                    <div class="s-desc" id="ds-meta" style="font-size:0.7rem;">加载中…</div>
+                    <button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;margin-top:0.3rem;font-family:inherit;">↻ 刷新</button>
                 </div>
-                <a href="/calendar" class="glass-panel service-card">
+                <a href="/calendar" class="glass-light service-card">
                     <div class="s-icon">📅</div>
                     <div class="s-title">日程时间线</div>
-                    <div class="s-desc">iCloud 日历同步 →</div>
+                    <div class="s-desc">iCloud 日历 →</div>
                 </a>
-                <a href="https://code.jicohe-box.cn" target="_blank" class="glass-panel service-card">
+                <a href="https://code.jicohe-box.cn" target="_blank" class="glass-light service-card">
                     <div class="s-icon">💻</div>
                     <div class="s-title">Code Editor</div>
-                    <div class="s-desc">VS Code 在线编辑器 →</div>
+                    <div class="s-desc">VS Code 在线 →</div>
                 </a>
             </div>
-            <div class="admin-footer">© 2026 Jico He. · 个人主义</div>
+            <div class="dash-footer">个人管理 · Cloudflare Pages</div>
         </div>
     </div>
 
     <script>
         /* ═══════════════════════════════════════
-           管理面板 · 开关
+           深浅模式
            ═══════════════════════════════════════ */
-
-        function openAdmin() {
-            const overlay = document.getElementById('admin-overlay');
-            const modal = document.getElementById('admin-modal');
-            const dashboard = document.getElementById('admin-dashboard');
-            
-            overlay.classList.add('active');
-            modal.style.display = 'block';
-            dashboard.classList.remove('active');
-            
-            document.getElementById('pw-input').value = '';
-            document.getElementById('lock-msg').textContent = '';
-            document.getElementById('lock-msg').className = 'lock-msg';
-            
-            setTimeout(() => document.getElementById('pw-input').focus(), 200);
+        function getTheme() {
+            return localStorage.getItem("theme") || "auto";
         }
-
-        function closeAdmin() {
-            document.getElementById('admin-overlay').classList.remove('active');
-            document.getElementById('admin-modal').style.display = '';
-            document.getElementById('admin-dashboard').classList.remove('active');
+        function applyTheme() {
+            const isDark = getTheme() === "dark"
+                || (getTheme() === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+            document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+            document.getElementById("theme-btn").textContent = isDark ? "🌙" : "☀️";
         }
-
-        function closeDashboard() {
-            closeAdmin();
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute("data-theme");
+            localStorage.setItem("theme", current === "dark" ? "light" : "dark");
+            applyTheme();
         }
-
-        // ESC to close
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeAdmin();
+        applyTheme();
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+            if (getTheme() === "auto") applyTheme();
         });
 
-        // Click overlay background to close
-        document.getElementById('admin-overlay').addEventListener('click', function(e) {
+        /* ═══════════════════════════════════════
+           管理面板
+           ═══════════════════════════════════════ */
+        function openAdmin() {
+            const overlay = document.getElementById("admin-overlay");
+            overlay.classList.add("active");
+            document.getElementById("admin-modal").style.display = "block";
+            document.getElementById("admin-dashboard").classList.remove("active");
+            document.getElementById("pw-input").value = "";
+            document.getElementById("lock-msg").textContent = "";
+            document.getElementById("lock-msg").className = "lock-msg";
+            setTimeout(() => document.getElementById("pw-input").focus(), 200);
+        }
+        function closeAdmin() {
+            document.getElementById("admin-overlay").classList.remove("active");
+            document.getElementById("admin-modal").style.display = "";
+            document.getElementById("admin-dashboard").classList.remove("active");
+        }
+        function closeDashboard() { closeAdmin(); }
+
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape") closeAdmin();
+        });
+        document.getElementById("admin-overlay").addEventListener("click", function(e) {
             if (e.target === this) closeAdmin();
         });
 
-        /* ═══════════════════════════════════════
-           密码验证
-           ═══════════════════════════════════════ */
-
         async function verifyPassword() {
-            const pw = document.getElementById('pw-input').value;
-            const msg = document.getElementById('lock-msg');
-            
-            if (!pw) {
-                msg.textContent = '请输入密码';
-                msg.className = 'lock-msg error';
-                return;
-            }
-            
-            msg.textContent = '验证中…';
-            msg.className = 'lock-msg';
-
+            const pw = document.getElementById("pw-input").value;
+            const msg = document.getElementById("lock-msg");
+            if (!pw) { msg.textContent = "请输入密码"; msg.className = "lock-msg error"; return; }
+            msg.textContent = "验证中…"; msg.className = "lock-msg";
             try {
-                const resp = await fetch('/api/password', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                const resp = await fetch("/api/password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ password: pw })
                 });
                 const data = await resp.json();
-                
-                if (data.status === 'ok') {
-                    showDashboard();
-                } else if (data.error && data.error.includes('not configured')) {
-                    msg.textContent = '后台未配置密码，请在 Cloudflare 添加 SITE_PASSWORD 环境变量';
-                    msg.className = 'lock-msg error';
+                if (data.status === "ok") {
+                    document.getElementById("admin-modal").style.display = "none";
+                    document.getElementById("admin-dashboard").classList.add("active");
+                    fetchBalance();
                 } else {
-                    msg.textContent = '密码错误';
-                    msg.className = 'lock-msg error';
-                    document.getElementById('pw-input').value = '';
-                    document.getElementById('pw-input').focus();
+                    msg.textContent = data.error?.includes("not configured")
+                        ? "后台未配置密码" : "密码错误";
+                    msg.className = "lock-msg error";
+                    document.getElementById("pw-input").value = "";
+                    document.getElementById("pw-input").focus();
                 }
             } catch (e) {
-                msg.textContent = '请求失败: ' + (e.message || '网络错误');
-                msg.className = 'lock-msg error';
+                msg.textContent = "请求失败: " + (e.message || "网络错误");
+                msg.className = "lock-msg error";
             }
         }
-
-        // Enter key
-        document.getElementById('pw-input').addEventListener('keydown', e => {
-            if (e.key === 'Enter') verifyPassword();
+        document.getElementById("pw-input").addEventListener("keydown", e => {
+            if (e.key === "Enter") verifyPassword();
         });
 
-        function showDashboard() {
-            document.getElementById('admin-modal').style.display = 'none';
-            document.getElementById('admin-dashboard').classList.add('active');
-            fetchBalance();
-        }
-
-        /* ═══════════════════════════════════════
-           DeepSeek 余额
-           ═══════════════════════════════════════ */
-
         async function fetchBalance() {
-            const b = document.getElementById('ds-balance');
-            const m = document.getElementById('ds-meta');
+            const b = document.getElementById("ds-balance"), m = document.getElementById("ds-meta");
             if (!b) return;
             try {
-                const r = await fetch('/api/deepseek');
+                const r = await fetch("/api/deepseek");
                 if (!r.ok) throw new Error();
                 const d = await r.json();
                 const bal = parseFloat(d.balance_infos?.[0]?.total_balance ?? d.total_balance ?? 0);
                 b.textContent = `¥${bal.toFixed(2)}`;
-                m.textContent = 'DeepSeek API 余额';
-            } catch {
-                b.textContent = '—';
-                m.textContent = '余额查询失败';
-            }
+                m.textContent = "DeepSeek API 余额";
+            } catch { b.textContent = "—"; m.textContent = "查询失败"; }
         }
-
-        // Auto-refresh balance when dashboard is open
         setInterval(() => {
-            if (document.getElementById('admin-dashboard').classList.contains('active')) {
-                fetchBalance();
-            }
+            if (document.getElementById("admin-dashboard").classList.contains("active")) fetchBalance();
         }, 60000);
 
-        /* ═══════════════════════════════════════
-           键盘快捷键 · 按 M 打开管理面板
-           ═══════════════════════════════════════ */
-
-        document.addEventListener('keydown', e => {
-            if (e.key === 'm' && !e.target.closest('input') && !e.target.closest('textarea')) {
-                if (!document.getElementById('admin-overlay').classList.contains('active')) {
-                    openAdmin();
-                }
+        // 按 M 打开管理
+        document.addEventListener("keydown", e => {
+            if (e.key === "m" && !e.target.closest("input,textarea")) {
+                if (!document.getElementById("admin-overlay").classList.contains("active")) openAdmin();
             }
         });
     </script>
