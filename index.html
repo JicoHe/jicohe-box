@@ -242,25 +242,26 @@
         }
 
         /* ═══════════════════════════════════════
-           About 卡片
+           About 列表
            ═══════════════════════════════════════ */
-        .about-grid {
+        .about-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.8rem; margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.4rem 2rem;
+            margin-bottom: 3rem;
+            padding-left: 0.5rem;
         }
-        .about-card {
-            padding: 1.4rem; text-align: center;
+        .about-list li {
+            font-size: 0.9rem; color: var(--text-secondary);
+            line-height: 1.8; list-style: none;
         }
-        .about-card .num {
-            font-size: 1.8rem; font-weight: 700;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .about-list li::before {
+            content: '— ';
+            color: var(--text-muted);
         }
-        .about-card .lbl {
-            font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;
+        .about-list li strong {
+            color: var(--text);
+            font-weight: 600;
         }
 
         /* ═══════════════════════════════════════
@@ -273,9 +274,6 @@
         }
         .project-card {
             padding: 1.8rem;
-        }
-        .project-card .p-icon {
-            font-size: 1.6rem; margin-bottom: 0.8rem;
         }
         .project-card h3 {
             font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem;
@@ -428,7 +426,6 @@
         .service-card {
             padding: 1.2rem; text-decoration: none; color: inherit; display: block;
         }
-        .service-card .s-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
         .service-card .s-title { font-size: 0.9rem; font-weight: 600; }
         .service-card .s-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
         .token-num {
@@ -454,7 +451,7 @@
             .hero-text h1 { font-size: 1.7rem; }
             .hero-avatar { width: 120px; height: 120px; }
             .projects { grid-template-columns: 1fr; }
-            .about-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-list { grid-template-columns: 1fr; }
             .other-grid { grid-template-columns: 1fr; }
             .service-grid { grid-template-columns: 1fr; }
             .pw-row { flex-direction: column; }
@@ -496,30 +493,19 @@
 
         <!-- About -->
         <h2 class="section-title">关于我</h2>
-        <div class="about-grid">
-            <div class="glass about-card">
-                <div class="num">国家A类</div>
-                <div class="lbl">自动化专业 · 学科评估</div>
-            </div>
-            <div class="glass about-card">
-                <div class="num">ECS Lab</div>
-                <div class="lbl">课题组 · 科研起步</div>
-            </div>
-            <div class="glass about-card">
-                <div class="num">PRICAI</div>
-                <div class="lbl">论文投稿 · 2026</div>
-            </div>
-            <div class="glass about-card">
-                <div class="num">多项</div>
-                <div class="lbl">数学建模 · 蓝桥杯 · Raicom</div>
-            </div>
-        </div>
+        <ul class="about-list">
+            <li>广东工业大学 <strong>自动化专业</strong>（国家第四轮学科评估 A 类）· 创新班</li>
+            <li>GPA <strong>4.11</strong> / 排名 <strong>14/361</strong></li>
+            <li>CET-4 530 · CET-6 514</li>
+            <li><strong>ECS Lab</strong> 课题组，师从常乐老师</li>
+            <li>数学建模 · 统计建模 · Raicom · 蓝桥杯 获奖</li>
+            <li>论文投稿 <strong>PRICAI 2026</strong>（GNN + 深度强化学习）</li>
+        </ul>
 
         <!-- 项目经历 -->
         <h2 class="section-title">项目经历</h2>
         <div class="projects">
             <div class="glass project-card">
-                <div class="p-icon">📡</div>
                 <h3>车联网虚拟机调度优化</h3>
                 <p>图神经网络预测 + 深度强化学习调度，优化服务质量与能耗。已投稿 PRICAI 2026。</p>
                 <div class="p-tags">
@@ -527,7 +513,6 @@
                 </div>
             </div>
             <div class="glass project-card">
-                <div class="p-icon">🛸</div>
                 <h3>无人机空地协同路径规划</h3>
                 <p>大创项目主持。YOLO 部署至 Tello 摄像头，博弈论多机协同。实现目标识别与短距位移。</p>
                 <div class="p-tags">
@@ -535,7 +520,6 @@
                 </div>
             </div>
             <div class="glass project-card">
-                <div class="p-icon">🔧</div>
                 <h3>ABB 机械臂电池装配</h3>
                 <p>D-H 建模 → PLC 梯形图 → PROFINET 通信 → ROS 双臂协同。完整工业装配生产线。</p>
                 <div class="p-tags">
@@ -543,7 +527,6 @@
                 </div>
             </div>
             <div class="glass project-card">
-                <div class="p-icon">🌐</div>
                 <h3>个人网站 & 内网穿透</h3>
                 <p>自主搭建 jicohe-box.cn，Cloudflare Tunnel 穿透至 WSL 开发环境，外网访问本地 IDE。</p>
                 <div class="p-tags">
@@ -556,15 +539,15 @@
         <h2 class="section-title">其他经历</h2>
         <div class="other-grid">
             <div class="glass-light other-card">
-                <h4>🇨🇳 国旗护卫队</h4>
+                <h4>国旗护卫队</h4>
                 <p>省级比赛一等奖 · 作训部副部长</p>
             </div>
             <div class="glass-light other-card">
-                <h4>🎓 新生学长</h4>
+                <h4>新生学长</h4>
                 <p>优秀新生学长证明</p>
             </div>
             <div class="glass-light other-card">
-                <h4>📋 支部副书记</h4>
+                <h4>支部副书记</h4>
                 <p>2025.12 正式党员 · 2026.6 接任</p>
             </div>
         </div>
@@ -597,29 +580,25 @@
 
         <div class="glass admin-dashboard" id="admin-dashboard">
             <div class="dash-header">
-                <span class="dash-title">⚙️ 管理面板</span>
+                <span class="dash-title">管理面板</span>
                 <button class="dash-close" onclick="closeDashboard()">✕</button>
             </div>
             <div class="service-grid">
                 <a href="https://ha.jicohe-box.cn" target="_blank" class="glass-light service-card">
-                    <div class="s-icon">🏠</div>
                     <div class="s-title">智能家居 HAOS</div>
                     <div class="s-desc">Home Assistant →</div>
                 </a>
                 <div class="glass-light service-card">
-                    <div class="s-icon">🤖</div>
                     <div class="s-title">DeepSeek API</div>
                     <div class="token-num" id="ds-balance">—</div>
                     <div class="s-desc" id="ds-meta" style="font-size:0.7rem;">加载中…</div>
                     <button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;margin-top:0.3rem;font-family:inherit;">↻ 刷新</button>
                 </div>
                 <a href="/calendar" class="glass-light service-card">
-                    <div class="s-icon">📅</div>
                     <div class="s-title">日程时间线</div>
                     <div class="s-desc">iCloud 日历 →</div>
                 </a>
                 <a href="https://code.jicohe-box.cn" target="_blank" class="glass-light service-card">
-                    <div class="s-icon">💻</div>
                     <div class="s-title">Code Editor</div>
                     <div class="s-desc">VS Code 在线 →</div>
                 </a>
