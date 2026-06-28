@@ -3,64 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>验证</title>
+    <title>验证 · 个人主义</title>
     <style>
         :root {
-            --bg: #0f0f0f; --text: #e0e0e0; --border: #2a2a2a;
-            --accent: #6366f1; --green: #22c55e; --red: #ef4444;
+            --bg-deep: #08080f;
+            --glass-medium: rgba(22, 22, 36, 0.45);
+            --glass-light: rgba(30, 30, 48, 0.30);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --text-primary: rgba(255, 255, 255, 0.92);
+            --text-secondary: rgba(255, 255, 255, 0.55);
+            --text-muted: rgba(255, 255, 255, 0.30);
+            --accent-blue: #6d8cff;
+            --accent-purple: #a78bfa;
+            --accent-green: #4ade80;
+            --accent-red: #f87171;
+            --blur-medium: blur(40px) saturate(180%);
+            --radius: 20px;
+            --radius-sm: 12px;
         }
-        [data-theme="light"] {
-            --bg: #f5f5f5; --text: #1a1a1a; --border: #e0e0e0;
-            --accent: #4f46e5; --green: #16a34a; --red: #dc2626;
-        }
-        * { margin:0; padding:0; box-sizing:border-box; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background:var(--bg); color:var(--text);
-            font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-            display:flex; align-items:center; justify-content:center;
-            min-height:100vh; padding:1rem;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "PingFang SC", sans-serif;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 1.5rem;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
         }
-        .status { text-align:center; max-width:360px; }
+
+        /* 背景光斑 */
+        .bg-blobs {
+            position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15;
+            animation-timing-function: ease-in-out; animation-iteration-count: infinite;
+        }
+        .blob-1 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, var(--accent-purple), transparent 70%);
+            top: -10%; right: -15%;
+            animation: float-1 22s infinite alternate;
+        }
+        .blob-2 {
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, var(--accent-blue), transparent 70%);
+            bottom: -10%; left: -10%;
+            animation: float-2 26s infinite alternate;
+        }
+        @keyframes float-1 {
+            0% { transform: translate(0,0) scale(1); }
+            100% { transform: translate(-50px, 60px) scale(1.2); }
+        }
+        @keyframes float-2 {
+            0% { transform: translate(0,0) scale(0.9); }
+            100% { transform: translate(50px, -40px) scale(1.1); }
+        }
+
+        .grain {
+            position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .glass-card {
+            position: relative; z-index: 2;
+            background: var(--glass-medium);
+            backdrop-filter: var(--blur-medium);
+            -webkit-backdrop-filter: var(--blur-medium);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 2.5rem 2rem;
+            max-width: 380px; width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+            border-radius: inherit; pointer-events: none;
+        }
+
+        .status-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .title { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 0.85rem; color: var(--text-secondary); }
+        .result { margin-top: 1rem; font-size: 0.9rem; word-break: break-word; }
+        .result.success { color: var(--accent-green); }
+        .result.error { color: var(--accent-red); }
+        .debug {
+            font-size: 0.72rem; color: var(--text-muted);
+            margin-top: 0.75rem; padding-top: 0.75rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
         .spinner {
-            width:40px; height:40px; border:3px solid var(--border);
-            border-top-color:var(--accent); border-radius:50%;
-            animation:spin 0.8s linear infinite; margin:0 auto 1rem;
+            width: 36px; height: 36px;
+            border: 2.5px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
         }
-        @keyframes spin { to { transform:rotate(360deg); } }
-        .result { font-size:1.1rem; word-break:break-word; }
-        .success { color:var(--green); }
-        .error { color:var(--red); }
-        .debug { font-size:0.75rem; color:var(--border); margin-top:0.5rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .back-link {
+            display: inline-block; margin-top: 1.5rem;
+            font-size: 0.82rem; color: var(--text-muted); text-decoration: none;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--text-secondary); }
     </style>
 </head>
 <body>
-    <div class="status" id="status">
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+    <div class="grain"></div>
+
+    <div class="glass-card" id="status">
         <div class="spinner"></div>
-        <div class="result">正在进行面容识别…</div>
+        <p class="subtitle">正在进行面容识别…</p>
     </div>
 
     <script>
-        (function() {
-            const theme = localStorage.getItem("theme") || "auto";
-            const isDark = theme === "dark" || (theme === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-            document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
-        })();
-
         const params = new URLSearchParams(window.location.search);
         const sessionId = params.get("s");
 
         function show(msg, cls, debug) {
-            let html = `<div class="result ${cls || ''}">${msg}</div>`;
+            let html = '';
+            if (cls === 'success') {
+                html += '<div class="status-icon">✅</div>';
+            } else if (cls === 'error') {
+                html += '<div class="status-icon">✗</div>';
+            }
+            html += `<div class="result ${cls || ''}">${msg}</div>`;
             if (debug) html += `<div class="debug">${debug}</div>`;
+            html += '<a href="/" class="back-link">← 返回首页</a>';
             document.getElementById("status").innerHTML = html;
         }
 
-        // Robust base64url decode — trims whitespace, handles edge cases
         function b64urlDecode(str) {
             if (!str || typeof str !== "string") throw new Error("credential ID 为空");
             str = str.trim().replace(/-/g, "+").replace(/_/g, "/");
             while (str.length % 4) str += "=";
-            if (!/^[A-Za-z0-9+/=]+$/.test(str)) throw new Error("credential ID 格式异常，请重新绑定 Face ID");
             const binary = atob(str);
             const bytes = new Uint8Array(binary.length);
             for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
@@ -78,15 +168,10 @@
             if (!sessionId) { show("无效链接", "error"); return; }
 
             try {
-                // Step 1: 获取 challenge
                 const cr = await fetch(`/api/auth/challenge?session=${sessionId}`);
-                if (!cr.ok) {
-                    const errText = await cr.text().catch(() => "");
-                    throw new Error("服务器返回 " + cr.status + (errText ? ": " + errText.substring(0, 80) : ""));
-                }
+                if (!cr.ok) throw new Error("服务器返回 " + cr.status);
                 const cd = await cr.json();
 
-                // Step 2: 解析 allowCredentials（加固解码）
                 let allowCredentials = [];
                 if (cd.allowCredentials && cd.allowCredentials.length > 0) {
                     allowCredentials = cd.allowCredentials.map(ac => ({
@@ -97,7 +182,6 @@
                     throw new Error("未找到已绑定的 Face ID，请先在 iPhone 上注册");
                 }
 
-                // Step 3: Face ID
                 const credential = await navigator.credentials.get({
                     publicKey: {
                         challenge: b64urlDecode(cd.challenge),
@@ -108,7 +192,6 @@
                     }
                 });
 
-                // Step 4: 发送验证
                 const vr = await fetch("/api/auth/verify", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -129,7 +212,7 @@
 
                 const vd = await vr.json();
                 if (vd.status === "authenticated") {
-                    show("✅ 已验证，电脑端已解锁", "success");
+                    show("已验证，电脑端已解锁", "success");
                 } else {
                     show("验证失败: " + (vd.error || "未知"), "error");
                 }

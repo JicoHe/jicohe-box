@@ -3,215 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日程 | Jico He.</title>
+    <title>日程 · 时间线 | Jico He.</title>
     <style>
+        /* ═══════════════════════════════════════
+           液态玻璃 · 设计系统
+           ═══════════════════════════════════════ */
+
         :root {
-            --bg: #0f0f0f;
-            --card: #1a1a1a;
-            --border: #2a2a2a;
-            --text: #e0e0e0;
-            --muted: #888;
-            --accent: #e10600;
-            --radius: 12px;
-            --red: #e10600;
-            --orange: #ff8700;
-            --purple: #7b2ff7;
-            --green: #00d2be;
-            --blue: #3b82f6;
-            --yellow: #eab308;
-            --nav-bg: rgba(15,15,15,0.85);
+            --bg-deep: #08080f;
+            --glass-heavy: rgba(18, 18, 30, 0.55);
+            --glass-medium: rgba(22, 22, 36, 0.45);
+            --glass-light: rgba(30, 30, 48, 0.30);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-border-hover: rgba(255, 255, 255, 0.12);
+            --glass-border-focus: rgba(255, 255, 255, 0.18);
+            --text-primary: rgba(255, 255, 255, 0.92);
+            --text-secondary: rgba(255, 255, 255, 0.55);
+            --text-muted: rgba(255, 255, 255, 0.30);
+            --accent-blue: #6d8cff;
+            --accent-purple: #a78bfa;
+            --accent-teal: #5eead4;
+            --accent-red: #f87171;
+            --accent-orange: #fb923c;
+            --accent-green: #4ade80;
+            --accent-yellow: #facc15;
+            --blur-heavy: blur(80px) saturate(200%);
+            --blur-medium: blur(40px) saturate(180%);
+            --blur-light: blur(20px) saturate(160%);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
-        [data-theme="light"] {
-            --bg: #f5f5f5;
-            --card: #ffffff;
-            --border: #e0e0e0;
-            --text: #1a1a1a;
-            --muted: #666;
-            --accent: #d40000;
-            --nav-bg: rgba(255,255,255,0.9);
-        }
-        * { margin:0; padding:0; box-sizing:border-box; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
             min-height: 100vh;
+            position: relative;
         }
 
-        /* Nav */
+        /* 背景光斑 */
+        .bg-blobs {
+            position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.18;
+            animation-timing-function: ease-in-out; animation-iteration-count: infinite;
+        }
+        .blob-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, var(--accent-teal), transparent 70%);
+            top: -10%; left: -10%;
+            animation: float-blob-1 25s infinite alternate;
+        }
+        .blob-2 {
+            width: 450px; height: 450px;
+            background: radial-gradient(circle, var(--accent-purple), transparent 70%);
+            bottom: -15%; right: -10%;
+            animation: float-blob-2 28s infinite alternate;
+        }
+        @keyframes float-blob-1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 60px) scale(1.2); }
+        }
+        @keyframes float-blob-2 {
+            0% { transform: translate(0, 0) scale(1.1); }
+            100% { transform: translate(-70px, -80px) scale(0.9); }
+        }
+
+        .grain {
+            position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* 玻璃组件 */
+        .glass-panel {
+            background: var(--glass-medium);
+            backdrop-filter: var(--blur-medium);
+            -webkit-backdrop-filter: var(--blur-medium);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.01) 100%);
+            border-radius: inherit; pointer-events: none;
+        }
+        .glass-panel:hover {
+            border-color: var(--glass-border-hover);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+        .glass-light {
+            background: var(--glass-light);
+            backdrop-filter: var(--blur-light);
+            -webkit-backdrop-filter: var(--blur-light);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+        }
+
+        /* 导航 */
         nav {
-            display:flex; justify-content:space-between; align-items:center;
-            padding:1.2rem 2rem; border-bottom:1px solid var(--border);
-            backdrop-filter:blur(20px); position:sticky; top:0; z-index:100;
-            background:var(--nav-bg);
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(8, 8, 15, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--glass-border);
         }
-        .logo { font-weight:700; font-size:1.2rem; }
-        .nav-right { display:flex; gap:0.5rem; align-items:center; }
+        .nav-logo {
+            font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
+            color: var(--text-primary); text-decoration: none;
+        }
+        .nav-logo span { color: var(--accent-blue); }
+        .nav-right { display: flex; gap: 0.5rem; align-items: center; }
         .nav-right a, .nav-right button {
-            text-decoration:none; color:var(--muted); font-size:0.9rem;
-            padding:0.4rem 0.8rem; border-radius:6px; transition:all 0.2s;
-            cursor:pointer; border:none; background:none; font-family:inherit;
+            text-decoration: none; color: var(--text-secondary); font-size: 0.88rem;
+            padding: 0.4rem 0.8rem; border-radius: 8px; transition: all 0.2s;
+            cursor: pointer; border: none; background: none; font-family: inherit;
         }
-        .nav-right a:hover, .nav-right button:hover { color:var(--text); background:var(--border); }
-        .theme-btn { font-size:1.1rem !important; }
+        .nav-right a:hover, .nav-right button:hover {
+            color: var(--text-primary); background: rgba(255,255,255,0.06);
+        }
 
-        /* Main */
-        main { max-width:820px; margin:0 auto; padding:2rem; }
+        /* 主容器 */
+        .main-container {
+            position: relative; z-index: 2;
+            max-width: 820px; margin: 0 auto; padding: 2rem;
+        }
 
         /* Header */
-        .header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
-        .header h1 { font-size:1.8rem; font-weight:800; letter-spacing:-0.5px; }
-        .header h1 span { color:var(--accent); }
-        .meta { color:var(--muted); font-size:0.85rem; margin-top:0.25rem; }
-
-        /* Add Button */
-        .btn-add {
-            padding:0.65rem 1.4rem; border:none; border-radius:8px;
-            background:var(--accent); color:white; font-weight:600; font-size:0.9rem;
-            cursor:pointer; font-family:inherit; transition:all 0.2s;
+        .page-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
         }
-        .btn-add:hover { opacity:0.9; transform:translateY(-1px); }
-        .btn-refresh {
-            padding:0.65rem 1.2rem; border:1px solid var(--border); border-radius:8px;
-            background:var(--card); color:var(--text); font-weight:500; font-size:0.9rem;
-            cursor:pointer; font-family:inherit; transition:all 0.2s;
+        .page-header h1 {
+            font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em;
         }
-        .btn-refresh:hover { border-color:var(--muted); }
+        .page-header h1 span {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .update-time { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; }
+        .header-actions { display: flex; gap: 0.5rem; }
 
-        /* Stats */
-        .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:0.75rem; margin-bottom:2rem; }
+        .btn-glass {
+            padding: 0.6rem 1.2rem;
+            background: var(--glass-light);
+            backdrop-filter: var(--blur-light);
+            -webkit-backdrop-filter: var(--blur-light);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.88rem; font-weight: 500;
+            cursor: pointer; font-family: inherit;
+            transition: all 0.3s;
+        }
+        .btn-glass:hover {
+            border-color: var(--glass-border-hover);
+            background: rgba(255,255,255,0.08);
+        }
+        .btn-accent {
+            padding: 0.6rem 1.4rem;
+            background: rgba(109, 140, 255, 0.15);
+            border: 1px solid rgba(109, 140, 255, 0.25);
+            border-radius: var(--radius-sm);
+            color: var(--accent-blue);
+            font-size: 0.88rem; font-weight: 600;
+            cursor: pointer; font-family: inherit;
+            transition: all 0.3s;
+        }
+        .btn-accent:hover {
+            background: rgba(109, 140, 255, 0.25);
+            border-color: rgba(109, 140, 255, 0.4);
+        }
+
+        /* 统计卡片 */
+        .stats {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem; margin-bottom: 2rem;
+        }
         .stat {
-            background:var(--card); border:1px solid var(--border);
-            border-radius:var(--radius); padding:1rem; text-align:center;
+            padding: 1.2rem; text-align: center;
         }
-        .stat .num { font-size:1.6rem; font-weight:700; }
-        .stat .lbl { font-size:0.75rem; color:var(--muted); margin-top:0.25rem; }
+        .stat .num { font-size: 1.5rem; font-weight: 700; }
+        .stat .lbl { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
 
-        /* Timeline */
-        .day-group { display:flex; gap:14px; margin-bottom:0; }
-        .rail { display:flex; flex-direction:column; align-items:center; width:14px; flex-shrink:0; }
-        .rdot { width:12px; height:12px; border-radius:50%; flex-shrink:0; margin-top:6px; }
-        .rline { flex:1; width:2px; background:var(--border); margin-top:4px; min-height:20px; }
-        .day-content { flex:1; padding-bottom:0.5rem; }
-        .day-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-        .day-pill {
-            font-size:0.8rem; font-weight:600; padding:3px 12px; border-radius:20px;
-            white-space:nowrap; letter-spacing:-0.2px;
+        /* 时间线 */
+        .day-group { display: flex; gap: 14px; margin-bottom: 0; }
+        .rail {
+            display: flex; flex-direction: column; align-items: center;
+            width: 14px; flex-shrink: 0;
         }
-        .day-label { font-size:0.8rem; color:var(--muted); }
+        .rdot {
+            width: 12px; height: 12px; border-radius: 50%;
+            flex-shrink: 0; margin-top: 6px;
+            box-shadow: 0 0 12px currentColor;
+        }
+        .rline {
+            flex: 1; width: 1.5px;
+            background: rgba(255,255,255,0.08);
+            margin-top: 4px; min-height: 20px;
+        }
+        .day-content { flex: 1; padding-bottom: 0.5rem; }
+        .day-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .day-pill {
+            font-size: 0.78rem; font-weight: 600;
+            padding: 3px 14px; border-radius: 20px; white-space: nowrap;
+        }
+        .day-label { font-size: 0.78rem; color: var(--text-muted); display: flex; gap: 4px; align-items: center; }
 
         .event-card {
-            background:var(--card); border:1px solid var(--border);
-            border-radius:8px; padding:10px 14px; margin-bottom:6px;
-            transition:all 0.15s; cursor:default;
-            display:flex; justify-content:space-between; align-items:center; gap:12px;
+            padding: 10px 14px; margin-bottom: 6px;
+            display: flex; justify-content: space-between; align-items: center; gap: 12px;
+            cursor: default;
+            border-radius: var(--radius-sm);
         }
-        .event-card:hover { border-color:var(--muted); }
-        .event-main { flex:1; min-width:0; }
-        .event-title { font-size:0.95rem; font-weight:500; }
-        .event-detail { font-size:0.8rem; color:var(--muted); margin-top:2px; }
-        .event-time { font-size:0.85rem; color:var(--muted); white-space:nowrap; flex-shrink:0; }
+        .event-main { flex: 1; min-width: 0; }
+        .event-title { font-size: 0.92rem; font-weight: 500; }
+        .event-detail { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+        .event-time { font-size: 0.82rem; color: var(--text-secondary); white-space: nowrap; flex-shrink: 0; }
         .event-cal {
-            font-size:0.7rem; padding:2px 8px; border-radius:10px; white-space:nowrap;
-            flex-shrink:0; font-weight:500;
+            font-size: 0.68rem; padding: 2px 8px; border-radius: 10px;
+            white-space: nowrap; flex-shrink: 0; font-weight: 500;
         }
 
         /* Loading */
-        .loading { text-align:center; padding:4rem 2rem; color:var(--muted); }
-        .spinner { display:inline-block; width:24px; height:24px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin-bottom:1rem; }
-        @keyframes spin { to { transform:rotate(360deg); } }
+        .loading-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        .spinner {
+            display: inline-block; width: 24px; height: 24px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin-bottom: 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* Modal */
         .modal-overlay {
-            display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7);
-            z-index:200; align-items:center; justify-content:center;
+            display: none; position: fixed; inset: 0; z-index: 200;
+            background: rgba(4, 4, 8, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            align-items: center; justify-content: center;
         }
-        .modal-overlay.active { display:flex; }
+        .modal-overlay.active { display: flex; }
         .modal {
-            background:var(--card); border:1px solid var(--border);
-            border-radius:var(--radius); padding:2rem; width:90%; max-width:460px;
+            width: 90%; max-width: 460px;
+            padding: 2rem;
+            animation: modal-in 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
-        .modal h2 { font-size:1.3rem; margin-bottom:1.5rem; }
-        .form-group { margin-bottom:1rem; }
-        .form-group label { display:block; font-size:0.85rem; color:var(--muted); margin-bottom:0.35rem; }
+        @keyframes modal-in {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label {
+            display: block; font-size: 0.82rem; color: var(--text-secondary);
+            margin-bottom: 0.35rem;
+        }
         .form-group input, .form-group textarea, .form-group select {
-            width:100%; padding:0.7rem 0.9rem; background:var(--bg);
-            border:1px solid var(--border); border-radius:8px; color:var(--text);
-            font-size:0.95rem; font-family:inherit;
+            width: 100%; padding: 0.7rem 0.9rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary); font-size: 0.92rem; font-family: inherit;
+            transition: border-color 0.3s;
         }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            outline:none; border-color:var(--accent);
+            outline: none; border-color: var(--glass-border-focus);
+            box-shadow: 0 0 16px rgba(109, 140, 255, 0.08);
         }
-        .form-row { display:flex; gap:0.75rem; }
-        .form-row .form-group { flex:1; }
+        .form-row { display: flex; gap: 0.75rem; }
+        .form-row .form-group { flex: 1; }
         .btn-submit {
-            width:100%; padding:0.8rem; border:none; border-radius:8px;
-            background:var(--accent); color:white; font-weight:600; font-size:1rem;
-            cursor:pointer; font-family:inherit; margin-top:0.5rem;
+            width: 100%; padding: 0.8rem;
+            background: rgba(109, 140, 255, 0.15);
+            border: 1px solid rgba(109, 140, 255, 0.25);
+            border-radius: var(--radius-sm);
+            color: var(--accent-blue); font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; font-family: inherit; margin-top: 0.5rem;
+            transition: all 0.3s;
+        }
+        .btn-submit:hover {
+            background: rgba(109, 140, 255, 0.25);
+            border-color: rgba(109, 140, 255, 0.4);
         }
         .btn-cancel {
-            width:100%; padding:0.6rem; border:1px solid var(--border); border-radius:8px;
-            background:transparent; color:var(--muted); font-size:0.9rem;
-            cursor:pointer; font-family:inherit; margin-top:0.5rem;
+            width: 100%; padding: 0.6rem;
+            background: transparent; border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-muted); font-size: 0.88rem;
+            cursor: pointer; font-family: inherit; margin-top: 0.5rem;
+            transition: all 0.2s;
         }
+        .btn-cancel:hover { border-color: var(--glass-border-hover); color: var(--text-secondary); }
 
         /* Toast */
         .toast {
-            position:fixed; bottom:2rem; left:50%; transform:translateX(-50%);
-            background:var(--green); color:black; padding:0.8rem 1.5rem;
-            border-radius:8px; font-weight:600; font-size:0.9rem;
-            z-index:300; opacity:0; transition:opacity 0.3s;
-            pointer-events:none;
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            padding: 0.8rem 1.5rem; border-radius: var(--radius-sm);
+            font-weight: 600; font-size: 0.88rem;
+            z-index: 300; opacity: 0; transition: opacity 0.3s;
+            pointer-events: none;
+            background: var(--glass-medium);
+            backdrop-filter: var(--blur-medium);
+            -webkit-backdrop-filter: var(--blur-medium);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
         }
-        .toast.show { opacity:1; }
+        .toast.show { opacity: 1; }
 
-        /* Footer */
-        footer { text-align:center; padding:3rem 2rem; color:var(--muted); font-size:0.85rem; border-top:1px solid var(--border); margin-top:3rem; }
+        footer {
+            text-align: center; padding: 3rem 2rem;
+            color: var(--text-muted); font-size: 0.82rem;
+        }
 
-        /* Responsive */
-        @media (max-width:640px) {
-            nav { padding:1rem; }
-            main { padding:1rem; }
-            .stats { grid-template-columns:repeat(2,1fr); }
-            .header h1 { font-size:1.4rem; }
-            .event-cal { display:none; }
-            .form-row { flex-direction:column; }
+        @media (max-width: 640px) {
+            nav { padding: 1rem; }
+            .main-container { padding: 1rem; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .page-header h1 { font-size: 1.3rem; }
+            .form-row { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+    <div class="grain"></div>
+
     <nav>
-        <div class="logo"><a href="/" style="color:inherit;text-decoration:none;">Jico He.</a></div>
+        <a href="/" class="nav-logo">个人<span>主义</span></a>
         <div class="nav-right">
-            <button class="theme-btn" onclick="toggleTheme()" title="切换深色/浅色模式" id="theme-btn">🌙</button>
             <a href="/">← 首页</a>
         </div>
     </nav>
 
-    <main>
-        <div class="header">
+    <div class="main-container">
+        <div class="page-header">
             <div>
                 <h1>📅 日程<span>时间线</span></h1>
-                <div class="meta" id="update-time">同步中…</div>
+                <div class="update-time" id="update-time">同步中…</div>
             </div>
-            <div style="display:flex;gap:0.5rem;">
-                <button class="btn-refresh" onclick="loadCalendar()" title="刷新日程数据">🔄 刷新</button>
-                <button class="btn-add" onclick="openModal()">+ 新增日程</button>
+            <div class="header-actions">
+                <button class="btn-glass" onclick="loadCalendar()">🔄 刷新</button>
+                <button class="btn-accent" onclick="openModal()">+ 新增日程</button>
             </div>
         </div>
 
         <div class="stats" id="stats"></div>
+        <div id="timeline"><div class="loading-state"><div class="spinner"></div><p>加载日程中…</p></div></div>
+    </div>
 
-        <div id="timeline"><div class="loading"><div class="spinner"></div><p>加载日程中…</p></div></div>
-    </main>
+    <footer>个人主义 · 日程数据来自 iCloud 日历 · Cloudflare Pages</footer>
 
-    <footer>© 2026 Jico He. · 日程数据来自 iCloud 日历 · 由 Cloudflare Pages 驱动</footer>
-
-    <!-- 新增日程 Modal -->
+    <!-- Modal -->
     <div class="modal-overlay" id="modal">
-        <div class="modal">
+        <div class="glass-panel modal">
             <h2>📋 新增日程</h2>
             <div class="form-group">
                 <label>日程标题 *</label>
@@ -251,21 +415,21 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        // ═══════════════════════════════════════
-        //  日历颜色映射
-        // ═══════════════════════════════════════
+        /* ═══════════════════════════════════════
+           日历颜色映射
+           ═══════════════════════════════════════ */
         const CAL_COLORS = {
-            "工作":      { bg:"#FF383C20", dot:"#FF383CFF", pill:"#FF383C15" },
-            "课程表":    { bg:"#83D75420", dot:"#83D754FF", pill:"#83D75415" },
-            "考试":      { bg:"#FFCC0020", dot:"#FFCC00FF", pill:"#FFCC0015" },
-            "Home":      { bg:"#34AADC20", dot:"#34AADCFF", pill:"#34AADC15" },
-            "自我":      { bg:"#FF8D2820", dot:"#FF8D28FF", pill:"#FF8D2815" },
-            "家庭":      { bg:"#1BADF820", dot:"#1BADF8", pill:"#1BADF815" },
-            "Formula 1": { bg:"#e1060020", dot:"#e10600", pill:"#e1060015" },
-            "中国大陆节假日": { bg:"#FF950020", dot:"#FF9500", pill:"#FF950015" },
-            "Scheduled Reminders": { bg:"#1BADF820", dot:"#1BADF8", pill:"#1BADF815" },
+            "工作":      { dot: "#FF6B6B", pill: "rgba(255,107,107,0.15)" },
+            "课程表":    { dot: "#83D754", pill: "rgba(131,215,84,0.15)" },
+            "考试":      { dot: "#FFCC00", pill: "rgba(255,204,0,0.15)" },
+            "Home":      { dot: "#34AADC", pill: "rgba(52,170,220,0.15)" },
+            "自我":      { dot: "#FF9500", pill: "rgba(255,149,0,0.15)" },
+            "家庭":      { dot: "#5BC0EB", pill: "rgba(91,192,235,0.15)" },
+            "Formula 1": { dot: "#e10600", pill: "rgba(225,6,0,0.15)" },
+            "中国大陆节假日": { dot: "#FF9500", pill: "rgba(255,149,0,0.15)" },
+            "Scheduled Reminders": { dot: "#5BC0EB", pill: "rgba(91,192,235,0.15)" },
         };
-        const DEFAULT_COLOR = { bg:"#88888820", dot:"#888888", pill:"#88888815" };
+        const DEFAULT_COLOR = { dot: "#888888", pill: "rgba(136,136,136,0.15)" };
 
         function getCalStyle(name) {
             for (const [key, val] of Object.entries(CAL_COLORS)) {
@@ -273,36 +437,11 @@
             }
             return DEFAULT_COLOR;
         }
+        function getDotColor(name) { return getCalStyle(name).dot; }
 
-        function getDotColor(name) {
-            return getCalStyle(name).dot;
-        }
-
-        // ═══════════════════════════════════════
-        //  深色/浅色模式
-        // ═══════════════════════════════════════
-        function getTheme() {
-            return localStorage.getItem("theme") || "auto";
-        }
-        function applyTheme() {
-            const theme = getTheme();
-            const isDark = theme === "dark" || (theme === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-            document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
-            document.getElementById("theme-btn").textContent = isDark ? "🌙" : "☀️";
-        }
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute("data-theme");
-            localStorage.setItem("theme", current === "dark" ? "light" : "dark");
-            applyTheme();
-        }
-        applyTheme();
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-            if (getTheme() === "auto") applyTheme();
-        });
-
-        // ═══════════════════════════════════════
-        //  加载 & 渲染
-        // ═══════════════════════════════════════
+        /* ═══════════════════════════════════════
+           加载 & 渲染
+           ═══════════════════════════════════════ */
         async function loadCalendar() {
             try {
                 const resp = await fetch("/api/calendar");
@@ -310,7 +449,7 @@
                 render(data);
             } catch (err) {
                 document.getElementById("timeline").innerHTML =
-                    '<div class="loading"><p>⚠️ 无法加载日程数据</p><p style="font-size:0.8rem;margin-top:0.5rem;">请确保 sync_calendar.py 已在本地运行</p></div>';
+                    '<div class="loading-state"><p>⚠️ 无法加载日程数据</p><p style="font-size:0.78rem;margin-top:0.5rem;">请确保 sync_calendar.py 已在本地运行</p></div>';
             }
         }
 
@@ -319,19 +458,17 @@
             document.getElementById("update-time").textContent =
                 data.updated ? `最后同步: ${formatTime(data.updated)}` : "等待首次同步";
 
-            // 统计
             const now = new Date();
             const todayStr = now.toISOString().split("T")[0];
             const upcoming = events.filter(e => e.start >= now.toISOString());
             const todayEvents = events.filter(e => e.start.startsWith(todayStr));
             document.getElementById("stats").innerHTML = `
-                <div class="stat"><div class="num" style="color:var(--accent)">${events.length}</div><div class="lbl">总日程</div></div>
-                <div class="stat"><div class="num" style="color:var(--blue)">${upcoming.length}</div><div class="lbl">即将到来</div></div>
-                <div class="stat"><div class="num" style="color:var(--orange)">${todayEvents.length}</div><div class="lbl">今日</div></div>
-                <div class="stat"><div class="num" style="color:var(--purple)">${[...new Set(events.map(e=>e.calendar))].length}</div><div class="lbl">日历分类</div></div>
+                <div class="glass-panel stat"><div class="num" style="color:var(--accent-blue)">${events.length}</div><div class="lbl">总日程</div></div>
+                <div class="glass-panel stat"><div class="num" style="color:var(--accent-teal)">${upcoming.length}</div><div class="lbl">即将到来</div></div>
+                <div class="glass-panel stat"><div class="num" style="color:var(--accent-orange)">${todayEvents.length}</div><div class="lbl">今日</div></div>
+                <div class="glass-panel stat"><div class="num" style="color:var(--accent-purple)">${[...new Set(events.map(e=>e.calendar))].length}</div><div class="lbl">日历分类</div></div>
             `;
 
-            // 按日期分组
             const groups = {};
             for (const ev of events) {
                 const dayKey = ev.start.split("T")[0];
@@ -342,7 +479,7 @@
             const dayKeys = Object.keys(groups).sort();
             if (dayKeys.length === 0) {
                 document.getElementById("timeline").innerHTML =
-                    '<div class="loading"><p>暂无日程 📭</p></div>';
+                    '<div class="loading-state"><p>暂无日程 📭</p></div>';
                 return;
             }
 
@@ -357,27 +494,24 @@
                 const dayName = dayNames[date.getDay()];
                 const monthDay = `${date.getMonth()+1}/${date.getDate()}`;
 
-                // 用该天第一个事件的日历颜色作为点颜色
                 const mainCal = dayEvents[0].calendar || "";
                 const dotColor = getDotColor(mainCal);
 
-                // Pill 标签
                 let pillLabel, pillBg, pillColor;
                 if (isToday) {
                     pillLabel = `今天 ${monthDay}`;
-                    pillBg = "#FCEBEB";
-                    pillColor = "#A32D2D";
+                    pillBg = "rgba(109,140,255,0.2)";
+                    pillColor = "var(--accent-blue)";
                 } else {
                     pillLabel = `${monthDay} ${dayName}`;
-                    pillBg = "var(--card)";
-                    pillColor = "var(--text)";
+                    pillBg = "rgba(255,255,255,0.06)";
+                    pillColor = "var(--text-primary)";
                 }
 
-                // 日历标签
                 const calSet = [...new Set(dayEvents.map(e => e.calendar).filter(Boolean))];
                 const calTags = calSet.slice(0, 2).map(c => {
                     const s = getCalStyle(c);
-                    return `<span style="font-size:0.7rem;padding:1px 8px;border-radius:10px;background:${s.pill};color:${s.dot}">${c}</span>`;
+                    return `<span style="font-size:0.68rem;padding:1px 8px;border-radius:10px;background:${s.pill};color:${s.dot}">${c}</span>`;
                 }).join("");
 
                 html += `<div class="day-group">
@@ -398,7 +532,7 @@
                     const timeStr = isAllDay ? "全天" : (ev.start_readable || "").split(" ")[1] || "";
                     const hasDesc = ev.description && ev.description.trim();
 
-                    html += `<div class="event-card">
+                    html += `<div class="glass-light event-card">
                         <div class="event-main">
                             <div class="event-title">${escHtml(ev.summary)}</div>
                             ${hasDesc ? `<div class="event-detail">${escHtml(ev.description.substring(0, 80))}${ev.description.length>80?'…':''}</div>` : ""}
@@ -429,12 +563,11 @@
             return div.innerHTML;
         }
 
-        // ═══════════════════════════════════════
-        //  新增日程
-        // ═══════════════════════════════════════
+        /* ═══════════════════════════════════════
+           新增日程
+           ═══════════════════════════════════════ */
         function openModal() {
             document.getElementById("modal").classList.add("active");
-            // 默认时间设为一小时后
             const t = new Date();
             t.setHours(t.getHours() + 1, 0, 0, 0);
             document.getElementById("ev-start").value = t.toISOString().slice(0, 16);
@@ -457,7 +590,7 @@
             const desc = document.getElementById("ev-desc").value.trim();
 
             if (!summary || !start) {
-                showToast("请填写标题和开始时间", "var(--red)");
+                showToast("请填写标题和开始时间");
                 return;
             }
 
@@ -474,54 +607,36 @@
                 if (data.status === "received") {
                     closeModal();
                     if (data.message.includes("Leon")) {
-                        showToast("📋 请将日程信息发给 Leon 帮你添加", "var(--orange)");
+                        showToast("📋 请将日程信息发给 Leon 帮你添加");
                     } else {
-                        showToast("✅ 日程已提交！", "var(--green)");
+                        showToast("✅ 日程已提交！");
                     }
                 } else {
-                    showToast("❌ " + (data.error || "提交失败"), "var(--red)");
+                    showToast("❌ " + (data.error || "提交失败"));
                 }
             } catch (err) {
-                showToast("❌ 网络错误，请重试", "var(--red)");
+                showToast("❌ 网络错误，请重试");
             }
         }
 
-        function showToast(msg, color) {
+        function showToast(msg) {
             const t = document.getElementById("toast");
             t.textContent = msg;
-            t.style.background = color || "var(--green)";
             t.classList.add("show");
             clearTimeout(t._timeout);
             t._timeout = setTimeout(() => t.classList.remove("show"), 3000);
         }
 
-        // ═══════════════════════════════════════
-        //  键盘快捷键
-        // ═══════════════════════════════════════
-        document.addEventListener("keydown", (e) => {
-            if (document.getElementById("modal").classList.contains("active")) {
-                if (e.key === "Escape") closeModal();
-                return;
-            }
-            if (e.key === "n" && !e.ctrlKey && !e.metaKey) {
-                e.preventDefault();
-                openModal();
-            }
-            if (e.key === "r" && !e.ctrlKey && !e.metaKey) {
-                loadCalendar();
-                showToast("🔄 已刷新", "var(--blue)");
-            }
+        // ESC to close modal
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape") closeModal();
         });
-
-        // 点击遮罩关闭
-        document.getElementById("modal").addEventListener("click", (e) => {
-            if (e.target === document.getElementById("modal")) closeModal();
+        document.getElementById("modal").addEventListener("click", function(e) {
+            if (e.target === this) closeModal();
         });
 
         // Initial load
         loadCalendar();
-        // Auto refresh every 5 minutes
-        setInterval(loadCalendar, 300000);
     </script>
 </body>
 </html>
