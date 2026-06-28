@@ -105,12 +105,14 @@
         /* Projects */
         .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
         .project-card { padding: 1.8rem; }
-        .project-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; transition: color 0.3s; }
-        .glass.project-card:hover h3 { color: var(--accent); }
+        .project-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
         .project-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
         .p-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
         .ptag { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(109,140,255,0.08); color: var(--accent); }
         [data-theme="light"] .ptag { background: rgba(79,95,212,0.08); }
+
+        .paper-link { transition: color 0.3s; }
+        .paper-link:hover { color: var(--accent) !important; }
 
         /* Student Work */
         .other-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem; margin-bottom: 3rem; }
