@@ -286,22 +286,21 @@
     <!-- Admin Modal -->
     <div class="admin-overlay" id="admin-overlay">
         <div class="glass admin-modal" id="admin-modal">
-            <div class="am-header"><h2>管理入口</h2></div>
+            <div class="am-header"><h2><span data-lang="zh">管理入口</span><span data-lang="en">Admin</span></h2></div>
             <div class="am-body">
                 <div class="pw-row">
                     <input type="password" id="pw-input" placeholder="输入密码…" autocomplete="off">
-                    <button onclick="verifyPassword()">解锁</button>
+                    <button onclick="verifyPassword()"><span data-lang="zh">解锁</span><span data-lang="en">Unlock</span></button>
                 </div>
                 <div class="lock-msg" id="lock-msg"></div>
             </div>
-            <div class="am-footer"><button class="am-close" onclick="closeAdmin()">← 返回</button></div>
+            <div class="am-footer"><button class="am-close" onclick="closeAdmin()"><span data-lang="zh">← 返回</span><span data-lang="en">← Back</span></button></div>
         </div>
         <div class="glass admin-dashboard" id="admin-dashboard">
-            <div class="dash-header"><span class="dash-title">管理面板</span><button class="dash-close" onclick="closeDashboard()">✕</button></div>
+            <div class="dash-header"><span class="dash-title"><span data-lang="zh">管理面板</span><span data-lang="en">Dashboard</span></span><button class="dash-close" onclick="closeDashboard()">✕</button></div>
             <div class="service-grid">
                 <a href="https://ha.jicohe-box.cn" target="_blank" class="glass-light service-card"><div class="s-title">HAOS</div><div class="s-desc">Home Assistant →</div></a>
                 <div class="glass-light service-card"><div class="s-title">DeepSeek API</div><div class="token-num" id="ds-balance">—</div><div class="s-desc" id="ds-meta" style="font-size:0.7rem;">…</div><button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;margin-top:0.3rem;font-family:inherit;">↻</button></div>
-                <a href="/calendar" class="glass-light service-card"><div class="s-title">日程</div><div class="s-desc">iCloud 日历 →</div></a>
                 <a href="https://code.jicohe-box.cn" target="_blank" class="glass-light service-card"><div class="s-title">Code</div><div class="s-desc">VS Code →</div></a>
             </div>
             <div class="dash-footer">Cloudflare Pages</div>
@@ -355,8 +354,9 @@
 
         async function verifyPassword() {
             const pw = document.getElementById("pw-input").value, msg = document.getElementById("lock-msg");
-            if (!pw) { msg.textContent = "请输入密码"; msg.className = "lock-msg error"; return; }
-            msg.textContent = "验证中…"; msg.className = "lock-msg";
+            const zh = document.documentElement.lang === 'zh';
+            if (!pw) { msg.textContent = zh ? "请输入密码" : "Enter password"; msg.className = "lock-msg error"; return; }
+            msg.textContent = zh ? "验证中…" : "Verifying…"; msg.className = "lock-msg";
             try {
                 const r = await fetch("/api/password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw }) });
                 const d = await r.json();
@@ -365,12 +365,12 @@
                     document.getElementById("admin-dashboard").classList.add("active");
                     fetchBalance();
                 } else {
-                    msg.textContent = d.error?.includes("not configured") ? "后台未配置密码" : "密码错误";
+                    msg.textContent = d.error?.includes("not configured") ? (zh ? "后台未配置密码" : "Password not configured") : (zh ? "密码错误" : "Wrong password");
                     msg.className = "lock-msg error";
                     document.getElementById("pw-input").value = "";
                     document.getElementById("pw-input").focus();
                 }
-            } catch (e) { msg.textContent = "请求失败"; msg.className = "lock-msg error"; }
+            } catch (e) { msg.textContent = zh ? "请求失败" : "Request failed"; msg.className = "lock-msg error"; }
         }
         document.getElementById("pw-input").addEventListener("keydown", e => { if (e.key === "Enter") verifyPassword(); });
 
