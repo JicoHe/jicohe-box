@@ -9,41 +9,29 @@
            液态玻璃 · 深浅模式
            ═══════════════════════════════════════ */
         :root {
-            --bg: #08080f;
-            --bg-soft: #0e0e18;
+            --bg: #08080f; --bg-soft: #0e0e18;
             --glass: rgba(20, 20, 35, 0.55);
-            --glass-hover: rgba(25, 25, 42, 0.65);
             --glass-border: rgba(255, 255, 255, 0.06);
             --glass-border-hover: rgba(255, 255, 255, 0.12);
-            --glass-border-focus: rgba(255, 255, 255, 0.18);
             --text: rgba(255, 255, 255, 0.92);
             --text-secondary: rgba(255, 255, 255, 0.55);
             --text-muted: rgba(255, 255, 255, 0.30);
-            --accent: #6d8cff;
-            --accent-2: #a78bfa;
-            --accent-teal: #5eead4;
+            --accent: #6d8cff; --accent-2: #a78bfa;
             --blur: blur(40px) saturate(180%);
-            --blur-light: blur(20px) saturate(160%);
-            --radius: 18px;
-            --radius-sm: 12px;
+            --radius: 18px; --radius-sm: 12px;
             --transition: 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
             --nav-bg: rgba(8, 8, 15, 0.75);
             --light-brightness: 1;
         }
         [data-theme="light"] {
-            --bg: #eef0f4;
-            --bg-soft: #e4e6ec;
+            --bg: #eef0f4; --bg-soft: #e4e6ec;
             --glass: rgba(255, 255, 255, 0.55);
-            --glass-hover: rgba(255, 255, 255, 0.7);
             --glass-border: rgba(0, 0, 0, 0.06);
             --glass-border-hover: rgba(0, 0, 0, 0.10);
-            --glass-border-focus: rgba(0, 0, 0, 0.15);
             --text: rgba(0, 0, 0, 0.85);
             --text-secondary: rgba(0, 0, 0, 0.50);
             --text-muted: rgba(0, 0, 0, 0.30);
-            --accent: #4f5fd4;
-            --accent-2: #7b61c8;
-            --accent-teal: #2ea894;
+            --accent: #4f5fd4; --accent-2: #7b61c8;
             --nav-bg: rgba(238, 240, 244, 0.75);
             --light-brightness: 0.4;
         }
@@ -57,369 +45,124 @@
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            position: relative;
-            min-height: 100vh;
+            position: relative; min-height: 100vh;
         }
 
-        /* ═══════════════════════════════════════
-           背景光斑 · 仅深色模式
-           ═══════════════════════════════════════ */
-        .bg-blobs {
-            position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
-        }
-        .blob {
-            position: absolute; border-radius: 50%; filter: blur(120px);
-            animation-timing-function: ease-in-out; animation-iteration-count: infinite;
-            opacity: calc(0.18 * var(--light-brightness));
-        }
-        .blob-1 {
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, var(--accent), transparent 70%);
-            top: -10%; left: -10%;
-            animation: float-1 22s infinite alternate;
-        }
-        .blob-2 {
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, var(--accent-2), transparent 70%);
-            bottom: -10%; right: -10%;
-            animation: float-2 26s infinite alternate;
-        }
-        .blob-3 {
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, var(--accent-teal), transparent 70%);
-            top: 50%; left: 50%;
-            animation: float-3 30s infinite alternate;
-        }
-        @keyframes float-1 {
-            0% { transform: translate(0,0) scale(1); }
-            100% { transform: translate(100px, 60px) scale(1.2); }
-        }
-        @keyframes float-2 {
-            0% { transform: translate(0,0) scale(1.1); }
-            100% { transform: translate(-60px, -80px) scale(0.9); }
-        }
-        @keyframes float-3 {
-            0% { transform: translate(0,0) scale(0.9); }
-            100% { transform: translate(-80px, -40px) scale(1.1); }
-        }
+        .bg-blobs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(120px); animation-timing-function: ease-in-out; animation-iteration-count: infinite; opacity: calc(0.18 * var(--light-brightness)); }
+        .blob-1 { width: 600px; height: 600px; background: radial-gradient(circle, var(--accent), transparent 70%); top: -10%; left: -10%; animation: float-1 22s infinite alternate; }
+        .blob-2 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-2), transparent 70%); bottom: -10%; right: -10%; animation: float-2 26s infinite alternate; }
+        @keyframes float-1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(100px, 60px) scale(1.2); } }
+        @keyframes float-2 { 0% { transform: translate(0,0) scale(1.1); } 100% { transform: translate(-60px, -80px) scale(0.9); } }
+        .grain { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: calc(0.025 * var(--light-brightness)); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-        .grain {
-            position: fixed; inset: 0; z-index: 1; pointer-events: none;
-            opacity: calc(0.025 * var(--light-brightness));
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-
-        /* ═══════════════════════════════════════
-           导航
-           ═══════════════════════════════════════ */
         nav {
             position: sticky; top: 0; z-index: 100;
             display: flex; justify-content: space-between; align-items: center;
             padding: 1rem 2rem;
             background: var(--nav-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--glass-border);
         }
-        .nav-name {
-            font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
+        .nav-name { font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em; }
+        .nav-right { display: flex; gap: 0.4rem; align-items: center; }
+        .nav-btn {
+            background: none; border: none; font-size: 0.82rem; cursor: pointer;
+            padding: 0.3rem 0.6rem; border-radius: 8px; transition: all 0.2s;
+            color: var(--text-secondary); font-family: inherit; font-weight: 500;
         }
-        .nav-name span {
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .theme-btn {
-            background: none; border: none; font-size: 1.2rem;
-            cursor: pointer; padding: 0.3rem 0.6rem; border-radius: 8px;
-            transition: background 0.2s; line-height: 1;
-        }
-        .theme-btn:hover { background: var(--glass-border); }
+        .nav-btn:hover { background: var(--glass-border); color: var(--text); }
+        .nav-btn.active { color: var(--accent); }
 
-        /* ═══════════════════════════════════════
-           玻璃组件
-           ═══════════════════════════════════════ */
         .glass {
-            background: var(--glass);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            transition: all var(--transition);
-            position: relative;
-            overflow: hidden;
+            background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border); border-radius: var(--radius);
+            transition: all var(--transition); position: relative; overflow: hidden;
         }
-        .glass::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(135deg,
-                rgba(255,255,255,0.05) 0%,
-                transparent 50%,
-                rgba(255,255,255,0.01) 100%);
-            border-radius: inherit; pointer-events: none;
-        }
-        .glass:hover {
-            border-color: var(--glass-border-hover);
-            box-shadow: 0 8px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
-            transform: translateY(-2px);
-        }
-        [data-theme="light"] .glass:hover {
-            box-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
-        }
-        .glass-light {
-            background: var(--glass);
-            backdrop-filter: var(--blur-light);
-            -webkit-backdrop-filter: var(--blur-light);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-sm);
-        }
+        .glass::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.01) 100%); border-radius: inherit; pointer-events: none; }
+        .glass:hover { border-color: var(--glass-border-hover); box-shadow: 0 8px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04); transform: translateY(-2px); }
+        [data-theme="light"] .glass:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6); }
+        .glass-light { background: var(--glass); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); }
 
-        /* ═══════════════════════════════════════
-           主容器
-           ═══════════════════════════════════════ */
-        .container {
-            position: relative; z-index: 2;
-            max-width: 900px; margin: 0 auto; padding: 2rem;
-        }
+        .container { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 2rem; }
 
-        /* ═══════════════════════════════════════
-           Hero
-           ═══════════════════════════════════════ */
-        .hero {
-            display: flex; gap: 2.5rem; align-items: center;
-            padding: 3rem 0 2rem; flex-wrap: wrap;
-        }
-        .hero-avatar {
-            flex-shrink: 0;
-            width: 150px; height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--glass-border);
-            box-shadow: 0 0 60px rgba(109, 140, 255, 0.15);
-        }
-        [data-theme="light"] .hero-avatar {
-            box-shadow: 0 0 40px rgba(0,0,0,0.08);
-        }
+        /* Hero */
+        .hero { display: flex; gap: 2.5rem; align-items: center; padding: 3rem 0 2rem; flex-wrap: wrap; }
+        .hero-avatar { flex-shrink: 0; width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid var(--glass-border); box-shadow: 0 0 60px rgba(109, 140, 255, 0.15); }
+        [data-theme="light"] .hero-avatar { box-shadow: 0 0 40px rgba(0,0,0,0.08); }
         .hero-text { flex: 1; min-width: 240px; }
-        .hero-text h1 {
-            font-size: 2.2rem; font-weight: 700; letter-spacing: -0.03em;
-            margin-bottom: 0.35rem;
-        }
-        .hero-text h1 span {
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-text .subtitle {
-            font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.8rem;
-        }
-        .hero-tags {
-            display: flex; flex-wrap: wrap; gap: 0.5rem;
-        }
-        .tag {
-            font-size: 0.78rem; font-weight: 500;
-            padding: 0.25rem 0.8rem; border-radius: 100px;
-            background: var(--glass);
-            backdrop-filter: var(--blur-light);
-            -webkit-backdrop-filter: var(--blur-light);
-            border: 1px solid var(--glass-border);
-            color: var(--text-secondary);
-        }
+        .hero-text h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.35rem; }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+        .tag { font-size: 0.78rem; font-weight: 500; padding: 0.25rem 0.8rem; border-radius: 100px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); color: var(--text-secondary); }
 
-        /* ═══════════════════════════════════════
-           板块标题
-           ═══════════════════════════════════════ */
-        .section-title {
-            font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em;
-            margin-bottom: 1.2rem;
-            display: flex; align-items: center; gap: 0.6rem;
-        }
-        .section-title::after {
-            content: ''; flex: 1; height: 1px;
-            background: var(--glass-border);
-        }
+        .section-title { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--glass-border); }
 
-        /* ═══════════════════════════════════════
-           项目卡片
-           ═══════════════════════════════════════ */
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem; margin-bottom: 3rem;
-        }
-        .project-card {
-            padding: 1.8rem;
-        }
-        .project-card h3 {
-            font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem;
-        }
-        .project-card p {
-            font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;
-        }
-        .project-card .p-tags {
-            display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem;
-        }
-        .p-tags .ptag {
-            font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px;
-            background: rgba(109,140,255,0.08);
-            color: var(--accent);
-        }
-        [data-theme="light"] .p-tags .ptag {
-            background: rgba(79,95,212,0.08);
-        }
+        /* About */
+        .about-text { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.9; margin-bottom: 3rem; }
+        .about-text strong { color: var(--text); font-weight: 600; }
 
-        /* ═══════════════════════════════════════
-           其他经历
-           ═══════════════════════════════════════ */
-        .other-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 0.8rem; margin-bottom: 3rem;
-        }
-        .other-card {
-            padding: 1.3rem 1.5rem;
-        }
-        .other-card h4 {
-            font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem;
-        }
-        .other-card p {
-            font-size: 0.8rem; color: var(--text-secondary);
-        }
+        /* Projects */
+        .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
+        .project-card { padding: 1.8rem; }
+        .project-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .project-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+        .p-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+        .ptag { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(109,140,255,0.08); color: var(--accent); }
+        [data-theme="light"] .ptag { background: rgba(79,95,212,0.08); }
 
-        /* ═══════════════════════════════════════
-           页脚 & 管理入口
-           ═══════════════════════════════════════ */
-        footer {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 2rem 0; font-size: 0.8rem; color: var(--text-muted);
-            border-top: 1px solid var(--glass-border);
-            flex-wrap: wrap; gap: 1rem;
-        }
-        .admin-dot {
-            width: 32px; height: 32px; border-radius: 50%;
-            background: var(--glass);
-            backdrop-filter: var(--blur-light);
-            -webkit-backdrop-filter: var(--blur-light);
-            border: 1px solid var(--glass-border);
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem; color: var(--text-muted);
-            transition: all var(--transition);
-        }
-        .admin-dot:hover {
-            border-color: var(--glass-border-hover);
-            color: var(--text-secondary);
-            box-shadow: 0 0 20px rgba(109,140,255,0.12);
-        }
+        /* Student Work */
+        .other-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem; margin-bottom: 3rem; }
+        .other-card { padding: 1.3rem 1.5rem; }
+        .other-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .other-card p { font-size: 0.8rem; color: var(--text-secondary); }
 
-        /* ═══════════════════════════════════════
-           管理 Modal
-           ═══════════════════════════════════════ */
-        .admin-overlay {
-            position: fixed; inset: 0; z-index: 1000;
-            background: rgba(4,4,8,0.82);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: none; align-items: center; justify-content: center;
-            padding: 1.5rem;
-        }
+        footer { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--glass-border); flex-wrap: wrap; gap: 1rem; }
+        .admin-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-muted); transition: all var(--transition); }
+        .admin-dot:hover { border-color: var(--glass-border-hover); color: var(--text-secondary); box-shadow: 0 0 20px rgba(109,140,255,0.12); }
+
+        /* Language */
+        [data-lang] { display: none; }
+        [data-lang="zh"] { display: inline; }
+        [data-lang-block="zh"] { display: block; }
+        [data-lang-block="en"] { display: none; }
+        html[lang="en"] [data-lang="zh"] { display: none; }
+        html[lang="en"] [data-lang="en"] { display: inline; }
+        html[lang="en"] [data-lang-block="zh"] { display: none; }
+        html[lang="en"] [data-lang-block="en"] { display: block; }
+
+        /* Admin Modal */
+        .admin-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(4,4,8,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; padding: 1.5rem; }
         .admin-overlay.active { display: flex; }
-        .admin-modal {
-            width: 100%; max-width: 420px;
-            animation: modal-in 0.35s cubic-bezier(0.22,0.61,0.36,1);
-        }
-        @keyframes modal-in {
-            from { opacity: 0; transform: scale(0.95) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .admin-modal .am-header {
-            padding: 2rem 2rem 1rem; text-align: center;
-        }
-        .admin-modal .am-header .lock-icon { font-size: 2rem; margin-bottom: 0.6rem; }
-        .admin-modal .am-header h2 { font-size: 1.1rem; font-weight: 600; }
-        .admin-modal .am-body { padding: 0 2rem 2rem; }
+        .admin-modal { width: 100%; max-width: 420px; animation: modal-in 0.35s cubic-bezier(0.22,0.61,0.36,1); }
+        @keyframes modal-in { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .am-header { padding: 2rem 2rem 1rem; text-align: center; }
+        .am-header h2 { font-size: 1.1rem; font-weight: 600; }
+        .am-body { padding: 0 2rem 2rem; }
         .pw-row { display: flex; gap: 0.5rem; }
-        .pw-row input {
-            flex: 1; padding: 0.8rem 1rem;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-sm);
-            color: var(--text); font-size: 0.95rem;
-            outline: none; font-family: inherit;
-            transition: border-color 0.3s;
-        }
-        .pw-row input:focus { border-color: var(--glass-border-focus); }
-        .pw-row button {
-            padding: 0.8rem 1.4rem;
-            background: rgba(109,140,255,0.12);
-            border: 1px solid rgba(109,140,255,0.2);
-            border-radius: var(--radius-sm);
-            color: var(--accent); font-weight: 600; font-size: 0.9rem;
-            cursor: pointer; font-family: inherit;
-            transition: all 0.3s;
-        }
-        .pw-row button:hover {
-            background: rgba(109,140,255,0.22);
-            border-color: rgba(109,140,255,0.35);
-        }
-        .lock-msg {
-            font-size: 0.8rem; text-align: center; min-height: 1.3em;
-            margin-top: 0.7rem; color: var(--text-muted);
-        }
+        .pw-row input { flex: 1; padding: 0.8rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); color: var(--text); font-size: 0.95rem; outline: none; font-family: inherit; transition: border-color 0.3s; }
+        .pw-row input:focus { border-color: rgba(255,255,255,0.18); }
+        .pw-row button { padding: 0.8rem 1.4rem; background: rgba(109,140,255,0.12); border: 1px solid rgba(109,140,255,0.2); border-radius: var(--radius-sm); color: var(--accent); font-weight: 600; font-size: 0.9rem; cursor: pointer; font-family: inherit; transition: all 0.3s; }
+        .pw-row button:hover { background: rgba(109,140,255,0.22); }
+        .lock-msg { font-size: 0.8rem; text-align: center; min-height: 1.3em; margin-top: 0.7rem; color: var(--text-muted); }
         .lock-msg.error { color: #f87171; }
-        .am-footer {
-            padding: 0.5rem 2rem 1.5rem; text-align: center;
-        }
-        .am-close {
-            background: none; border: none; color: var(--text-muted);
-            cursor: pointer; font-size: 0.82rem; font-family: inherit;
-            transition: color 0.2s;
-        }
+        .am-footer { padding: 0.5rem 2rem 1.5rem; text-align: center; }
+        .am-close { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.82rem; font-family: inherit; transition: color 0.2s; }
         .am-close:hover { color: var(--text-secondary); }
 
-        /* 解锁后面板 */
-        .admin-dashboard {
-            display: none; width: 100%; max-width: 660px;
-            animation: modal-in 0.4s cubic-bezier(0.22,0.61,0.36,1);
-        }
+        .admin-dashboard { display: none; width: 100%; max-width: 660px; animation: modal-in 0.4s cubic-bezier(0.22,0.61,0.36,1); }
         .admin-dashboard.active { display: block; }
-        .dash-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1.5rem 2rem 1rem;
-        }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem 1rem; }
         .dash-title { font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); }
-        .dash-close {
-            background: none; border: none; color: var(--text-muted);
-            cursor: pointer; font-size: 1.1rem;
-        }
+        .dash-close { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem; }
         .dash-close:hover { color: var(--text); }
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 0.7rem; padding: 0 2rem 2rem;
-        }
-        .service-card {
-            padding: 1.2rem; text-decoration: none; color: inherit; display: block;
-        }
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.7rem; padding: 0 2rem 2rem; }
+        .service-card { padding: 1.2rem; text-decoration: none; color: inherit; display: block; }
         .service-card .s-title { font-size: 0.9rem; font-weight: 600; }
         .service-card .s-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
-        .token-num {
-            font-size: 1.4rem; font-weight: 700;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .dash-footer {
-            text-align: center; padding: 0 2rem 1.5rem;
-            font-size: 0.7rem; color: var(--text-muted);
-        }
+        .token-num { font-size: 1.4rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .dash-footer { text-align: center; padding: 0 2rem 1.5rem; font-size: 0.7rem; color: var(--text-muted); }
 
-        /* ═══════════════════════════════════════
-           响应式
-           ═══════════════════════════════════════ */
         @media (max-width: 640px) {
             nav { padding: 1rem; }
             .container { padding: 1rem; }
@@ -436,118 +179,120 @@
 </head>
 <body>
 
-    <div class="bg-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
+    <div class="bg-blobs"><div class="blob blob-1"></div><div class="blob blob-2"></div></div>
     <div class="grain"></div>
 
-    <!-- ════ 导航 ════ -->
     <nav>
-        <div class="nav-name">Jico <span>He</span></div>
-        <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="切换深色/浅色">🌙</button>
+        <div class="nav-name">Jico He</div>
+        <div class="nav-right">
+            <button class="nav-btn active" id="lang-zh" onclick="setLang('zh')">中</button>
+            <button class="nav-btn" id="lang-en" onclick="setLang('en')">EN</button>
+            <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">🌙</button>
+        </div>
     </nav>
 
-    <!-- ════ 主内容 ════ -->
     <div class="container">
 
         <!-- Hero -->
         <section class="hero">
             <img src="webpicme.jpg" alt="Jico He" class="hero-avatar" loading="eager">
             <div class="hero-text">
-                <h1>何健聪 <span>Jico He</span></h1>
-                <p class="subtitle">广东工业大学 · 自动化专业 · 创新班</p>
+                <h1><span data-lang="zh">何健聪</span><span data-lang="en">Jiancong He</span></h1>
+                <p class="subtitle" style="color:var(--text-secondary);font-size:0.95rem;">
+                    <span data-lang="zh">广东工业大学 · 自动化专业 · 创新班</span>
+                    <span data-lang="en">GDUT · Automation · Innovation Class</span>
+                </p>
                 <div class="hero-tags">
                     <span class="tag">GPA 4.115</span>
-                    <span class="tag">排名 14/361</span>
+                    <span class="tag"><span data-lang="zh">排名 14/361</span><span data-lang="en">Rank 14/361</span></span>
                     <span class="tag">CET-6 514</span>
-                    <span class="tag">中共党员</span>
+                    <span class="tag"><span data-lang="zh">中共党员</span><span data-lang="en">CPC Member</span></span>
                 </div>
             </div>
         </section>
 
         <!-- About -->
-        <h2 class="section-title">关于我</h2>
-        <p style="font-size:0.92rem;color:var(--text-secondary);line-height:1.9;margin-bottom:3rem;">
+        <h2 class="section-title"><span data-lang="zh">关于我</span><span data-lang="en">About</span></h2>
+        <p class="about-text" data-lang-block="zh">
             本科就读于广东工业大学自动化学院<strong>自动化专业</strong>（国家第四轮学科评估 A 类）创新班。
             GPA <strong>4.115</strong>，排名 <strong>14/361</strong>（Top 4%）。CET-4 530，CET-6 514。
             核心课程：现代控制理论(95)、信号与系统(93)、电气控制技术与 PLC(93)、机器人学(91)。
             师从常乐老师，加入<strong>ECS Lab</strong>课题组，主持大创项目《基于博弈论的无人机空地协同路径规划研究》。
             数学建模省二等奖、统计建模省三等奖、蓝桥杯 Python 组省三等奖两次、校优秀学生二等奖学金两次（Top 6%）。爱好摄影与运动。
         </p>
+        <p class="about-text" data-lang-block="en">
+            Undergraduate in <strong>Automation</strong> (National A-Class Discipline) at GDUT Innovation Class.
+            GPA <strong>4.115</strong>, Rank <strong>14/361</strong> (Top 4%). CET-4 530, CET-6 514.
+            Core courses: Modern Control Theory (95), Signals & Systems (93), PLC Technology (93), Robotics (91).
+            Joined <strong>ECS Lab</strong> under Prof. Chang Le, led the university research project on game-theoretic UAV air-ground cooperative path planning.
+            Awards include Mathematical Modeling (Provincial 2nd), Statistical Modeling (Provincial 3rd), Lanqiao Cup Python (Provincial 3rd ×2), GDUT Second-Class Scholarship (Top 6%) ×2. Hobbies: photography, sports.
+        </p>
 
-        <!-- 项目经历 -->
-        <h2 class="section-title">项目经历</h2>
+        <!-- Projects -->
+        <h2 class="section-title"><span data-lang="zh">项目经历</span><span data-lang="en">Projects</span></h2>
         <div class="projects">
             <div class="glass project-card">
-                <h3>车联网虚拟机调度优化（PMAVS）</h3>
-                <p>CCF-C 会议在投，第一作者。多尺度时空图神经网络预测交通流量 + 多智能体 PPO 调度路侧单元边缘服务器，最小化能耗、延迟与转发代价。</p>
-                <div class="p-tags">
-                    <span class="ptag">CCF-C</span><span class="ptag">GNN</span><span class="ptag">MAPPO</span><span class="ptag">PyTorch</span>
-                </div>
+                <h3><span data-lang="zh">车联网虚拟机调度优化</span><span data-lang="en">Vehicular Edge VM Scheduling</span> (PMAVS)</h3>
+                <p data-lang-block="zh">CCF-C 会议在投，第一作者。多尺度时空图神经网络预测交通流量 + 多智能体 PPO 调度路侧单元边缘服务器，最小化能耗、延迟与转发代价。</p>
+                <p data-lang-block="en">CCF-C conference, submitted, first author. Multi-scale spatio-temporal GNN for traffic prediction + multi-agent PPO for RSU edge server VM scheduling, minimizing energy, latency and forwarding cost.</p>
+                <div class="p-tags"><span class="ptag">CCF-C</span><span class="ptag">GNN</span><span class="ptag">MAPPO</span><span class="ptag">PyTorch</span></div>
             </div>
             <div class="glass project-card">
-                <h3>无人机空地协同路径规划</h3>
-                <p>大创项目主持。YOLO 部署至 Tello 摄像头，博弈论多机协同。实现目标识别与短距位移。</p>
-                <div class="p-tags">
-                    <span class="ptag">YOLO</span><span class="ptag">博弈论</span><span class="ptag">ROS</span><span class="ptag">Tello</span>
-                </div>
+                <h3><span data-lang="zh">公交车载边缘服务器部署</span><span data-lang="en">Bus-Mounted Edge Servers</span></h3>
+                <p data-lang-block="zh">CCF-C 会议已录用，第二作者。提出以公交车为载体的边缘服务器方案，设计基于贪婪算法的公交车选择策略，在预算限制下最大化用户覆盖率。</p>
+                <p data-lang-block="en">CCF-C conference, accepted, second author. Proposed bus-mounted edge server deployment with a greedy bus selection algorithm to maximize user coverage under budget constraints.</p>
+                <div class="p-tags"><span class="ptag">CCF-C</span><span class="ptag">Edge Computing</span><span class="ptag">Greedy</span></div>
             </div>
             <div class="glass project-card">
-                <h3>ABB 机械臂全自动电池装配产线</h3>
-                <p>Portal v16 组态 S7-1500 PLC，Profinet 控制 V90/G120 伺服与直流无刷电机，RobotStudio 编写机器人程序并示教定位。PLC I/O 与 HMI 实时反馈产线状态。ROS 环境与 RobotStudio 实时数据交互，扩展控制 Baxter 双臂协作机器人，实现手部视觉颜色抓取。</p>
-                <div class="p-tags">
-                    <span class="ptag">PLC</span><span class="ptag">ROS</span><span class="ptag">Profinet</span><span class="ptag">RobotStudio</span><span class="ptag">Baxter</span>
-                </div>
+                <h3><span data-lang="zh">无人机空地协同路径规划</span><span data-lang="en">UAV Air-Ground Cooperative Path Planning</span></h3>
+                <p data-lang-block="zh">大创项目主持。梳理斯坦伯格博弈与多智能体强化学习（MADDPG、MAPPO）理论。YOLO 部署至 Tello 摄像头，实现目标识别与短距位移。</p>
+                <p data-lang-block="en">University research project leader. Systematic study of Stackelberg game and MARL (MADDPG, MAPPO). Deployed YOLO on Tello UAV for object detection and short-range navigation.</p>
+                <div class="p-tags"><span class="ptag">YOLO</span><span class="ptag">博弈论</span><span class="ptag">ROS</span><span class="ptag">Tello</span></div>
             </div>
             <div class="glass project-card">
-                <h3>公交车载边缘服务器部署</h3>
-                <p>CCF-C 会议已录用，第二作者。提出以公交车为载体的边缘服务器方案，设计基于贪婪算法的公交车选择策略，在预算限制下最大化用户覆盖率。</p>
-                <div class="p-tags">
-                    <span class="ptag">CCF-C</span><span class="ptag">Edge Computing</span><span class="ptag">Greedy</span>
-                </div>
+                <h3><span data-lang="zh">ABB 机械臂全自动电池装配产线</span><span data-lang="en">ABB IRB 120 Battery Assembly Line</span></h3>
+                <p data-lang-block="zh">Portal v16 组态 S7-1500 PLC，Profinet 控制 V90/G120 伺服与无刷电机。RobotStudio 编写机器人程序并示教定位。PLC I/O 与 HMI 实时反馈。ROS 与 RobotStudio 实时数据交互，扩展控制 Baxter 双臂机器人，实现手部视觉颜色抓取。</p>
+                <p data-lang-block="en">Configured S7-1500 PLC via Portal v16, Profinet control of V90/G120 servos and BLDC motors. RobotStudio programming with teach positioning. PLC I/O + HMI real-time monitoring. ROS–RobotStudio real-time data exchange, extended to Baxter dual-arm robot with hand-eye color grasping.</p>
+                <div class="p-tags"><span class="ptag">PLC</span><span class="ptag">ROS</span><span class="ptag">Profinet</span><span class="ptag">RobotStudio</span><span class="ptag">Baxter</span></div>
             </div>
             <div class="glass project-card">
-                <h3>个人网站 & 内网穿透</h3>
-                <p>自主搭建 jicohe-box.cn，Cloudflare Tunnel 穿透至 WSL 开发环境，外网访问本地 IDE。</p>
-                <div class="p-tags">
-                    <span class="ptag">WSL</span><span class="ptag">Cloudflare</span><span class="ptag">HTML/CSS</span><span class="ptag">VS Code</span>
-                </div>
+                <h3><span data-lang="zh">个人网站 & 内网穿透</span><span data-lang="en">Personal Site & Tunneling</span></h3>
+                <p data-lang-block="zh">自主搭建 jicohe-box.cn，Cloudflare Tunnel 穿透 WSL 开发环境，外网访问本地 IDE。全站液态玻璃设计，深浅模式自适应。</p>
+                <p data-lang-block="en">Self-built jicohe-box.cn with Cloudflare Tunnel for WSL remote access. Liquid-glass design with light/dark mode.</p>
+                <div class="p-tags"><span class="ptag">WSL</span><span class="ptag">Cloudflare</span><span class="ptag">HTML/CSS</span><span class="ptag">VS Code</span></div>
             </div>
         </div>
 
-        <!-- 其他经历 -->
-        <h2 class="section-title">学生工作</h2>
+        <!-- Student Work -->
+        <h2 class="section-title"><span data-lang="zh">学生工作</span><span data-lang="en">Leadership</span></h2>
         <div class="other-grid">
             <div class="glass-light other-card">
-                <h4>国旗护卫队</h4>
-                <p>省级比赛一等奖 · 作训部副部长</p>
+                <h4><span data-lang="zh">国旗护卫队</span><span data-lang="en">National Flag Guard</span></h4>
+                <p data-lang-block="zh">省级比赛一等奖 · 作训部副部长</p>
+                <p data-lang-block="en">Provincial 1st Prize · Deputy Training Officer</p>
             </div>
             <div class="glass-light other-card">
-                <h4>新生学长</h4>
-                <p>优秀新生学长证明</p>
+                <h4><span data-lang="zh">新生学长</span><span data-lang="en">Freshman Mentor</span></h4>
+                <p data-lang-block="zh">优秀新生学长证明</p>
+                <p data-lang-block="en">Outstanding Mentor Award</p>
             </div>
             <div class="glass-light other-card">
-                <h4>支部副书记</h4>
-                <p>2025.12 正式党员 · 2026.6 接任</p>
+                <h4><span data-lang="zh">支部副书记</span><span data-lang="en">Deputy Branch Secretary</span></h4>
+                <p data-lang-block="zh">2025.12 正式党员 · 2026.6 接任</p>
+                <p data-lang-block="en">Full CPC Member 2025.12 · Appointed 2026.06</p>
             </div>
         </div>
 
-        <!-- 页脚 -->
         <footer>
             <span>© 2026 Jico He · Cloudflare Pages</span>
             <div class="admin-dot" onclick="openAdmin()" title="管理">✦</div>
         </footer>
     </div>
 
-    <!-- ════ 管理面板 ════ -->
+    <!-- Admin Modal -->
     <div class="admin-overlay" id="admin-overlay">
         <div class="glass admin-modal" id="admin-modal">
-            <div class="am-header">
-                <div class="lock-icon">🔐</div>
-                <h2>管理入口</h2>
-            </div>
+            <div class="am-header"><h2>管理入口</h2></div>
             <div class="am-body">
                 <div class="pw-row">
                     <input type="password" id="pw-input" placeholder="输入密码…" autocomplete="off">
@@ -555,74 +300,54 @@
                 </div>
                 <div class="lock-msg" id="lock-msg"></div>
             </div>
-            <div class="am-footer">
-                <button class="am-close" onclick="closeAdmin()">← 返回主页</button>
-            </div>
+            <div class="am-footer"><button class="am-close" onclick="closeAdmin()">← 返回</button></div>
         </div>
-
         <div class="glass admin-dashboard" id="admin-dashboard">
-            <div class="dash-header">
-                <span class="dash-title">管理面板</span>
-                <button class="dash-close" onclick="closeDashboard()">✕</button>
-            </div>
+            <div class="dash-header"><span class="dash-title">管理面板</span><button class="dash-close" onclick="closeDashboard()">✕</button></div>
             <div class="service-grid">
-                <a href="https://ha.jicohe-box.cn" target="_blank" class="glass-light service-card">
-                    <div class="s-title">智能家居 HAOS</div>
-                    <div class="s-desc">Home Assistant →</div>
-                </a>
-                <div class="glass-light service-card">
-                    <div class="s-title">DeepSeek API</div>
-                    <div class="token-num" id="ds-balance">—</div>
-                    <div class="s-desc" id="ds-meta" style="font-size:0.7rem;">加载中…</div>
-                    <button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;margin-top:0.3rem;font-family:inherit;">↻ 刷新</button>
-                </div>
-                <a href="/calendar" class="glass-light service-card">
-                    <div class="s-title">日程时间线</div>
-                    <div class="s-desc">iCloud 日历 →</div>
-                </a>
-                <a href="https://code.jicohe-box.cn" target="_blank" class="glass-light service-card">
-                    <div class="s-title">Code Editor</div>
-                    <div class="s-desc">VS Code 在线 →</div>
-                </a>
+                <a href="https://ha.jicohe-box.cn" target="_blank" class="glass-light service-card"><div class="s-title">HAOS</div><div class="s-desc">Home Assistant →</div></a>
+                <div class="glass-light service-card"><div class="s-title">DeepSeek API</div><div class="token-num" id="ds-balance">—</div><div class="s-desc" id="ds-meta" style="font-size:0.7rem;">…</div><button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;margin-top:0.3rem;font-family:inherit;">↻</button></div>
+                <a href="/calendar" class="glass-light service-card"><div class="s-title">日程</div><div class="s-desc">iCloud 日历 →</div></a>
+                <a href="https://code.jicohe-box.cn" target="_blank" class="glass-light service-card"><div class="s-title">Code</div><div class="s-desc">VS Code →</div></a>
             </div>
-            <div class="dash-footer">个人管理 · Cloudflare Pages</div>
+            <div class="dash-footer">Cloudflare Pages</div>
         </div>
     </div>
 
     <script>
-        /* ═══════════════════════════════════════
-           深浅模式
-           ═══════════════════════════════════════ */
-        function getTheme() {
-            return localStorage.getItem("theme") || "auto";
+        /* Language */
+        function setLang(lang) {
+            document.documentElement.lang = lang;
+            localStorage.setItem('lang', lang);
+            document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
         }
+        (function() {
+            const saved = localStorage.getItem('lang') || 'zh';
+            setLang(saved);
+        })();
+
+        /* Theme */
+        function getTheme() { return localStorage.getItem("theme") || "auto"; }
         function applyTheme() {
-            const isDark = getTheme() === "dark"
-                || (getTheme() === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+            const isDark = getTheme() === "dark" || (getTheme() === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
             document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
             document.getElementById("theme-btn").textContent = isDark ? "🌙" : "☀️";
         }
         function toggleTheme() {
-            const current = document.documentElement.getAttribute("data-theme");
-            localStorage.setItem("theme", current === "dark" ? "light" : "dark");
+            localStorage.setItem("theme", document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
             applyTheme();
         }
         applyTheme();
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-            if (getTheme() === "auto") applyTheme();
-        });
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (getTheme() === "auto") applyTheme(); });
 
-        /* ═══════════════════════════════════════
-           管理面板
-           ═══════════════════════════════════════ */
+        /* Admin */
         function openAdmin() {
-            const overlay = document.getElementById("admin-overlay");
-            overlay.classList.add("active");
+            document.getElementById("admin-overlay").classList.add("active");
             document.getElementById("admin-modal").style.display = "block";
             document.getElementById("admin-dashboard").classList.remove("active");
             document.getElementById("pw-input").value = "";
             document.getElementById("lock-msg").textContent = "";
-            document.getElementById("lock-msg").className = "lock-msg";
             setTimeout(() => document.getElementById("pw-input").focus(), 200);
         }
         function closeAdmin() {
@@ -631,68 +356,42 @@
             document.getElementById("admin-dashboard").classList.remove("active");
         }
         function closeDashboard() { closeAdmin(); }
-
-        document.addEventListener("keydown", e => {
-            if (e.key === "Escape") closeAdmin();
-        });
-        document.getElementById("admin-overlay").addEventListener("click", function(e) {
-            if (e.target === this) closeAdmin();
-        });
+        document.addEventListener("keydown", e => { if (e.key === "Escape") closeAdmin(); });
+        document.getElementById("admin-overlay").addEventListener("click", function(e) { if (e.target === this) closeAdmin(); });
 
         async function verifyPassword() {
-            const pw = document.getElementById("pw-input").value;
-            const msg = document.getElementById("lock-msg");
+            const pw = document.getElementById("pw-input").value, msg = document.getElementById("lock-msg");
             if (!pw) { msg.textContent = "请输入密码"; msg.className = "lock-msg error"; return; }
             msg.textContent = "验证中…"; msg.className = "lock-msg";
             try {
-                const resp = await fetch("/api/password", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ password: pw })
-                });
-                const data = await resp.json();
-                if (data.status === "ok") {
+                const r = await fetch("/api/password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw }) });
+                const d = await r.json();
+                if (d.status === "ok") {
                     document.getElementById("admin-modal").style.display = "none";
                     document.getElementById("admin-dashboard").classList.add("active");
                     fetchBalance();
                 } else {
-                    msg.textContent = data.error?.includes("not configured")
-                        ? "后台未配置密码" : "密码错误";
+                    msg.textContent = d.error?.includes("not configured") ? "后台未配置密码" : "密码错误";
                     msg.className = "lock-msg error";
                     document.getElementById("pw-input").value = "";
                     document.getElementById("pw-input").focus();
                 }
-            } catch (e) {
-                msg.textContent = "请求失败: " + (e.message || "网络错误");
-                msg.className = "lock-msg error";
-            }
+            } catch (e) { msg.textContent = "请求失败"; msg.className = "lock-msg error"; }
         }
-        document.getElementById("pw-input").addEventListener("keydown", e => {
-            if (e.key === "Enter") verifyPassword();
-        });
+        document.getElementById("pw-input").addEventListener("keydown", e => { if (e.key === "Enter") verifyPassword(); });
 
         async function fetchBalance() {
             const b = document.getElementById("ds-balance"), m = document.getElementById("ds-meta");
             if (!b) return;
             try {
-                const r = await fetch("/api/deepseek");
-                if (!r.ok) throw new Error();
+                const r = await fetch("/api/deepseek"); if (!r.ok) throw new Error();
                 const d = await r.json();
-                const bal = parseFloat(d.balance_infos?.[0]?.total_balance ?? d.total_balance ?? 0);
-                b.textContent = `¥${bal.toFixed(2)}`;
-                m.textContent = "DeepSeek API 余额";
+                b.textContent = `¥${parseFloat(d.balance_infos?.[0]?.total_balance ?? d.total_balance ?? 0).toFixed(2)}`;
+                m.textContent = "DeepSeek API";
             } catch { b.textContent = "—"; m.textContent = "查询失败"; }
         }
-        setInterval(() => {
-            if (document.getElementById("admin-dashboard").classList.contains("active")) fetchBalance();
-        }, 60000);
-
-        // 按 M 打开管理
-        document.addEventListener("keydown", e => {
-            if (e.key === "m" && !e.target.closest("input,textarea")) {
-                if (!document.getElementById("admin-overlay").classList.contains("active")) openAdmin();
-            }
-        });
+        setInterval(() => { if (document.getElementById("admin-dashboard").classList.contains("active")) fetchBalance(); }, 60000);
+        document.addEventListener("keydown", e => { if (e.key === "m" && !e.target.closest("input,textarea") && !document.getElementById("admin-overlay").classList.contains("active")) openAdmin(); });
     </script>
 </body>
 </html>
