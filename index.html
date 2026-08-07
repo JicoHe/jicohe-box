@@ -199,6 +199,13 @@
             text-align: right;
         }
 
+        /* ---- Photos ---- */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+
         /* ---- Footer ---- */
         footer {
             display: flex; justify-content: space-between; align-items: center;
@@ -365,6 +372,9 @@
                 <a href="#about" class="nav-link"><span data-lang="zh">关于</span><span data-lang="en">About</span></a>
                 <a href="#projects" class="nav-link"><span data-lang="zh">项目</span><span data-lang="en">Projects</span></a>
                 <a href="#leadership" class="nav-link"><span data-lang="zh">学生工作</span><span data-lang="en">Leadership</span></a>
+                <a href="#reading" class="nav-link"><span data-lang="zh">阅读</span><span data-lang="en">Reading</span></a>
+                <a href="#photos" class="nav-link"><span data-lang="zh">照片</span><span data-lang="en">Photos</span></a>
+                <a href="#now" class="nav-link"><span data-lang="zh">此刻</span><span data-lang="en">Now</span></a>
             </div>
         </div>
         <div class="nav-right">
@@ -484,6 +494,43 @@
                     <h4><span data-lang="zh">支部副书记</span><span data-lang="en">Deputy Branch Secretary</span></h4>
                     <p data-lang-block="zh">2025.12 正式党员 · 2026.6 接任</p>
                     <p data-lang-block="en">Full CPC Member 2025.12 · Appointed 2026.06</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Reading -->
+        <section id="reading">
+            <div class="section-label"><span data-lang="zh">// 阅读</span><span data-lang="en">// Reading</span></div>
+            <ul class="proj-list">
+                <li class="proj-item">
+                    <p class="proj-desc" style="color:var(--text-muted);font-style:italic;">
+                        <span data-lang="zh">^ 正在读什么书、看什么论文，以后填在这里。</span>
+                        <span data-lang="en">^ Books and papers I'm reading. Fill this in later.</span>
+                    </p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Photos -->
+        <section id="photos">
+            <div class="section-label"><span data-lang="zh">// 照片</span><span data-lang="en">// Photos</span></div>
+            <div class="photo-grid" id="photo-grid">
+                <p class="proj-desc" style="color:var(--text-muted);font-style:italic;grid-column:1/-1;">
+                    <span data-lang="zh">^ 摄影作品放在这里。可以拖图片进来，或者告诉我加什么。</span>
+                    <span data-lang="en">^ Photography goes here. Drag images in, or tell me what to add.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- Now -->
+        <section id="now">
+            <div class="section-label"><span data-lang="zh">// 此刻</span><span data-lang="en">// Now</span></div>
+            <ul class="proj-list">
+                <li class="proj-item">
+                    <p class="proj-desc" style="color:var(--text-muted);font-style:italic;">
+                        <span data-lang="zh">^ 当前在做什么——研究、学习、生活。参考 nownownow.com。</span>
+                        <span data-lang="en">^ What I'm doing now — research, learning, life. Inspired by nownownow.com.</span>
+                    </p>
                 </li>
             </ul>
         </section>
