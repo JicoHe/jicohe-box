@@ -38,8 +38,10 @@
             transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1),
                         filter 0.2s ease, opacity 0.2s ease;
         }
-        .gallery-item:hover { transform: scale(1.015); }
-        .gallery-item:active { transform: scale(0.98); }
+        @media (hover: hover) and (pointer: fine) {
+            .gallery-item:hover { transform: scale(1.015); }
+            .gallery-item:active { transform: scale(0.98); }
+        }
         .gallery-item img {
             display: block; width: 100%; height: auto;
         }
