@@ -14,11 +14,12 @@
             --accent: #2563eb;
             --accent-hover: #1d4ed8;
             --border: #e5e7eb;
-            --border-hover: #d1d5db;
-            --card-bg: #ffffff;
             --radius: 6px;
             --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-            --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", "Menlo", monospace;
+            --font-mono: "SF Mono", "Fira Code", "Menlo", monospace;
+            /* Apple-style nav */
+            --nav-bg: rgba(255, 255, 255, 0.72);
+            --nav-border: rgba(0, 0, 0, 0.08);
         }
         [data-theme="dark"] {
             --bg: #0d0d0d;
@@ -29,8 +30,8 @@
             --accent: #3b82f6;
             --accent-hover: #60a5fa;
             --border: #2a2a2a;
-            --border-hover: #3a3a3a;
-            --card-bg: #141414;
+            --nav-bg: rgba(13, 13, 13, 0.72);
+            --nav-border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,28 +43,32 @@
             font-size: 15px;
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
-            transition: background 0.15s ease, color 0.15s ease;
         }
 
-        /* ---- Nav ---- */
+        /* ---- Apple-style nav ---- */
         nav {
             position: sticky; top: 0; z-index: 100;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0.9rem 2rem;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            font-size: 0.88rem;
+            padding: 0 2rem; height: 48px;
+            background: var(--nav-bg);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--nav-border);
         }
-        .nav-name { font-weight: 600; letter-spacing: -0.01em; }
-        .nav-right { display: flex; gap: 0.3rem; align-items: center; }
+        .nav-name { font-weight: 600; font-size: 0.9rem; letter-spacing: -0.01em; }
+        .nav-right { display: flex; gap: 0.15rem; align-items: center; }
         .nav-btn {
-            background: none; border: none; font-size: 0.82rem; cursor: pointer;
-            padding: 0.3rem 0.55rem; border-radius: 4px;
+            background: none; border: none; font-size: 0.8rem; cursor: pointer;
+            padding: 0.25rem 0.5rem; border-radius: 4px;
             color: var(--text-muted); font-family: inherit;
             transition: color 0.15s ease;
         }
         .nav-btn:hover { color: var(--text); }
         .nav-btn.active { color: var(--accent); font-weight: 500; }
+        .nav-divider {
+            width: 1px; height: 16px;
+            background: var(--border); margin: 0 0.3rem;
+        }
 
         /* ---- Layout ---- */
         .container {
@@ -117,32 +122,29 @@
         }
         .about-text strong { color: var(--text); font-weight: 600; }
 
-        /* ---- Project Cards ---- */
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 0.8rem;
+        /* ---- Project List ---- */
+        .proj-list { list-style: none; }
+        .proj-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
         }
-        .project-card {
-            padding: 1.4rem 1.5rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--card-bg);
-        }
-        .project-card h3 {
+        .proj-item:last-child { border-bottom: none; }
+        .proj-title {
             font-size: 0.95rem; font-weight: 600;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.25rem;
         }
-        .project-card p {
-            font-size: 0.84rem; color: var(--text-secondary);
-            line-height: 1.6;
-        }
-        .p-link {
+        .proj-link {
             color: inherit; text-decoration: none;
             transition: color 0.15s ease;
         }
-        .p-link:hover { color: var(--accent); }
-        .p-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.8rem; }
+        .proj-link:hover { color: var(--accent); }
+        .proj-desc {
+            font-size: 0.85rem; color: var(--text-secondary);
+            line-height: 1.65;
+        }
+        .proj-tags {
+            display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem;
+        }
         .ptag {
             font-size: 0.7rem; padding: 0.15rem 0.5rem;
             border-radius: 4px;
@@ -152,19 +154,23 @@
         }
         [data-theme="dark"] .ptag { background: rgba(59, 130, 246, 0.1); }
 
-        /* ---- Other Cards ---- */
-        .other-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.7rem;
+        /* ---- Other List ---- */
+        .other-list { list-style: none; }
+        .other-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.65rem 0;
+            border-bottom: 1px solid var(--border);
+            gap: 1rem;
         }
-        .other-card {
-            padding: 1.1rem 1.3rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
+        .other-item:last-child { border-bottom: none; }
+        .other-item h4 {
+            font-size: 0.9rem; font-weight: 600;
+            flex-shrink: 0;
         }
-        .other-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem; }
-        .other-card p { font-size: 0.78rem; color: var(--text-secondary); }
+        .other-item p {
+            font-size: 0.8rem; color: var(--text-secondary);
+            text-align: right;
+        }
 
         /* ---- Footer ---- */
         footer {
@@ -182,7 +188,7 @@
             transition: border-color 0.15s ease, color 0.15s ease;
             background: var(--bg-soft);
         }
-        .admin-dot:hover { border-color: var(--border-hover); color: var(--text-secondary); }
+        .admin-dot:hover { border-color: var(--accent); color: var(--accent); }
 
         /* ---- Language ---- */
         [data-lang] { display: none; }
@@ -270,7 +276,7 @@
             border-radius: var(--radius);
             transition: border-color 0.15s ease;
         }
-        .service-card:hover { border-color: var(--border-hover); }
+        .service-card:hover { border-color: var(--accent); }
         .service-card .s-title { font-size: 0.85rem; font-weight: 600; }
         .service-card .s-desc { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
         .token-num { font-size: 1.3rem; font-weight: 700; color: var(--accent); }
@@ -280,14 +286,14 @@
         }
 
         @media (max-width: 600px) {
-            nav { padding: 0.9rem 1rem; }
+            nav { padding: 0 1rem; }
             .container { padding: 1.5rem 1rem 2rem; }
             .hero { flex-direction: column; align-items: center; text-align: center; gap: 1.2rem; }
             .hero-stats { justify-content: center; }
             .hero-text h1 { font-size: 1.5rem; }
             .hero-avatar { width: 96px; height: 96px; }
-            .projects { grid-template-columns: 1fr; }
-            .other-grid { grid-template-columns: 1fr; }
+            .other-item { flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+            .other-item p { text-align: left; }
             .service-grid { grid-template-columns: 1fr; }
             .pw-row { flex-direction: column; }
         }
@@ -300,7 +306,8 @@
         <div class="nav-right">
             <button class="nav-btn active" id="lang-zh" onclick="setLang('zh')">中</button>
             <button class="nav-btn" id="lang-en" onclick="setLang('en')">EN</button>
-            <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">🌙</button>
+            <span class="nav-divider"></span>
+            <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">深色</button>
         </div>
     </nav>
 
@@ -316,8 +323,8 @@
                     <span data-lang="en">GDUT · Automation · Innovation Class</span>
                 </p>
                 <div class="hero-stats">
-                    <span class="stat">GPA 4.115</span>
-                    <span class="stat"><span data-lang="zh">排名 14/361</span><span data-lang="en">Rank 14/361</span></span>
+                    <span class="stat">GPA 4.130</span>
+                    <span class="stat"><span data-lang="zh">排名 14/357</span><span data-lang="en">Rank 14/357</span></span>
                     <span class="stat">CET-6 514</span>
                     <span class="stat"><span data-lang="zh">中共党员</span><span data-lang="en">CPC Member</span></span>
                 </div>
@@ -329,14 +336,14 @@
             <h2 class="section-title"><span data-lang="zh">关于我</span><span data-lang="en">About</span></h2>
             <p class="about-text" data-lang-block="zh">
                 本科就读于广东工业大学自动化学院<strong>自动化专业</strong>（国家第四轮学科评估 A 类）创新班。
-                GPA <strong>4.115</strong>，排名 <strong>14/361</strong>（Top 4%）。CET-4 530，CET-6 514。
+                GPA <strong>4.130</strong>，排名 <strong>14/357</strong>（Top 4%）。CET-4 530，CET-6 514。
                 核心课程：现代控制理论(95)、信号与系统(93)、电气控制技术与 PLC(93)、机器人学(91)。
                 师从常乐老师，加入<strong>ECS Lab</strong>课题组，主持大创项目《基于博弈论的无人机空地协同路径规划研究》。
                 数学建模省二等奖、统计建模省三等奖、蓝桥杯 Python 组省三等奖两次、校优秀学生二等奖学金两次（Top 6%）。爱好摄影与运动。
             </p>
             <p class="about-text" data-lang-block="en">
                 Undergraduate in <strong>Automation</strong> (National A-Class Discipline) at GDUT Innovation Class.
-                GPA <strong>4.115</strong>, Rank <strong>14/361</strong> (Top 4%). CET-4 530, CET-6 514.
+                GPA <strong>4.130</strong>, Rank <strong>14/357</strong> (Top 4%). CET-4 530, CET-6 514.
                 Core courses: Modern Control Theory (95), Signals & Systems (93), PLC Technology (93), Robotics (91).
                 Joined <strong>ECS Lab</strong> under Prof. Chang Le, led the university research project on game-theoretic UAV air-ground cooperative path planning.
                 Awards include Mathematical Modeling (Provincial 2nd), Statistical Modeling (Provincial 3rd), Lanqiao Cup Python (Provincial 3rd ×2), GDUT Second-Class Scholarship (Top 6%) ×2. Hobbies: photography, sports.
@@ -346,59 +353,64 @@
         <!-- Projects -->
         <section>
             <h2 class="section-title"><span data-lang="zh">项目经历</span><span data-lang="en">Projects</span></h2>
-            <div class="projects">
-                <div class="project-card">
-                    <h3><a href="https://arxiv.org/abs/2512.05543" target="_blank" rel="noopener" class="p-link"><span data-lang="zh">公交车载边缘服务器部署</span><span data-lang="en">Bus-Mounted Edge Servers</span></a></h3>
-                    <p data-lang-block="zh">CCF-C 会议已录用，第二作者。提出以公交车为载体的边缘服务器方案，设计基于贪婪算法的公交车选择策略，在预算限制下最大化用户覆盖率。</p>
-                    <p data-lang-block="en">CCF-C conference, accepted, second author. Proposed bus-mounted edge server deployment with a greedy bus selection algorithm to maximize user coverage under budget constraints.</p>
-                    <div class="p-tags"><span class="ptag">CCF-C</span><span class="ptag">Edge Computing</span><span class="ptag">Greedy</span></div>
-                </div>
-                <div class="project-card">
-                    <h3><span data-lang="zh">无人机空地协同路径规划</span><span data-lang="en">UAV Air-Ground Cooperative Path Planning</span></h3>
-                    <p data-lang-block="zh">大创项目主持。梳理斯坦伯格博弈与多智能体强化学习（MADDPG、MAPPO）理论。YOLO 部署至 Tello 摄像头，实现目标识别与短距位移。</p>
-                    <p data-lang-block="en">University research project leader. Systematic study of Stackelberg game and MARL (MADDPG, MAPPO). Deployed YOLO on Tello UAV for object detection and short-range navigation.</p>
-                    <div class="p-tags"><span class="ptag">YOLO</span><span class="ptag"><span data-lang="zh">博弈论</span><span data-lang="en">Game Theory</span></span><span class="ptag">ROS</span><span class="ptag">Tello</span></div>
-                </div>
-                <div class="project-card">
-                    <h3><span data-lang="zh">ABB 机械臂全自动电池装配产线</span><span data-lang="en">ABB IRB 120 Battery Assembly Line</span></h3>
-                    <p data-lang-block="zh">Portal v16 组态 S7-1500 PLC，Profinet 控制 V90/G120 伺服与无刷电机。RobotStudio 编写机器人程序并示教定位。PLC I/O 与 HMI 实时反馈。ROS 与 RobotStudio 实时数据交互，扩展控制 Baxter 双臂机器人，实现手部视觉颜色抓取。</p>
-                    <p data-lang-block="en">Configured S7-1500 PLC via Portal v16, Profinet control of V90/G120 servos and BLDC motors. RobotStudio programming with teach positioning. PLC I/O + HMI real-time monitoring. ROS–RobotStudio real-time data exchange, extended to Baxter dual-arm robot with hand-eye color grasping.</p>
-                    <div class="p-tags"><span class="ptag">PLC</span><span class="ptag">ROS</span><span class="ptag">Profinet</span><span class="ptag">RobotStudio</span><span class="ptag">Baxter</span></div>
-                </div>
-                <div class="project-card">
-                    <h3><span data-lang="zh">个人网站 & 内网穿透</span><span data-lang="en">Personal Site & Tunneling</span></h3>
-                    <p data-lang-block="zh">自主搭建 jicohe-box.cn，Cloudflare Tunnel 穿透内网环境，实现外网访问本地服务。</p>
-                    <p data-lang-block="en">Self-built jicohe-box.cn with Cloudflare Tunnel for remote access to local services.</p>
-                    <div class="p-tags"><span class="ptag">Cloudflare</span><span class="ptag">HTML/CSS</span><span class="ptag">Networking</span></div>
-                </div>
-            </div>
+            <ul class="proj-list">
+                <li class="proj-item">
+                    <div class="proj-title">
+                        <a href="https://arxiv.org/abs/2512.05543" target="_blank" rel="noopener" class="proj-link">
+                            <span data-lang="zh">公交车载边缘服务器部署</span>
+                            <span data-lang="en">Bus-Mounted Edge Servers</span>
+                        </a>
+                    </div>
+                    <p class="proj-desc" data-lang-block="zh">CCF-C 会议已录用，第二作者。提出以公交车为载体的边缘服务器方案，设计基于贪婪算法的公交车选择策略，在预算限制下最大化用户覆盖率。</p>
+                    <p class="proj-desc" data-lang-block="en">CCF-C conference, accepted, second author. Proposed bus-mounted edge server deployment with a greedy bus selection algorithm to maximize user coverage under budget constraints.</p>
+                    <div class="proj-tags"><span class="ptag">CCF-C</span><span class="ptag">Edge Computing</span><span class="ptag">Greedy</span></div>
+                </li>
+                <li class="proj-item">
+                    <div class="proj-title"><span data-lang="zh">无人机空地协同路径规划</span><span data-lang="en">UAV Air-Ground Cooperative Path Planning</span></div>
+                    <p class="proj-desc" data-lang-block="zh">大创项目主持。梳理斯坦伯格博弈与多智能体强化学习（MADDPG、MAPPO）理论。YOLO 部署至 Tello 摄像头，实现目标识别与短距位移。</p>
+                    <p class="proj-desc" data-lang-block="en">University research project leader. Systematic study of Stackelberg game and MARL (MADDPG, MAPPO). Deployed YOLO on Tello UAV for object detection and short-range navigation.</p>
+                    <div class="proj-tags"><span class="ptag">YOLO</span><span class="ptag"><span data-lang="zh">博弈论</span><span data-lang="en">Game Theory</span></span><span class="ptag">ROS</span><span class="ptag">Tello</span></div>
+                </li>
+                <li class="proj-item">
+                    <div class="proj-title"><span data-lang="zh">ABB 机械臂全自动电池装配产线</span><span data-lang="en">ABB IRB 120 Battery Assembly Line</span></div>
+                    <p class="proj-desc" data-lang-block="zh">Portal v16 组态 S7-1500 PLC，Profinet 控制 V90/G120 伺服与无刷电机。RobotStudio 编写机器人程序并示教定位。PLC I/O 与 HMI 实时反馈。ROS 与 RobotStudio 实时数据交互，扩展控制 Baxter 双臂机器人，实现手部视觉颜色抓取。</p>
+                    <p class="proj-desc" data-lang-block="en">Configured S7-1500 PLC via Portal v16, Profinet control of V90/G120 servos and BLDC motors. RobotStudio programming with teach positioning. PLC I/O + HMI real-time monitoring. ROS–RobotStudio real-time data exchange, extended to Baxter dual-arm robot with hand-eye color grasping.</p>
+                    <div class="proj-tags"><span class="ptag">PLC</span><span class="ptag">ROS</span><span class="ptag">Profinet</span><span class="ptag">RobotStudio</span><span class="ptag">Baxter</span></div>
+                </li>
+                <li class="proj-item">
+                    <div class="proj-title"><span data-lang="zh">个人网站 & 内网穿透</span><span data-lang="en">Personal Site & Tunneling</span></div>
+                    <p class="proj-desc" data-lang-block="zh">自主搭建 jicohe-box.cn，Cloudflare Tunnel 穿透内网环境，实现外网访问本地服务。</p>
+                    <p class="proj-desc" data-lang-block="en">Self-built jicohe-box.cn with Cloudflare Tunnel for remote access to local services.</p>
+                    <div class="proj-tags"><span class="ptag">Cloudflare</span><span class="ptag">HTML/CSS</span><span class="ptag">Networking</span></div>
+                </li>
+            </ul>
         </section>
 
         <!-- Leadership -->
         <section>
             <h2 class="section-title"><span data-lang="zh">学生工作</span><span data-lang="en">Leadership</span></h2>
-            <div class="other-grid">
-                <div class="other-card">
+            <ul class="other-list">
+                <li class="other-item">
                     <h4><span data-lang="zh">国旗护卫队</span><span data-lang="en">National Flag Guard</span></h4>
                     <p data-lang-block="zh">省级比赛一等奖 · 作训部副部长</p>
                     <p data-lang-block="en">Provincial 1st Prize · Deputy Training Officer</p>
-                </div>
-                <div class="other-card">
+                </li>
+                <li class="other-item">
                     <h4><span data-lang="zh">新生学长</span><span data-lang="en">Freshman Mentor</span></h4>
                     <p data-lang-block="zh">优秀新生学长证明</p>
                     <p data-lang-block="en">Outstanding Mentor Award</p>
-                </div>
-                <div class="other-card">
+                </li>
+                <li class="other-item">
                     <h4><span data-lang="zh">支部副书记</span><span data-lang="en">Deputy Branch Secretary</span></h4>
                     <p data-lang-block="zh">2025.12 正式党员 · 2026.6 接任</p>
                     <p data-lang-block="en">Full CPC Member 2025.12 · Appointed 2026.06</p>
-                </div>
-            </div>
+                </li>
+            </ul>
         </section>
 
         <footer>
-            <span>© 2026 Jico He · Cloudflare Pages</span>
-            <div class="admin-dot" onclick="openAdmin()" title="管理">✦</div>
+            <span>&copy; 2026 Jico He &middot; Cloudflare Pages</span>
+            <div class="admin-dot" onclick="openAdmin()" title="管理">&#9670;</div>
         </footer>
     </div>
 
@@ -413,14 +425,14 @@
                 </div>
                 <div class="lock-msg" id="lock-msg"></div>
             </div>
-            <div class="am-footer"><button class="am-close" onclick="closeAdmin()"><span data-lang="zh">← 返回</span><span data-lang="en">← Back</span></button></div>
+            <div class="am-footer"><button class="am-close" onclick="closeAdmin()"><span data-lang="zh">&larr; 返回</span><span data-lang="en">&larr; Back</span></button></div>
         </div>
         <div class="admin-dashboard" id="admin-dashboard">
-            <div class="dash-header"><span class="dash-title"><span data-lang="zh">管理面板</span><span data-lang="en">Dashboard</span></span><button class="dash-close" onclick="closeDashboard()">✕</button></div>
+            <div class="dash-header"><span class="dash-title"><span data-lang="zh">管理面板</span><span data-lang="en">Dashboard</span></span><button class="dash-close" onclick="closeDashboard()">&times;</button></div>
             <div class="service-grid">
-                <a href="https://ha.jicohe-box.cn" target="_blank" class="service-card"><div class="s-title">HAOS</div><div class="s-desc">Home Assistant →</div></a>
-                <div class="service-card"><div class="s-title">DeepSeek API</div><div class="token-num" id="ds-balance">—</div><div class="s-desc" id="ds-meta">…</div><button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;margin-top:0.2rem;font-family:inherit;">↻</button></div>
-                <a href="https://code.jicohe-box.cn" target="_blank" class="service-card"><div class="s-title">Code</div><div class="s-desc">VS Code →</div></a>
+                <a href="https://ha.jicohe-box.cn" target="_blank" class="service-card"><div class="s-title">HAOS</div><div class="s-desc">Home Assistant &rarr;</div></a>
+                <div class="service-card"><div class="s-title">DeepSeek API</div><div class="token-num" id="ds-balance">&mdash;</div><div class="s-desc" id="ds-meta">&hellip;</div><button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;margin-top:0.2rem;font-family:inherit;">&#8635;</button></div>
+                <a href="https://code.jicohe-box.cn" target="_blank" class="service-card"><div class="s-title">Code</div><div class="s-desc">VS Code &rarr;</div></a>
             </div>
             <div class="dash-footer">Cloudflare Pages</div>
         </div>
@@ -442,16 +454,16 @@
         /* Theme */
         function getTheme() { return localStorage.getItem("theme") || "auto"; }
         function applyTheme() {
-            const isDark = getTheme() === "dark" || (getTheme() === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+            var isDark = getTheme() === "dark" || (getTheme() === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
             document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
-            document.getElementById("theme-btn").textContent = isDark ? "☀️" : "🌙";
+            document.getElementById("theme-btn").textContent = isDark ? "浅色" : "深色";
         }
         function toggleTheme() {
             localStorage.setItem("theme", document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
             applyTheme();
         }
         applyTheme();
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (getTheme() === "auto") applyTheme(); });
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function() { if (getTheme() === "auto") applyTheme(); });
 
         /* Admin */
         function openAdmin() {
@@ -460,7 +472,7 @@
             document.getElementById("admin-dashboard").classList.remove("active");
             document.getElementById("pw-input").value = "";
             document.getElementById("lock-msg").textContent = "";
-            setTimeout(() => document.getElementById("pw-input").focus(), 100);
+            setTimeout(function() { document.getElementById("pw-input").focus(); }, 100);
         }
         function closeAdmin() {
             document.getElementById("admin-overlay").classList.remove("active");
@@ -468,43 +480,43 @@
             document.getElementById("admin-dashboard").classList.remove("active");
         }
         function closeDashboard() { closeAdmin(); }
-        document.addEventListener("keydown", e => { if (e.key === "Escape") closeAdmin(); });
+        document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeAdmin(); });
         document.getElementById("admin-overlay").addEventListener("click", function(e) { if (e.target === this) closeAdmin(); });
 
         async function verifyPassword() {
-            const pw = document.getElementById("pw-input").value, msg = document.getElementById("lock-msg");
-            const zh = document.documentElement.lang === 'zh';
+            var pw = document.getElementById("pw-input").value, msg = document.getElementById("lock-msg");
+            var zh = document.documentElement.lang === 'zh';
             if (!pw) { msg.textContent = zh ? "请输入密码" : "Enter password"; msg.className = "lock-msg error"; return; }
             msg.textContent = zh ? "验证中…" : "Verifying…"; msg.className = "lock-msg";
             try {
-                const r = await fetch("/api/password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw }) });
-                const d = await r.json();
+                var r = await fetch("/api/password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw }) });
+                var d = await r.json();
                 if (d.status === "ok") {
                     document.getElementById("admin-modal").style.display = "none";
                     document.getElementById("admin-dashboard").classList.add("active");
                     fetchBalance();
                 } else {
-                    msg.textContent = d.error?.includes("not configured") ? (zh ? "后台未配置密码" : "Password not configured") : (zh ? "密码错误" : "Wrong password");
+                    msg.textContent = d.error && d.error.indexOf("not configured") !== -1 ? (zh ? "后台未配置密码" : "Password not configured") : (zh ? "密码错误" : "Wrong password");
                     msg.className = "lock-msg error";
                     document.getElementById("pw-input").value = "";
                     document.getElementById("pw-input").focus();
                 }
             } catch (e) { msg.textContent = zh ? "请求失败" : "Request failed"; msg.className = "lock-msg error"; }
         }
-        document.getElementById("pw-input").addEventListener("keydown", e => { if (e.key === "Enter") verifyPassword(); });
+        document.getElementById("pw-input").addEventListener("keydown", function(e) { if (e.key === "Enter") verifyPassword(); });
 
         async function fetchBalance() {
-            const b = document.getElementById("ds-balance"), m = document.getElementById("ds-meta");
+            var b = document.getElementById("ds-balance"), m = document.getElementById("ds-meta");
             if (!b) return;
             try {
-                const r = await fetch("/api/deepseek"); if (!r.ok) throw new Error();
-                const d = await r.json();
-                b.textContent = "¥" + parseFloat(d.balance_infos?.[0]?.total_balance ?? d.total_balance ?? 0).toFixed(2);
+                var r = await fetch("/api/deepseek"); if (!r.ok) throw new Error();
+                var d = await r.json();
+                b.textContent = "\u00A5" + parseFloat(d.balance_infos ? d.balance_infos[0].total_balance : (d.total_balance || 0)).toFixed(2);
                 m.textContent = "DeepSeek API";
-            } catch { b.textContent = "—"; m.textContent = "查询失败"; }
+            } catch (e) { b.textContent = "\u2014"; m.textContent = "查询失败"; }
         }
-        setInterval(() => { if (document.getElementById("admin-dashboard").classList.contains("active")) fetchBalance(); }, 60000);
-        document.addEventListener("keydown", e => { if (e.key === "m" && !e.target.closest("input,textarea") && !document.getElementById("admin-overlay").classList.contains("active")) openAdmin(); });
+        setInterval(function() { if (document.getElementById("admin-dashboard").classList.contains("active")) fetchBalance(); }, 60000);
+        document.addEventListener("keydown", function(e) { if (e.key === "m" && !e.target.closest("input,textarea") && !document.getElementById("admin-overlay").classList.contains("active")) openAdmin(); });
     </script>
 </body>
 </html>
