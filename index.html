@@ -3,49 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jico He | 个人主页</title>
+    <title>Jico He</title>
     <style>
         :root {
-            --bg: #ffffff;
-            --bg-soft: #f8f9fa;
-            --text: #111111;
-            --text-secondary: #555555;
+            --bg: #fafaf7;
+            --bg-soft: #f3f2ee;
+            --text: #1a1a1a;
+            --text-secondary: #5c5c5c;
             --text-muted: #999999;
             --accent: #2563eb;
             --accent-hover: #1d4ed8;
-            --border: #e5e7eb;
-            --radius: 6px;
+            --border: #e6e4dd;
             --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-            --font-mono: "SF Mono", "Fira Code", "Menlo", monospace;
-            /* Apple-style nav */
-            --nav-bg: rgba(255, 255, 255, 0.72);
-            --nav-border: rgba(0, 0, 0, 0.08);
+            --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", "Menlo", monospace;
+            --nav-bg: rgba(250, 250, 247, 0.75);
+            --nav-border: rgba(0, 0, 0, 0.07);
         }
         [data-theme="dark"] {
-            --bg: #0d0d0d;
-            --bg-soft: #141414;
-            --text: #e5e5e5;
-            --text-secondary: #888888;
-            --text-muted: #555555;
-            --accent: #3b82f6;
-            --accent-hover: #60a5fa;
-            --border: #2a2a2a;
-            --nav-bg: rgba(13, 13, 13, 0.72);
-            --nav-border: rgba(255, 255, 255, 0.08);
+            --bg: #111110;
+            --bg-soft: #1a1a18;
+            --text: #e8e6e0;
+            --text-secondary: #8a8a85;
+            --text-muted: #555550;
+            --accent: #4d8cf7;
+            --accent-hover: #6ba3ff;
+            --border: #2a2a25;
+            --nav-bg: rgba(17, 17, 16, 0.75);
+            --nav-border: rgba(255, 255, 255, 0.07);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
             background: var(--bg);
             color: var(--text);
             font-family: var(--font-sans);
             font-size: 15px;
-            line-height: 1.7;
+            line-height: 1.75;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ---- Apple-style nav ---- */
+        /* ---- Nav ---- */
         nav {
             position: sticky; top: 0; z-index: 100;
             display: flex; justify-content: space-between; align-items: center;
@@ -55,66 +55,85 @@
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--nav-border);
         }
-        .nav-name { font-weight: 600; font-size: 0.9rem; letter-spacing: -0.01em; }
+        .nav-left { display: flex; align-items: center; gap: 1.5rem; }
+        .nav-name {
+            font-weight: 600; font-size: 0.88rem;
+            letter-spacing: -0.01em;
+        }
+        .nav-links { display: flex; gap: 0.1rem; }
+        .nav-link {
+            background: none; border: none;
+            font-size: 0.8rem; cursor: pointer;
+            padding: 0.3rem 0.55rem; border-radius: 4px;
+            color: var(--text-muted); font-family: inherit;
+            transition: color 0.15s ease;
+            text-decoration: none;
+        }
+        .nav-link:hover { color: var(--text); }
         .nav-right { display: flex; gap: 0.15rem; align-items: center; }
         .nav-btn {
-            background: none; border: none; font-size: 0.8rem; cursor: pointer;
-            padding: 0.25rem 0.5rem; border-radius: 4px;
+            background: none; border: none; font-size: 0.78rem; cursor: pointer;
+            padding: 0.25rem 0.45rem; border-radius: 4px;
             color: var(--text-muted); font-family: inherit;
             transition: color 0.15s ease;
         }
         .nav-btn:hover { color: var(--text); }
         .nav-btn.active { color: var(--accent); font-weight: 500; }
         .nav-divider {
-            width: 1px; height: 16px;
-            background: var(--border); margin: 0 0.3rem;
+            width: 1px; height: 14px;
+            background: var(--border); margin: 0 0.25rem;
         }
 
         /* ---- Layout ---- */
         .container {
-            position: relative; z-index: 2;
-            max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem 3rem;
+            max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 4rem;
         }
 
         /* ---- Hero ---- */
         .hero {
             display: flex; gap: 2rem; align-items: flex-start;
-            padding: 2.5rem 0 2rem;
+            padding-bottom: 3rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
         }
         .hero-avatar {
-            flex-shrink: 0; width: 110px; height: 110px;
+            flex-shrink: 0; width: 100px; height: 100px;
             border-radius: 50%; object-fit: cover;
             border: 1px solid var(--border);
         }
         .hero-text h1 {
-            font-size: 1.7rem; font-weight: 700;
+            font-size: 1.6rem; font-weight: 700;
             letter-spacing: -0.03em; line-height: 1.2;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
         .hero-subtitle {
-            font-size: 0.9rem; color: var(--text-secondary);
-            margin-bottom: 0.7rem;
+            font-size: 0.88rem; color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        .hero-motto {
+            font-size: 0.85rem; color: var(--text-muted);
+            font-style: italic; margin-bottom: 0.6rem;
         }
         .hero-stats {
-            display: flex; flex-wrap: wrap; gap: 0.4rem;
+            display: flex; flex-wrap: wrap; gap: 0.35rem;
         }
         .stat {
-            font-size: 0.78rem; font-weight: 500;
-            padding: 0.2rem 0.65rem;
-            border-radius: 100px;
-            border: 1px solid var(--border);
+            font-family: var(--font-mono);
+            font-size: 0.72rem; font-weight: 500;
+            padding: 0.18rem 0.55rem;
+            border-radius: 3px;
             color: var(--text-secondary);
             background: var(--bg-soft);
+            border: 1px solid var(--border);
         }
 
         /* ---- Sections ---- */
-        section { margin-bottom: 3rem; }
-        .section-title {
-            font-size: 1rem; font-weight: 600;
-            letter-spacing: -0.01em;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
+        section { margin-bottom: 3.5rem; }
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 0.6rem;
         }
         .about-text {
             font-size: 0.92rem; color: var(--text-secondary);
@@ -125,13 +144,21 @@
         /* ---- Project List ---- */
         .proj-list { list-style: none; }
         .proj-item {
-            padding: 1rem 0;
+            padding: 1.1rem 0;
             border-bottom: 1px solid var(--border);
         }
         .proj-item:last-child { border-bottom: none; }
+        .proj-head {
+            display: flex; align-items: baseline; gap: 0.6rem;
+            margin-bottom: 0.25rem;
+        }
         .proj-title {
             font-size: 0.95rem; font-weight: 600;
-            margin-bottom: 0.25rem;
+        }
+        .proj-venue {
+            font-family: var(--font-mono);
+            font-size: 0.68rem; color: var(--text-muted);
+            white-space: nowrap;
         }
         .proj-link {
             color: inherit; text-decoration: none;
@@ -143,16 +170,16 @@
             line-height: 1.65;
         }
         .proj-tags {
-            display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem;
+            display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem;
         }
         .ptag {
-            font-size: 0.7rem; padding: 0.15rem 0.5rem;
-            border-radius: 4px;
-            background: rgba(37, 99, 235, 0.06);
-            color: var(--accent);
-            font-weight: 500;
+            font-family: var(--font-mono);
+            font-size: 0.65rem; padding: 0.12rem 0.45rem;
+            border-radius: 3px;
+            background: var(--bg-soft);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
         }
-        [data-theme="dark"] .ptag { background: rgba(59, 130, 246, 0.1); }
 
         /* ---- Other List ---- */
         .other-list { list-style: none; }
@@ -175,20 +202,22 @@
         /* ---- Footer ---- */
         footer {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1.5rem 0 0; font-size: 0.78rem; color: var(--text-muted);
+            padding: 1.5rem 0 0; font-size: 0.75rem; color: var(--text-muted);
             border-top: 1px solid var(--border);
             flex-wrap: wrap; gap: 0.8rem;
+            font-family: var(--font-mono);
         }
         .admin-dot {
-            width: 28px; height: 28px; border-radius: 50%;
+            width: 26px; height: 26px; border-radius: 50%;
             border: 1px solid var(--border);
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.65rem; color: var(--text-muted);
+            font-size: 0.6rem; color: var(--text-muted);
             transition: border-color 0.15s ease, color 0.15s ease;
             background: var(--bg-soft);
         }
         .admin-dot:hover { border-color: var(--accent); color: var(--accent); }
+        .admin-dot.logged-in { border-color: var(--accent); color: var(--accent); }
 
         /* ---- Language ---- */
         [data-lang] { display: none; }
@@ -203,16 +232,19 @@
         /* ---- Admin Modal ---- */
         .admin-overlay {
             position: fixed; inset: 0; z-index: 1000;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             display: none; align-items: center; justify-content: center;
             padding: 1.5rem;
         }
         .admin-overlay.active { display: flex; }
         .admin-modal {
-            width: 100%; max-width: 400px;
+            width: 100%; max-width: 380px;
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
+            border-radius: 8px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.12);
             animation: modal-in 0.2s cubic-bezier(0.23, 1, 0.32, 1);
         }
         @keyframes modal-in {
@@ -220,46 +252,55 @@
             to { opacity: 1; transform: scale(1); }
         }
         .am-header { padding: 1.8rem 1.8rem 0.8rem; text-align: center; }
-        .am-header h2 { font-size: 1rem; font-weight: 600; }
+        .am-header h2 { font-size: 0.95rem; font-weight: 600; }
         .am-body { padding: 0 1.8rem 1.5rem; }
         .pw-row { display: flex; gap: 0.4rem; }
         .pw-row input {
-            flex: 1; padding: 0.65rem 0.8rem;
+            flex: 1; padding: 0.6rem 0.75rem;
             background: var(--bg-soft); border: 1px solid var(--border);
-            border-radius: var(--radius); color: var(--text);
-            font-size: 0.9rem; outline: none; font-family: inherit;
+            border-radius: 6px; color: var(--text);
+            font-size: 0.88rem; outline: none; font-family: inherit;
             transition: border-color 0.15s ease;
         }
         .pw-row input:focus { border-color: var(--accent); }
         .pw-row button {
-            padding: 0.65rem 1.2rem;
+            padding: 0.6rem 1.1rem;
             background: var(--accent); border: none;
-            border-radius: var(--radius); color: #fff;
-            font-weight: 600; font-size: 0.88rem; cursor: pointer; font-family: inherit;
+            border-radius: 6px; color: #fff;
+            font-weight: 600; font-size: 0.85rem; cursor: pointer; font-family: inherit;
             transition: background 0.15s ease, transform 0.1s ease;
         }
         .pw-row button:hover { background: var(--accent-hover); }
         .pw-row button:active { transform: scale(0.97); }
         .lock-msg {
-            font-size: 0.78rem; text-align: center; min-height: 1.2em;
-            margin-top: 0.6rem; color: var(--text-muted);
+            font-size: 0.76rem; text-align: center; min-height: 1.2em;
+            margin-top: 0.5rem; color: var(--text-muted);
         }
         .lock-msg.error { color: #dc2626; }
-        .am-footer { padding: 0.3rem 1.8rem 1.2rem; text-align: center; }
+        .am-footer { padding: 0.2rem 1.8rem 1rem; text-align: center; }
         .am-close {
             background: none; border: none; color: var(--text-muted);
-            cursor: pointer; font-size: 0.8rem; font-family: inherit;
+            cursor: pointer; font-size: 0.78rem; font-family: inherit;
             transition: color 0.15s ease;
         }
         .am-close:hover { color: var(--text-secondary); }
 
-        .admin-dashboard { display: none; width: 100%; max-width: 600px; animation: modal-in 0.2s cubic-bezier(0.23, 1, 0.32, 1); }
+        /* Dashboard - solid background fix */
+        .admin-dashboard {
+            display: none; width: 100%; max-width: 560px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+            animation: modal-in 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+        }
         .admin-dashboard.active { display: block; }
         .dash-header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1.2rem 1.8rem 0.8rem;
+            padding: 1.2rem 1.6rem 0.8rem;
         }
-        .dash-title { font-size: 0.88rem; font-weight: 600; color: var(--text-secondary); }
+        .dash-title { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
         .dash-close {
             background: none; border: none; color: var(--text-muted);
             cursor: pointer; font-size: 1rem; transition: color 0.15s ease;
@@ -267,32 +308,48 @@
         .dash-close:hover { color: var(--text); }
         .service-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 0.6rem; padding: 0 1.8rem 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem; padding: 0 1.6rem 1.5rem;
         }
         .service-card {
-            padding: 1rem 1.2rem; text-decoration: none; color: inherit;
+            padding: 0.9rem 1.1rem; text-decoration: none; color: inherit;
             display: block; border: 1px solid var(--border);
-            border-radius: var(--radius);
+            border-radius: 6px; background: var(--bg-soft);
             transition: border-color 0.15s ease;
         }
         .service-card:hover { border-color: var(--accent); }
-        .service-card .s-title { font-size: 0.85rem; font-weight: 600; }
-        .service-card .s-desc { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
-        .token-num { font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+        .service-card .s-title { font-size: 0.82rem; font-weight: 600; }
+        .service-card .s-desc { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.1rem; }
+        .token-num {
+            font-family: var(--font-mono);
+            font-size: 1.2rem; font-weight: 700; color: var(--accent);
+        }
+        .dash-actions {
+            display: flex; gap: 0.4rem; padding: 0 1.6rem 1rem;
+        }
+        .dash-actions button {
+            font-size: 0.72rem; padding: 0.3rem 0.7rem;
+            background: none; border: 1px solid var(--border);
+            border-radius: 4px; color: var(--text-muted);
+            cursor: pointer; font-family: inherit;
+            transition: all 0.15s ease;
+        }
+        .dash-actions button:hover { border-color: #dc2626; color: #dc2626; }
         .dash-footer {
-            text-align: center; padding: 0 1.8rem 1.2rem;
-            font-size: 0.68rem; color: var(--text-muted);
+            text-align: center; padding: 0 1.6rem 1.2rem;
+            font-size: 0.66rem; color: var(--text-muted);
+            font-family: var(--font-mono);
         }
 
         @media (max-width: 600px) {
             nav { padding: 0 1rem; }
-            .container { padding: 1.5rem 1rem 2rem; }
-            .hero { flex-direction: column; align-items: center; text-align: center; gap: 1.2rem; }
+            .nav-links { display: none; }
+            .container { padding: 2rem 1rem 3rem; }
+            .hero { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
             .hero-stats { justify-content: center; }
-            .hero-text h1 { font-size: 1.5rem; }
-            .hero-avatar { width: 96px; height: 96px; }
-            .other-item { flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+            .hero-text h1 { font-size: 1.4rem; }
+            .hero-avatar { width: 88px; height: 88px; }
+            .other-item { flex-direction: column; align-items: flex-start; gap: 0.1rem; }
             .other-item p { text-align: left; }
             .service-grid { grid-template-columns: 1fr; }
             .pw-row { flex-direction: column; }
@@ -302,7 +359,14 @@
 <body>
 
     <nav>
-        <div class="nav-name">Jico He</div>
+        <div class="nav-left">
+            <div class="nav-name">Jico He</div>
+            <div class="nav-links">
+                <a href="#about" class="nav-link"><span data-lang="zh">关于</span><span data-lang="en">About</span></a>
+                <a href="#projects" class="nav-link"><span data-lang="zh">项目</span><span data-lang="en">Projects</span></a>
+                <a href="#leadership" class="nav-link"><span data-lang="zh">学生工作</span><span data-lang="en">Leadership</span></a>
+            </div>
+        </div>
         <div class="nav-right">
             <button class="nav-btn active" id="lang-zh" onclick="setLang('zh')">中</button>
             <button class="nav-btn" id="lang-en" onclick="setLang('en')">EN</button>
@@ -319,21 +383,25 @@
             <div class="hero-text">
                 <h1><span data-lang="zh">何健聪</span><span data-lang="en">Jiancong He</span></h1>
                 <p class="hero-subtitle">
-                    <span data-lang="zh">广东工业大学 · 自动化专业 · 创新班</span>
+                    <span data-lang="zh">广东工业大学 · 自动化 · 创新班</span>
                     <span data-lang="en">GDUT · Automation · Innovation Class</span>
+                </p>
+                <p class="hero-motto">
+                    <span data-lang="zh">对边缘计算、多智能体系统和硬件实现感兴趣。</span>
+                    <span data-lang="en">Interested in edge computing, multi-agent systems, and hardware implementation.</span>
                 </p>
                 <div class="hero-stats">
                     <span class="stat">GPA 4.130</span>
-                    <span class="stat"><span data-lang="zh">排名 14/357</span><span data-lang="en">Rank 14/357</span></span>
+                    <span class="stat"><span data-lang="zh">14/357</span><span data-lang="en">14/357</span></span>
                     <span class="stat">CET-6 514</span>
-                    <span class="stat"><span data-lang="zh">中共党员</span><span data-lang="en">CPC Member</span></span>
+                    <span class="stat"><span data-lang="zh">中共党员</span><span data-lang="en">CPC</span></span>
                 </div>
             </div>
         </section>
 
         <!-- About -->
-        <section>
-            <h2 class="section-title"><span data-lang="zh">关于我</span><span data-lang="en">About</span></h2>
+        <section id="about">
+            <div class="section-label"><span data-lang="zh">// 关于</span><span data-lang="en">// About</span></div>
             <p class="about-text" data-lang-block="zh">
                 本科就读于广东工业大学自动化学院<strong>自动化专业</strong>（国家第四轮学科评估 A 类）创新班。
                 GPA <strong>4.130</strong>，排名 <strong>14/357</strong>（Top 4%）。CET-4 530，CET-6 514。
@@ -344,51 +412,63 @@
             <p class="about-text" data-lang-block="en">
                 Undergraduate in <strong>Automation</strong> (National A-Class Discipline) at GDUT Innovation Class.
                 GPA <strong>4.130</strong>, Rank <strong>14/357</strong> (Top 4%). CET-4 530, CET-6 514.
-                Core courses: Modern Control Theory (95), Signals & Systems (93), PLC Technology (93), Robotics (91).
+                Core courses: Modern Control Theory (95), Signals &amp; Systems (93), PLC Technology (93), Robotics (91).
                 Joined <strong>ECS Lab</strong> under Prof. Chang Le, led the university research project on game-theoretic UAV air-ground cooperative path planning.
-                Awards include Mathematical Modeling (Provincial 2nd), Statistical Modeling (Provincial 3rd), Lanqiao Cup Python (Provincial 3rd ×2), GDUT Second-Class Scholarship (Top 6%) ×2. Hobbies: photography, sports.
+                Awards include Mathematical Modeling (Provincial 2nd), Statistical Modeling (Provincial 3rd), Lanqiao Cup Python (Provincial 3rd &times;2), GDUT Second-Class Scholarship (Top 6%) &times;2. Hobbies: photography, sports.
             </p>
         </section>
 
         <!-- Projects -->
-        <section>
-            <h2 class="section-title"><span data-lang="zh">项目经历</span><span data-lang="en">Projects</span></h2>
+        <section id="projects">
+            <div class="section-label"><span data-lang="zh">// 项目</span><span data-lang="en">// Projects</span></div>
             <ul class="proj-list">
                 <li class="proj-item">
-                    <div class="proj-title">
-                        <a href="https://arxiv.org/abs/2512.05543" target="_blank" rel="noopener" class="proj-link">
-                            <span data-lang="zh">公交车载边缘服务器部署</span>
-                            <span data-lang="en">Bus-Mounted Edge Servers</span>
-                        </a>
+                    <div class="proj-head">
+                        <div class="proj-title">
+                            <a href="https://arxiv.org/abs/2512.05543" target="_blank" rel="noopener" class="proj-link">
+                                <span data-lang="zh">公交车载边缘服务器部署</span>
+                                <span data-lang="en">Bus-Mounted Edge Servers</span>
+                            </a>
+                        </div>
+                        <span class="proj-venue">CCF-C &middot; <span data-lang="zh">第二作者</span><span data-lang="en">2nd Author</span></span>
                     </div>
-                    <p class="proj-desc" data-lang-block="zh">CCF-C 会议已录用，第二作者。提出以公交车为载体的边缘服务器方案，设计基于贪婪算法的公交车选择策略，在预算限制下最大化用户覆盖率。</p>
-                    <p class="proj-desc" data-lang-block="en">CCF-C conference, accepted, second author. Proposed bus-mounted edge server deployment with a greedy bus selection algorithm to maximize user coverage under budget constraints.</p>
-                    <div class="proj-tags"><span class="ptag">CCF-C</span><span class="ptag">Edge Computing</span><span class="ptag">Greedy</span></div>
+                    <p class="proj-desc" data-lang-block="zh">提出以公交车为载体的边缘服务器方案，设计基于贪婪算法的公交车选择策略，在预算限制下最大化用户覆盖率。</p>
+                    <p class="proj-desc" data-lang-block="en">Proposed bus-mounted edge server deployment with a greedy bus selection algorithm to maximize user coverage under budget constraints.</p>
+                    <div class="proj-tags"><span class="ptag">edge-computing</span><span class="ptag">greedy</span><span class="ptag">optimization</span></div>
                 </li>
                 <li class="proj-item">
-                    <div class="proj-title"><span data-lang="zh">无人机空地协同路径规划</span><span data-lang="en">UAV Air-Ground Cooperative Path Planning</span></div>
-                    <p class="proj-desc" data-lang-block="zh">大创项目主持。梳理斯坦伯格博弈与多智能体强化学习（MADDPG、MAPPO）理论。YOLO 部署至 Tello 摄像头，实现目标识别与短距位移。</p>
-                    <p class="proj-desc" data-lang-block="en">University research project leader. Systematic study of Stackelberg game and MARL (MADDPG, MAPPO). Deployed YOLO on Tello UAV for object detection and short-range navigation.</p>
-                    <div class="proj-tags"><span class="ptag">YOLO</span><span class="ptag"><span data-lang="zh">博弈论</span><span data-lang="en">Game Theory</span></span><span class="ptag">ROS</span><span class="ptag">Tello</span></div>
+                    <div class="proj-head">
+                        <div class="proj-title"><span data-lang="zh">无人机空地协同路径规划</span><span data-lang="en">UAV Air-Ground Cooperative Path Planning</span></div>
+                        <span class="proj-venue"><span data-lang="zh">大创项目</span><span data-lang="en">Research Project</span></span>
+                    </div>
+                    <p class="proj-desc" data-lang-block="zh">梳理斯坦伯格博弈与多智能体强化学习（MADDPG、MAPPO）理论。YOLO 部署至 Tello 摄像头，实现目标识别与短距位移。</p>
+                    <p class="proj-desc" data-lang-block="en">Systematic study of Stackelberg game and MARL (MADDPG, MAPPO). Deployed YOLO on Tello UAV for object detection and short-range navigation.</p>
+                    <div class="proj-tags"><span class="ptag">yolo</span><span class="ptag"><span data-lang="zh">博弈论</span><span data-lang="en">game-theory</span></span><span class="ptag">ros</span><span class="ptag">tello</span></div>
                 </li>
                 <li class="proj-item">
-                    <div class="proj-title"><span data-lang="zh">ABB 机械臂全自动电池装配产线</span><span data-lang="en">ABB IRB 120 Battery Assembly Line</span></div>
-                    <p class="proj-desc" data-lang-block="zh">Portal v16 组态 S7-1500 PLC，Profinet 控制 V90/G120 伺服与无刷电机。RobotStudio 编写机器人程序并示教定位。PLC I/O 与 HMI 实时反馈。ROS 与 RobotStudio 实时数据交互，扩展控制 Baxter 双臂机器人，实现手部视觉颜色抓取。</p>
-                    <p class="proj-desc" data-lang-block="en">Configured S7-1500 PLC via Portal v16, Profinet control of V90/G120 servos and BLDC motors. RobotStudio programming with teach positioning. PLC I/O + HMI real-time monitoring. ROS–RobotStudio real-time data exchange, extended to Baxter dual-arm robot with hand-eye color grasping.</p>
-                    <div class="proj-tags"><span class="ptag">PLC</span><span class="ptag">ROS</span><span class="ptag">Profinet</span><span class="ptag">RobotStudio</span><span class="ptag">Baxter</span></div>
+                    <div class="proj-head">
+                        <div class="proj-title"><span data-lang="zh">ABB 机械臂电池装配产线</span><span data-lang="en">ABB IRB 120 Battery Assembly Line</span></div>
+                        <span class="proj-venue"><span data-lang="zh">课程项目</span><span data-lang="en">Course Project</span></span>
+                    </div>
+                    <p class="proj-desc" data-lang-block="zh">Portal v16 组态 S7-1500 PLC，Profinet 控制 V90/G120 伺服与无刷电机。RobotStudio 编程并示教。PLC I/O + HMI 实时反馈。扩展控制 Baxter 双臂机器人，手部视觉颜色抓取。</p>
+                    <p class="proj-desc" data-lang-block="en">Configured S7-1500 PLC via Portal v16. Profinet control of V90/G120 servos. RobotStudio programming. Extended to Baxter dual-arm robot with hand-eye color grasping.</p>
+                    <div class="proj-tags"><span class="ptag">plc</span><span class="ptag">ros</span><span class="ptag">profinet</span><span class="ptag">baxter</span></div>
                 </li>
                 <li class="proj-item">
-                    <div class="proj-title"><span data-lang="zh">个人网站 & 内网穿透</span><span data-lang="en">Personal Site & Tunneling</span></div>
-                    <p class="proj-desc" data-lang-block="zh">自主搭建 jicohe-box.cn，Cloudflare Tunnel 穿透内网环境，实现外网访问本地服务。</p>
-                    <p class="proj-desc" data-lang-block="en">Self-built jicohe-box.cn with Cloudflare Tunnel for remote access to local services.</p>
-                    <div class="proj-tags"><span class="ptag">Cloudflare</span><span class="ptag">HTML/CSS</span><span class="ptag">Networking</span></div>
+                    <div class="proj-head">
+                        <div class="proj-title"><span data-lang="zh">个人网站 & 内网穿透</span><span data-lang="en">Personal Site &amp; Tunneling</span></div>
+                        <span class="proj-venue">jicohe-box.cn</span>
+                    </div>
+                    <p class="proj-desc" data-lang-block="zh">自主搭建，Cloudflare Tunnel 穿透内网，外网访问本地服务。Cloudflare Pages 托管，支持中英双语、深浅色模式。</p>
+                    <p class="proj-desc" data-lang-block="en">Self-built with Cloudflare Tunnel for remote access. Cloudflare Pages hosting, bilingual, dark/light mode.</p>
+                    <div class="proj-tags"><span class="ptag">cloudflare</span><span class="ptag">html/css</span><span class="ptag">networking</span></div>
                 </li>
             </ul>
         </section>
 
         <!-- Leadership -->
-        <section>
-            <h2 class="section-title"><span data-lang="zh">学生工作</span><span data-lang="en">Leadership</span></h2>
+        <section id="leadership">
+            <div class="section-label"><span data-lang="zh">// 学生工作</span><span data-lang="en">// Leadership</span></div>
             <ul class="other-list">
                 <li class="other-item">
                     <h4><span data-lang="zh">国旗护卫队</span><span data-lang="en">National Flag Guard</span></h4>
@@ -409,12 +489,13 @@
         </section>
 
         <footer>
-            <span>&copy; 2026 Jico He &middot; Cloudflare Pages</span>
-            <div class="admin-dot" onclick="openAdmin()" title="管理">&#9670;</div>
+            <span>&copy; 2026 Jico He</span>
+            <span>Cloudflare Pages</span>
+            <div class="admin-dot" id="admin-dot" onclick="openAdmin()" title="管理">&#9670;</div>
         </footer>
     </div>
 
-    <!-- Admin Modal -->
+    <!-- Admin -->
     <div class="admin-overlay" id="admin-overlay">
         <div class="admin-modal" id="admin-modal">
             <div class="am-header"><h2><span data-lang="zh">管理入口</span><span data-lang="en">Admin</span></h2></div>
@@ -428,18 +509,21 @@
             <div class="am-footer"><button class="am-close" onclick="closeAdmin()"><span data-lang="zh">&larr; 返回</span><span data-lang="en">&larr; Back</span></button></div>
         </div>
         <div class="admin-dashboard" id="admin-dashboard">
-            <div class="dash-header"><span class="dash-title"><span data-lang="zh">管理面板</span><span data-lang="en">Dashboard</span></span><button class="dash-close" onclick="closeDashboard()">&times;</button></div>
+            <div class="dash-header"><span class="dash-title">Dashboard</span><button class="dash-close" onclick="closeDashboard()">&times;</button></div>
             <div class="service-grid">
                 <a href="https://ha.jicohe-box.cn" target="_blank" class="service-card"><div class="s-title">HAOS</div><div class="s-desc">Home Assistant &rarr;</div></a>
-                <div class="service-card"><div class="s-title">DeepSeek API</div><div class="token-num" id="ds-balance">&mdash;</div><div class="s-desc" id="ds-meta">&hellip;</div><button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.7rem;margin-top:0.2rem;font-family:inherit;">&#8635;</button></div>
+                <div class="service-card"><div class="s-title">DeepSeek API</div><div class="token-num" id="ds-balance">&mdash;</div><div class="s-desc" id="ds-meta">&hellip;</div><button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.68rem;margin-top:0.15rem;font-family:inherit;">&#8635;</button></div>
                 <a href="https://code.jicohe-box.cn" target="_blank" class="service-card"><div class="s-title">Code</div><div class="s-desc">VS Code &rarr;</div></a>
+            </div>
+            <div class="dash-actions">
+                <button onclick="logoutAdmin()"><span data-lang="zh">退出登录</span><span data-lang="en">Log out</span></button>
             </div>
             <div class="dash-footer">Cloudflare Pages</div>
         </div>
     </div>
 
     <script>
-        /* Language */
+        /* ---- Language ---- */
         function setLang(lang) {
             document.documentElement.lang = lang;
             localStorage.setItem('lang', lang);
@@ -447,11 +531,10 @@
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
         }
         (function() {
-            const saved = localStorage.getItem('lang') || 'zh';
-            setLang(saved);
+            setLang(localStorage.getItem('lang') || 'zh');
         })();
 
-        /* Theme */
+        /* ---- Theme ---- */
         function getTheme() { return localStorage.getItem("theme") || "auto"; }
         function applyTheme() {
             var isDark = getTheme() === "dark" || (getTheme() === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -463,60 +546,141 @@
             applyTheme();
         }
         applyTheme();
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function() { if (getTheme() === "auto") applyTheme(); });
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function() {
+            if (getTheme() === "auto") applyTheme();
+        });
 
-        /* Admin */
+        /* ---- Admin ---- */
+        var ADMIN_SESSION_KEY = "jicohe_admin_session";
+        var SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+        function isLoggedIn() {
+            var data = localStorage.getItem(ADMIN_SESSION_KEY);
+            if (!data) return false;
+            try {
+                var session = JSON.parse(data);
+                if (Date.now() - session.timestamp > SESSION_DURATION) {
+                    localStorage.removeItem(ADMIN_SESSION_KEY);
+                    return false;
+                }
+                return true;
+            } catch (e) { return false; }
+        }
+
+        function setLoggedIn() {
+            localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify({ timestamp: Date.now() }));
+            document.getElementById("admin-dot").classList.add("logged-in");
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem(ADMIN_SESSION_KEY);
+            document.getElementById("admin-dot").classList.remove("logged-in");
+            closeAdmin();
+        }
+
+        // Restore login state on load
+        if (isLoggedIn()) {
+            document.getElementById("admin-dot").classList.add("logged-in");
+        }
+
         function openAdmin() {
+            // If already logged in, skip password
+            if (isLoggedIn()) {
+                document.getElementById("admin-overlay").classList.add("active");
+                document.getElementById("admin-modal").style.display = "none";
+                document.getElementById("admin-dashboard").classList.add("active");
+                fetchBalance();
+                return;
+            }
             document.getElementById("admin-overlay").classList.add("active");
             document.getElementById("admin-modal").style.display = "block";
             document.getElementById("admin-dashboard").classList.remove("active");
             document.getElementById("pw-input").value = "";
             document.getElementById("lock-msg").textContent = "";
+            document.getElementById("lock-msg").className = "lock-msg";
             setTimeout(function() { document.getElementById("pw-input").focus(); }, 100);
         }
+
         function closeAdmin() {
             document.getElementById("admin-overlay").classList.remove("active");
             document.getElementById("admin-modal").style.display = "";
             document.getElementById("admin-dashboard").classList.remove("active");
         }
+
         function closeDashboard() { closeAdmin(); }
-        document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeAdmin(); });
-        document.getElementById("admin-overlay").addEventListener("click", function(e) { if (e.target === this) closeAdmin(); });
+
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") closeAdmin();
+        });
+        document.getElementById("admin-overlay").addEventListener("click", function(e) {
+            if (e.target === this) closeAdmin();
+        });
 
         async function verifyPassword() {
-            var pw = document.getElementById("pw-input").value, msg = document.getElementById("lock-msg");
+            var pw = document.getElementById("pw-input").value;
+            var msg = document.getElementById("lock-msg");
             var zh = document.documentElement.lang === 'zh';
-            if (!pw) { msg.textContent = zh ? "请输入密码" : "Enter password"; msg.className = "lock-msg error"; return; }
-            msg.textContent = zh ? "验证中…" : "Verifying…"; msg.className = "lock-msg";
+            if (!pw) {
+                msg.textContent = zh ? "请输入密码" : "Enter password";
+                msg.className = "lock-msg error";
+                return;
+            }
+            msg.textContent = zh ? "验证中…" : "Verifying…";
+            msg.className = "lock-msg";
             try {
-                var r = await fetch("/api/password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: pw }) });
+                var r = await fetch("/api/password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ password: pw })
+                });
                 var d = await r.json();
                 if (d.status === "ok") {
+                    setLoggedIn();
                     document.getElementById("admin-modal").style.display = "none";
                     document.getElementById("admin-dashboard").classList.add("active");
                     fetchBalance();
                 } else {
-                    msg.textContent = d.error && d.error.indexOf("not configured") !== -1 ? (zh ? "后台未配置密码" : "Password not configured") : (zh ? "密码错误" : "Wrong password");
+                    msg.textContent = (d.error && d.error.indexOf("not configured") !== -1)
+                        ? (zh ? "后台未配置密码" : "Password not configured")
+                        : (zh ? "密码错误" : "Wrong password");
                     msg.className = "lock-msg error";
                     document.getElementById("pw-input").value = "";
                     document.getElementById("pw-input").focus();
                 }
-            } catch (e) { msg.textContent = zh ? "请求失败" : "Request failed"; msg.className = "lock-msg error"; }
+            } catch (e) {
+                msg.textContent = zh ? "请求失败" : "Request failed";
+                msg.className = "lock-msg error";
+            }
         }
-        document.getElementById("pw-input").addEventListener("keydown", function(e) { if (e.key === "Enter") verifyPassword(); });
+        document.getElementById("pw-input").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") verifyPassword();
+        });
 
         async function fetchBalance() {
-            var b = document.getElementById("ds-balance"), m = document.getElementById("ds-meta");
+            var b = document.getElementById("ds-balance");
+            var m = document.getElementById("ds-meta");
             if (!b) return;
             try {
-                var r = await fetch("/api/deepseek"); if (!r.ok) throw new Error();
+                var r = await fetch("/api/deepseek");
+                if (!r.ok) throw new Error();
                 var d = await r.json();
                 b.textContent = "\u00A5" + parseFloat(d.balance_infos ? d.balance_infos[0].total_balance : (d.total_balance || 0)).toFixed(2);
                 m.textContent = "DeepSeek API";
-            } catch (e) { b.textContent = "\u2014"; m.textContent = "查询失败"; }
+            } catch (e) {
+                b.textContent = "\u2014";
+                m.textContent = "查询失败";
+            }
         }
-        setInterval(function() { if (document.getElementById("admin-dashboard").classList.contains("active")) fetchBalance(); }, 60000);
-        document.addEventListener("keydown", function(e) { if (e.key === "m" && !e.target.closest("input,textarea") && !document.getElementById("admin-overlay").classList.contains("active")) openAdmin(); });
+        setInterval(function() {
+            if (document.getElementById("admin-dashboard").classList.contains("active")) fetchBalance();
+        }, 60000);
+
+        /* ---- Keyboard shortcut ---- */
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "m" && !e.target.closest("input,textarea") && !document.getElementById("admin-overlay").classList.contains("active")) {
+                openAdmin();
+            }
+        });
     </script>
 </body>
 </html>
