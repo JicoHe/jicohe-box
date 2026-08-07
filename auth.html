@@ -3,109 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>验证 · 个人主义</title>
+    <title>验证 · Jico He</title>
     <style>
         :root {
-            --bg-deep: #08080f;
-            --glass-medium: rgba(22, 22, 36, 0.45);
-            --glass-light: rgba(30, 30, 48, 0.30);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --text-primary: rgba(255, 255, 255, 0.92);
-            --text-secondary: rgba(255, 255, 255, 0.55);
-            --text-muted: rgba(255, 255, 255, 0.30);
-            --accent-blue: #6d8cff;
-            --accent-purple: #a78bfa;
-            --accent-green: #4ade80;
-            --accent-red: #f87171;
-            --blur-medium: blur(40px) saturate(180%);
-            --radius: 20px;
-            --radius-sm: 12px;
+            --bg: #ffffff;
+            --text: #111111;
+            --text-secondary: #555555;
+            --text-muted: #999999;
+            --accent: #2563eb;
+            --border: #e5e7eb;
+            --card-bg: #ffffff;
+            --radius: 8px;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+        }
+        [data-theme="dark"] {
+            --bg: #0d0d0d;
+            --text: #e5e5e5;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --accent: #3b82f6;
+            --border: #2a2a2a;
+            --card-bg: #141414;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: var(--bg-deep);
-            color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "PingFang SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            font-size: 15px;
             display: flex; align-items: center; justify-content: center;
             min-height: 100vh; padding: 1.5rem;
             -webkit-font-smoothing: antialiased;
-            position: relative;
+            transition: background 0.15s ease, color 0.15s ease;
         }
 
-        /* 背景光斑 */
-        .bg-blobs {
-            position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
-        }
-        .blob {
-            position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15;
-            animation-timing-function: ease-in-out; animation-iteration-count: infinite;
-        }
-        .blob-1 {
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, var(--accent-purple), transparent 70%);
-            top: -10%; right: -15%;
-            animation: float-1 22s infinite alternate;
-        }
-        .blob-2 {
-            width: 350px; height: 350px;
-            background: radial-gradient(circle, var(--accent-blue), transparent 70%);
-            bottom: -10%; left: -10%;
-            animation: float-2 26s infinite alternate;
-        }
-        @keyframes float-1 {
-            0% { transform: translate(0,0) scale(1); }
-            100% { transform: translate(-50px, 60px) scale(1.2); }
-        }
-        @keyframes float-2 {
-            0% { transform: translate(0,0) scale(0.9); }
-            100% { transform: translate(50px, -40px) scale(1.1); }
-        }
-
-        .grain {
-            position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-
-        .glass-card {
-            position: relative; z-index: 2;
-            background: var(--glass-medium);
-            backdrop-filter: var(--blur-medium);
-            -webkit-backdrop-filter: var(--blur-medium);
-            border: 1px solid var(--glass-border);
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 2.5rem 2rem;
             max-width: 380px; width: 100%;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .glass-card::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
-            border-radius: inherit; pointer-events: none;
         }
 
         .status-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-        .title { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; }
         .subtitle { font-size: 0.85rem; color: var(--text-secondary); }
-        .result { margin-top: 1rem; font-size: 0.9rem; word-break: break-word; }
-        .result.success { color: var(--accent-green); }
-        .result.error { color: var(--accent-red); }
+        .result { margin-top: 0.8rem; font-size: 0.9rem; word-break: break-word; }
+        .result.success { color: #16a34a; }
+        .result.error { color: #dc2626; }
         .debug {
             font-size: 0.72rem; color: var(--text-muted);
             margin-top: 0.75rem; padding-top: 0.75rem;
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid var(--border);
         }
-
         .spinner {
-            width: 36px; height: 36px;
-            border: 2.5px solid rgba(255,255,255,0.1);
-            border-top-color: var(--accent-blue);
+            width: 32px; height: 32px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 0.7s linear infinite;
             margin: 0 auto 1rem;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -113,19 +72,20 @@
         .back-link {
             display: inline-block; margin-top: 1.5rem;
             font-size: 0.82rem; color: var(--text-muted); text-decoration: none;
-            transition: color 0.2s;
+            transition: color 0.15s ease;
         }
         .back-link:hover { color: var(--text-secondary); }
+
+        /* Auto theme detection */
+        @media (prefers-color-scheme: dark) {
+            :root { --bg: #0d0d0d; --text: #e5e5e5; --text-secondary: #888888;
+                    --text-muted: #555555; --accent: #3b82f6; --border: #2a2a2a;
+                    --card-bg: #141414; }
+        }
     </style>
 </head>
 <body>
-    <div class="bg-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
-    <div class="grain"></div>
-
-    <div class="glass-card" id="status">
+    <div class="card" id="status">
         <div class="spinner"></div>
         <p class="subtitle">正在进行面容识别…</p>
     </div>
@@ -137,13 +97,13 @@
         function show(msg, cls, debug) {
             let html = '';
             if (cls === 'success') {
-                html += '<div class="status-icon">✅</div>';
+                html += '<div class="status-icon">&#10003;</div>';
             } else if (cls === 'error') {
-                html += '<div class="status-icon">✗</div>';
+                html += '<div class="status-icon">&#10007;</div>';
             }
-            html += `<div class="result ${cls || ''}">${msg}</div>`;
-            if (debug) html += `<div class="debug">${debug}</div>`;
-            html += '<a href="/" class="back-link">← 返回首页</a>';
+            html += '<div class="result ' + (cls || '') + '">' + msg + '</div>';
+            if (debug) html += '<div class="debug">' + debug + '</div>';
+            html += '<a href="/" class="back-link">&#8592; 返回首页</a>';
             document.getElementById("status").innerHTML = html;
         }
 
@@ -168,7 +128,7 @@
             if (!sessionId) { show("无效链接", "error"); return; }
 
             try {
-                const cr = await fetch(`/api/auth/challenge?session=${sessionId}`);
+                const cr = await fetch("/api/auth/challenge?session=" + sessionId);
                 if (!cr.ok) throw new Error("服务器返回 " + cr.status);
                 const cd = await cr.json();
 

@@ -3,155 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>注册 Face ID · 个人主义</title>
+    <title>注册 Face ID · Jico He</title>
     <style>
         :root {
-            --bg-deep: #08080f;
-            --glass-medium: rgba(22, 22, 36, 0.45);
-            --glass-light: rgba(30, 30, 48, 0.30);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --glass-border-hover: rgba(255, 255, 255, 0.12);
-            --text-primary: rgba(255, 255, 255, 0.92);
-            --text-secondary: rgba(255, 255, 255, 0.55);
-            --text-muted: rgba(255, 255, 255, 0.30);
-            --accent-blue: #6d8cff;
-            --accent-purple: #a78bfa;
-            --accent-green: #4ade80;
-            --accent-red: #f87171;
-            --blur-medium: blur(40px) saturate(180%);
-            --radius: 20px;
-            --radius-sm: 12px;
+            --bg: #ffffff;
+            --text: #111111;
+            --text-secondary: #555555;
+            --text-muted: #999999;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --border: #e5e7eb;
+            --card-bg: #ffffff;
+            --radius: 8px;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+            --font-mono: "SF Mono", "Fira Code", "Menlo", monospace;
+        }
+        [data-theme="dark"] {
+            --bg: #0d0d0d;
+            --text: #e5e5e5;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --accent: #3b82f6;
+            --accent-hover: #60a5fa;
+            --border: #2a2a2a;
+            --card-bg: #141414;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: var(--bg-deep);
-            color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "PingFang SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            font-size: 15px;
             display: flex; align-items: center; justify-content: center;
             min-height: 100vh; padding: 1.5rem;
             -webkit-font-smoothing: antialiased;
-            position: relative;
+            transition: background 0.15s ease, color 0.15s ease;
         }
 
-        .bg-blobs {
-            position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
-        }
-        .blob {
-            position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12;
-            animation-timing-function: ease-in-out; animation-iteration-count: infinite;
-        }
-        .blob-1 {
-            width: 350px; height: 350px;
-            background: radial-gradient(circle, var(--accent-blue), transparent 70%);
-            top: 40%; right: -10%;
-            animation: float-1 20s infinite alternate;
-        }
-        .blob-2 {
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, var(--accent-purple), transparent 70%);
-            bottom: -10%; left: 20%;
-            animation: float-2 24s infinite alternate;
-        }
-        @keyframes float-1 {
-            0% { transform: translate(0,0); }
-            100% { transform: translate(-40px, -50px) scale(1.15); }
-        }
-        @keyframes float-2 {
-            0% { transform: translate(0,0); }
-            100% { transform: translate(30px, -40px) scale(1.1); }
-        }
-
-        .grain {
-            position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-
-        .glass-card {
-            position: relative; z-index: 2;
-            background: var(--glass-medium);
-            backdrop-filter: var(--blur-medium);
-            -webkit-backdrop-filter: var(--blur-medium);
-            border: 1px solid var(--glass-border);
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 2.5rem 2rem;
             max-width: 420px; width: 100%;
             text-align: center;
-            position: relative; overflow: hidden;
-        }
-        .glass-card::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
-            border-radius: inherit; pointer-events: none;
         }
 
-        .icon { font-size: 2.8rem; margin-bottom: 1rem; position: relative; }
-        .step { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.5; }
-        .success { color: var(--accent-green); }
-        .error { color: var(--accent-red); }
+        .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .step { color: var(--text-secondary); font-size: 0.84rem; margin-top: 0.4rem; line-height: 1.5; }
+        .success { color: #16a34a; }
+        .error { color: #dc2626; }
 
         .btn {
-            display: inline-block; margin-top: 1.5rem;
-            padding: 0.85rem 2.2rem;
-            background: rgba(109, 140, 255, 0.15);
-            border: 1px solid rgba(109, 140, 255, 0.25);
-            border-radius: var(--radius-sm);
-            color: var(--accent-blue); font-size: 0.95rem;
+            display: inline-block; margin-top: 1.2rem;
+            padding: 0.7rem 1.8rem;
+            background: var(--accent); border: none;
+            border-radius: var(--radius);
+            color: #fff; font-size: 0.92rem;
             cursor: pointer; font-weight: 600; font-family: inherit;
-            transition: all 0.3s;
+            transition: background 0.15s ease, transform 0.1s ease;
         }
-        .btn:hover {
-            background: rgba(109, 140, 255, 0.25);
-            border-color: rgba(109, 140, 255, 0.4);
-        }
+        .btn:hover { background: var(--accent-hover); }
+        .btn:active { transform: scale(0.97); }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
         pre {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-sm);
-            padding: 1rem; margin-top: 1.2rem;
-            font-size: 0.72rem; text-align: left;
-            overflow-x: auto; color: var(--accent-green);
-            font-family: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
-            position: relative;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem; margin-top: 1rem;
+            font-size: 0.7rem; text-align: left;
+            overflow-x: auto; color: var(--accent);
+            font-family: var(--font-mono);
         }
 
         .spinner {
-            width: 36px; height: 36px;
-            border: 2.5px solid rgba(255,255,255,0.1);
-            border-top-color: var(--accent-blue);
+            width: 32px; height: 32px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 0.7s linear infinite;
             margin: 0 auto 1rem;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .back-link {
-            display: inline-block; margin-top: 1.5rem;
+            display: inline-block; margin-top: 1.2rem;
             font-size: 0.82rem; color: var(--text-muted); text-decoration: none;
-            transition: color 0.2s;
+            transition: color 0.15s ease;
         }
         .back-link:hover { color: var(--text-secondary); }
+
+        @media (prefers-color-scheme: dark) {
+            :root { --bg: #0d0d0d; --text: #e5e5e5; --text-secondary: #888888;
+                    --text-muted: #555555; --accent: #3b82f6; --accent-hover: #60a5fa;
+                    --border: #2a2a2a; --card-bg: #141414; }
+        }
     </style>
 </head>
 <body>
-    <div class="bg-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
-    <div class="grain"></div>
-
-    <div class="glass-card">
+    <div class="card">
         <!-- Step 1: Register -->
         <div id="step1">
-            <div class="icon">😀</div>
-            <h2 style="font-size:1.15rem;font-weight:600;">首次设置 Face ID</h2>
+            <div class="icon">&#128100;</div>
+            <h2 style="font-size:1.1rem;font-weight:600;">首次设置 Face ID</h2>
             <p class="step">在 iPhone 上完成此步骤，之后扫码即可用面容解锁管理面板。</p>
             <button class="btn" id="registerBtn" onclick="register()">注册 Face ID</button>
-            <p class="step" style="font-size:0.78rem;color:var(--text-muted);">仅需一次，iPhone 会弹出面容识别</p>
+            <p class="step" style="font-size:0.76rem;color:var(--text-muted);">仅需一次，iPhone 会弹出面容识别</p>
         </div>
 
         <!-- Step 2: Registering -->
@@ -162,19 +121,19 @@
 
         <!-- Step 3: Success -->
         <div id="step3" style="display:none;">
-            <div class="icon success">✅</div>
-            <h3 style="font-size:1.1rem;">注册成功！</h3>
-            <p class="step">请将下方信息复制到 Cloudflare 环境变量 <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;">WEBAUTHN_CREDENTIAL</code>：</p>
+            <div class="icon success">&#10003;</div>
+            <h3 style="font-size:1.05rem;">注册成功！</h3>
+            <p class="step">请将下方信息复制到 Cloudflare 环境变量 <code style="background:var(--bg);border:1px solid var(--border);padding:1px 6px;border-radius:4px;">WEBAUTHN_CREDENTIAL</code>：</p>
             <pre id="credentialJson"></pre>
-            <button class="btn" onclick="copyCredential()" id="copyBtn">📋 复制</button>
+            <button class="btn" onclick="copyCredential()" id="copyBtn">复制</button>
             <p class="step" id="copyMsg" style="min-height:1.2em;"></p>
         </div>
 
         <!-- Step Error -->
         <div id="stepError" style="display:none;">
-            <div class="icon error">✗</div>
-            <h3 style="font-size:1.1rem;">注册失败</h3>
-            <p class="error" id="errorMsg" style="margin-top:0.5rem;"></p>
+            <div class="icon error">&#10007;</div>
+            <h3 style="font-size:1.05rem;">注册失败</h3>
+            <p class="error" id="errorMsg" style="margin-top:0.4rem;"></p>
             <button class="btn" onclick="location.reload()">重试</button>
         </div>
     </div>
@@ -240,7 +199,7 @@
             const text = document.getElementById("credentialJson").textContent;
             try {
                 await navigator.clipboard.writeText(text);
-                document.getElementById("copyMsg").textContent = "已复制！去 Cloudflare → Settings → Environment Variables 添加 WEBAUTHN_CREDENTIAL";
+                document.getElementById("copyMsg").textContent = "已复制！去 Cloudflare \u2192 Settings \u2192 Environment Variables 添加 WEBAUTHN_CREDENTIAL";
                 document.getElementById("copyMsg").className = "step success";
             } catch {
                 document.getElementById("copyMsg").textContent = "复制失败，请手动选择并复制上方文本";
