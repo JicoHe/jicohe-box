@@ -98,7 +98,7 @@ nav {
     background: none; border: none; cursor: pointer;
     width: 28px; height: 28px;
     flex-direction: column; align-items: center; justify-content: center;
-    gap: 5px; padding: 0;
+    gap: 4px; padding: 0;
     z-index: 151;
     position: relative;
 }
@@ -113,6 +113,9 @@ nav {
     transform: translateY(6.5px) rotate(45deg);
 }
 #menu-toggle:checked ~ nav .nav-hamburger span:nth-child(2) {
+    opacity: 0;
+}
+#menu-toggle:checked ~ nav .nav-hamburger span:nth-child(3) {
     transform: translateY(-6.5px) rotate(-45deg);
 }
 
