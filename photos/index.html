@@ -85,13 +85,18 @@
 
         .lightbox-main {
             position: relative; z-index: 1;
-            display: flex; align-items: center; gap: 0;
-            max-width: 90vw; max-height: 85vh;
+            display: flex; align-items: center; gap: 1rem;
+            max-width: 94vw; max-height: 88vh;
             animation: lb-zoom 0.35s cubic-bezier(0.23, 1, 0.32, 1);
         }
         @keyframes lb-zoom {
             from { opacity: 0; transform: scale(0.92); }
             to { opacity: 1; transform: scale(1); }
+        }
+
+        .lb-image-wrap {
+            position: relative;
+            flex-shrink: 1; min-width: 0;
         }
         .lightbox-main img {
             max-width: 100%; max-height: 85vh;
@@ -101,8 +106,7 @@
         }
 
         .lb-panel {
-            position: absolute; right: -340px; top: 0;
-            width: 320px; max-height: 85vh;
+            width: 300px; max-height: 85vh; flex-shrink: 0;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -113,52 +117,70 @@
             animation: panel-in 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
         @keyframes panel-in {
-            from { opacity: 0; transform: translateX(-12px); }
+            from { opacity: 0; transform: translateX(-8px); }
             to { opacity: 1; transform: translateX(0); }
         }
         .lb-panel.open { display: block; }
-        .lb-panel h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
-        .lb-meta {
+
+        .lb-specs {
             font-family: var(--font-mono);
-            font-size: 0.72rem; color: var(--text-muted);
-            margin-bottom: 1rem; line-height: 1.6;
+            font-size: 0.7rem; color: var(--text-muted);
+            line-height: 1.75; margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
         }
-        .lb-meta span { display: block; }
+        .lb-specs .spec-row {
+            display: flex; gap: 0.3rem;
+        }
+        .lb-specs .spec-label {
+            color: var(--text-muted); min-width: 3.5em;
+        }
+        .lb-note-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.06em;
+            margin-bottom: 0.4rem;
+        }
         .lb-note {
             font-size: 0.88rem; color: var(--text-secondary);
             line-height: 1.7; white-space: pre-wrap;
         }
 
         .lb-toggle, .lb-download {
-            position: absolute; right: -48px;
-            width: 36px; height: 36px; border-radius: 50%;
-            background: var(--bg);
-            border: 1px solid var(--border);
+            position: absolute; right: 12px;
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
             cursor: pointer;
-            font-size: 1rem; color: var(--text-secondary);
+            font-size: 0.95rem; color: #fff;
             display: flex; align-items: center; justify-content: center;
-            transition: border-color 0.15s ease, color 0.15s ease;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 2;
+            transition: background 0.15s ease;
+            z-index: 2;
         }
-        .lb-toggle { top: 50%; transform: translateY(-50%); }
-        .lb-download { top: calc(50% + 44px); transform: translateY(-50%); }
-        .lb-toggle:hover, .lb-download:hover { border-color: var(--accent); color: var(--accent); }
+        .lb-toggle { top: 12px; }
+        .lb-download { top: 52px; }
+        .lb-toggle:hover, .lb-download:hover { background: rgba(0,0,0,0.55); }
 
         .lb-close {
-            position: absolute; top: -48px; right: 0;
-            width: 36px; height: 36px; border-radius: 50%;
-            background: rgba(255,255,255,0.12);
-            border: none; cursor: pointer;
-            font-size: 1.1rem; color: #fff;
+            position: absolute; top: 12px; right: 12px;
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            cursor: pointer;
+            font-size: 1.05rem; color: #fff;
             display: flex; align-items: center; justify-content: center;
             transition: background 0.15s ease; z-index: 3;
         }
-        .lb-close:hover { background: rgba(255,255,255,0.22); }
+        .lb-close:hover { background: rgba(0,0,0,0.55); }
 
         .lb-arrow {
             position: absolute; top: 50%; z-index: 2;
             width: 40px; height: 40px; border-radius: 50%;
-            background: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.35);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.15);
@@ -168,22 +190,22 @@
             transition: background 0.15s ease;
             transform: translateY(-50%);
         }
-        .lb-arrow:hover { background: rgba(255,255,255,0.22); }
-        .lb-arrow.prev { left: -60px; }
-        .lb-arrow.next { right: -60px; }
+        .lb-arrow:hover { background: rgba(0,0,0,0.55); }
+        .lb-arrow.prev { left: 12px; }
+        .lb-arrow.next { right: 12px; }
 
         @media (max-width: 900px) {
-            .lightbox-main { flex-direction: column; }
+            .lightbox-main { flex-direction: column; gap: 0.5rem; }
             .lb-panel {
-                position: relative; right: auto; top: auto;
-                width: 100%; max-height: 30vh; margin-top: 0.8rem;
-                border-radius: 12px;
+                width: 100%; max-height: 30vh;
+                border-radius: 10px; padding: 1rem;
             }
-            .lb-toggle { right: 8px; top: 8px; transform: none; }
-            .lb-download { right: 8px; top: 52px; transform: none; }
-            .lb-close { top: 8px; right: 52px; }
+            .lb-toggle { top: 8px; right: 8px; }
+            .lb-download { top: 48px; right: 8px; }
+            .lb-close { top: 8px; right: 48px; }
+            .lb-arrow { width: 34px; height: 34px; font-size: 1rem; }
             .lb-arrow.prev { left: 8px; }
-            .lb-arrow.next { right: 52px; }
+            .lb-arrow.next { right: 48px; }
             .gallery { columns: 2 160px; }
             .gallery.grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -241,13 +263,15 @@
         <div class="lightbox-main" id="lightbox-main">
             <button class="lb-close" onclick="closeLightbox()">&times;</button>
             <button class="lb-arrow prev" onclick="navLightbox(-1)">&#8249;</button>
-            <img id="lb-img" src="" alt="">
-            <button class="lb-toggle" id="lb-toggle" onclick="togglePanel()" title="信息">&#9432;</button>
-            <a class="lb-download" id="lb-download" href="#" download title="下载">&#8595;</a>
+            <div class="lb-image-wrap">
+                <img id="lb-img" src="" alt="">
+                <button class="lb-toggle" id="lb-toggle" onclick="togglePanel()" title="信息">&#9432;</button>
+                <a class="lb-download" id="lb-download" href="#" download title="下载">&#8595;</a>
+            </div>
             <button class="lb-arrow next" onclick="navLightbox(1)">&#8250;</button>
             <div class="lb-panel" id="lb-panel">
-                <h3 id="lb-title"></h3>
-                <div class="lb-meta" id="lb-meta"></div>
+                <div class="lb-specs" id="lb-specs"></div>
+                <div class="lb-note-label"><span data-lang="zh">笔记</span><span data-lang="en">Notes</span></div>
                 <div class="lb-note" id="lb-note"></div>
             </div>
         </div>
@@ -287,23 +311,68 @@
         var photos = [
             {
                 file: "IMG_7243.jpeg",
-                title: { zh: "IMG_7243", en: "IMG_7243" },
-                date: "",
-                camera: "",
+                specs: [
+                    { zh: "机型", en: "Camera" },
+                    { zh: "镜头", en: "Lens" },
+                    { zh: "日期", en: "Date" },
+                    { zh: "光圈", en: "Aperture" },
+                    { zh: "快门", en: "Shutter" },
+                    { zh: "ISO", en: "ISO" },
+                    { zh: "焦距", en: "Focal" }
+                ],
+                values: [
+                    "iPhone 14 Pro",
+                    "Back triple camera 9mm f/2.8",
+                    "2024.11.08",
+                    "f/2.8",
+                    "1/463s",
+                    "ISO 32",
+                    "9mm (77mm equiv.)"
+                ],
                 note: { zh: "^ 在这里写你的想法。", en: "^ Write your thoughts here." }
             },
             {
                 file: "IMG_9523.jpeg",
-                title: { zh: "IMG_9523", en: "IMG_9523" },
-                date: "",
-                camera: "",
+                specs: [
+                    { zh: "机型", en: "Camera" },
+                    { zh: "镜头", en: "Lens" },
+                    { zh: "日期", en: "Date" },
+                    { zh: "光圈", en: "Aperture" },
+                    { zh: "快门", en: "Shutter" },
+                    { zh: "ISO", en: "ISO" },
+                    { zh: "焦距", en: "Focal" }
+                ],
+                values: [
+                    "iPhone 14 Pro",
+                    "Back triple camera 6.86mm f/1.78",
+                    "2025.07.15",
+                    "f/1.8",
+                    "1/5376s",
+                    "ISO 100",
+                    "7mm (24mm equiv.)"
+                ],
                 note: { zh: "^ 在这里写你的想法。", en: "^ Write your thoughts here." }
             },
             {
                 file: "IMG_9687.jpeg",
-                title: { zh: "IMG_9687", en: "IMG_9687" },
-                date: "",
-                camera: "",
+                specs: [
+                    { zh: "机型", en: "Camera" },
+                    { zh: "镜头", en: "Lens" },
+                    { zh: "日期", en: "Date" },
+                    { zh: "光圈", en: "Aperture" },
+                    { zh: "快门", en: "Shutter" },
+                    { zh: "ISO", en: "ISO" },
+                    { zh: "焦距", en: "Focal" }
+                ],
+                values: [
+                    "iPhone 14 Pro",
+                    "Back triple camera 6.86mm f/1.78",
+                    "2025.07.16",
+                    "f/1.8",
+                    "1/11628s",
+                    "ISO 100",
+                    "7mm (24mm equiv.)"
+                ],
                 note: { zh: "^ 在这里写你的想法。", en: "^ Write your thoughts here." }
             }
         ];
@@ -316,7 +385,7 @@
             item.onclick = function() { openLightbox(i); };
             var img = document.createElement("img");
             img.src = photo.file;
-            img.alt = photo.title.zh;
+            img.alt = photo.file;
             img.loading = "lazy";
             item.appendChild(img);
             gallery.appendChild(item);
@@ -388,15 +457,14 @@
             var p = photos[currentIndex];
             var zh = document.documentElement.lang === "zh";
             document.getElementById("lb-img").src = p.file;
-            document.getElementById("lb-img").alt = zh ? p.title.zh : p.title.en;
-            document.getElementById("lb-title").textContent = zh ? p.title.zh : p.title.en;
+            document.getElementById("lb-img").alt = p.file;
 
-            var meta = document.getElementById("lb-meta");
-            var metaHtml = "";
-            if (p.date) metaHtml += "<span>" + p.date + "</span>";
-            if (p.camera) metaHtml += "<span>" + p.camera + "</span>";
-            if (!metaHtml) metaHtml = "<span>" + (zh ? "暂无信息" : "No info yet") + "</span>";
-            meta.innerHTML = metaHtml;
+            var specs = document.getElementById("lb-specs");
+            var html = "";
+            for (var i = 0; i < p.specs.length; i++) {
+                html += '<div class="spec-row"><span class="spec-label">' + (zh ? p.specs[i].zh : p.specs[i].en) + '</span> ' + p.values[i] + '</div>';
+            }
+            specs.innerHTML = html;
 
             document.getElementById("lb-note").textContent = zh ? p.note.zh : p.note.en;
             document.getElementById("lb-download").href = p.file;
