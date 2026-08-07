@@ -456,7 +456,7 @@ html[lang="en"] [data-lang-block="en"] { display: block; }
     .lightbox-main img { transition: none; }
 }
 
-@media (max-width: 600px), (hover: none) and (pointer: coarse) {
+@media (max-width: 600px) {
     nav { padding: 0 1rem; }
     .nav-links { display: none; }
     .nav-hamburger { display: flex; }
