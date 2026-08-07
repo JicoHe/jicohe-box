@@ -127,9 +127,8 @@
             line-height: 1.7; white-space: pre-wrap;
         }
 
-        .lb-toggle {
-            position: absolute; right: -44px; top: 50%;
-            transform: translateY(-50%);
+        .lb-toggle, .lb-download {
+            position: absolute; right: -44px;
             width: 36px; height: 36px; border-radius: 50%;
             background: var(--bg);
             border: 1px solid var(--border);
@@ -139,7 +138,9 @@
             transition: border-color 0.15s ease, color 0.15s ease;
             box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 2;
         }
-        .lb-toggle:hover { border-color: var(--accent); color: var(--accent); }
+        .lb-toggle { top: 50%; transform: translateY(-50%); }
+        .lb-download { top: calc(50% + 44px); transform: translateY(-50%); }
+        .lb-toggle:hover, .lb-download:hover { border-color: var(--accent); color: var(--accent); }
 
         .lb-close {
             position: absolute; top: -44px; right: 0;
@@ -177,6 +178,7 @@
                 border-radius: 12px;
             }
             .lb-toggle { right: 8px; top: 8px; transform: none; }
+            .lb-download { right: 8px; top: 52px; transform: none; }
             .lb-close { top: 8px; right: 52px; }
             .lb-arrow.prev { left: 8px; }
             .lb-arrow.next { right: 52px; }
@@ -239,6 +241,7 @@
             <button class="lb-arrow prev" onclick="navLightbox(-1)">&#8249;</button>
             <img id="lb-img" src="" alt="">
             <button class="lb-toggle" id="lb-toggle" onclick="togglePanel()" title="信息">&#9432;</button>
+            <a class="lb-download" id="lb-download" href="#" download title="下载">&#8595;</a>
             <button class="lb-arrow next" onclick="navLightbox(1)">&#8250;</button>
             <div class="lb-panel" id="lb-panel">
                 <h3 id="lb-title"></h3>
@@ -394,6 +397,7 @@
             meta.innerHTML = metaHtml;
 
             document.getElementById("lb-note").textContent = zh ? p.note.zh : p.note.en;
+            document.getElementById("lb-download").href = p.file;
         }
 
         function togglePanel() {

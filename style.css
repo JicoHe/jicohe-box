@@ -353,7 +353,7 @@ html[lang="en"] [data-lang-block="en"] { display: block; }
     background: none; border: 1px solid var(--border);
     border-radius: 4px; color: var(--text-muted);
     cursor: pointer; font-family: inherit;
-    transition: all 0.15s ease;
+    transition: border-color 0.15s ease, color 0.15s ease;
 }
 .dash-actions button:hover { border-color: #dc2626; color: #dc2626; }
 .dash-footer {
@@ -366,6 +366,15 @@ html[lang="en"] [data-lang-block="en"] { display: block; }
 .placeholder {
     color: var(--text-muted); font-style: italic;
     padding: 1rem 0;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .admin-modal, .admin-dashboard { animation: none; }
+    .gallery-item { transition: none; }
+    .gallery-item:hover { transform: none; }
+    .gallery-item:active { transform: none; }
+    .gallery.crossfading .gallery-item { filter: none; opacity: 1; }
 }
 
 @media (max-width: 600px) {
