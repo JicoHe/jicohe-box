@@ -5,9 +5,177 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photos · Jico He</title>
     <link rel="stylesheet" href="/style.css">
+    <style>
+        /* ---- Gallery Grid (CSS columns masonry) ---- */
+        .gallery {
+            columns: 3 240px;
+            column-gap: 0.8rem;
+        }
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .gallery-item:hover {
+            transform: scale(1.015);
+        }
+        .gallery-item:active {
+            transform: scale(0.98);
+        }
+        .gallery-item img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* ---- Lightbox ---- */
+        .lightbox {
+            position: fixed; inset: 0; z-index: 200;
+            display: none; align-items: center; justify-content: center;
+        }
+        .lightbox.active { display: flex; }
+
+        .lightbox-bg {
+            position: absolute; inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            animation: lb-fade 0.3s ease;
+        }
+        @keyframes lb-fade { from { opacity: 0; } to { opacity: 1; } }
+
+        .lightbox-main {
+            position: relative; z-index: 1;
+            display: flex; align-items: center; gap: 0;
+            max-width: 90vw; max-height: 85vh;
+            animation: lb-zoom 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        @keyframes lb-zoom {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .lightbox-main img {
+            max-width: 100%; max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+            display: block;
+        }
+
+        /* ---- Side panel ---- */
+        .lb-panel {
+            position: absolute; right: -340px; top: 0;
+            width: 320px; max-height: 85vh;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            display: none;
+            animation: panel-in 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        @keyframes panel-in {
+            from { opacity: 0; transform: translateX(-12px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .lb-panel.open { display: block; }
+
+        .lb-panel h3 {
+            font-size: 1rem; font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .lb-meta {
+            font-family: var(--font-mono);
+            font-size: 0.72rem; color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .lb-meta span {
+            display: block;
+        }
+        .lb-note {
+            font-size: 0.88rem; color: var(--text-secondary);
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        /* ---- Toggle button ---- */
+        .lb-toggle {
+            position: absolute; right: -44px; top: 50%;
+            transform: translateY(-50%);
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 1rem; color: var(--text-secondary);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+        .lb-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ---- Close button ---- */
+        .lb-close {
+            position: absolute; top: -44px; right: 0;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s ease;
+            z-index: 3;
+        }
+        .lb-close:hover { background: rgba(255,255,255,0.22); }
+
+        /* ---- Nav arrows ---- */
+        .lb-arrow {
+            position: absolute; top: 50%; z-index: 2;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            cursor: pointer;
+            font-size: 1.2rem; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s ease;
+            transform: translateY(-50%);
+        }
+        .lb-arrow:hover { background: rgba(255,255,255,0.22); }
+        .lb-arrow.prev { left: -52px; }
+        .lb-arrow.next { right: -52px; }
+
+        @media (max-width: 900px) {
+            .lightbox-main { flex-direction: column; }
+            .lb-panel {
+                position: relative; right: auto; top: auto;
+                width: 100%; max-height: 30vh; margin-top: 0.8rem;
+                border-radius: 12px;
+            }
+            .lb-toggle { right: 8px; top: 8px; transform: none; }
+            .lb-close { top: 8px; right: 52px; }
+            .lb-arrow.prev { left: 8px; }
+            .lb-arrow.next { right: 52px; }
+            .gallery { columns: 2 160px; }
+        }
+    </style>
 </head>
 <body>
-'    <nav>
+
+    <nav>
         <div class="nav-left">
             <a href="/" class="nav-name">Jico He</a>
             <div class="nav-links">
@@ -24,25 +192,40 @@
             <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">深色</button>
         </div>
     </nav>
+
     <div class="container">
         <div class="page-header">
             <h1><span data-lang="zh">照片</span><span data-lang="en">Photos</span></h1>
             <p class="page-desc">
-                <span data-lang="zh">摄影作品。</span>
-                <span data-lang="en">Photography.</span>
+                <span data-lang="zh">摄影作品。点击查看大图和笔记。</span>
+                <span data-lang="en">Photography. Click to view full size and notes.</span>
             </p>
         </div>
-        <div class="photo-grid">
-            <p class="placeholder" style="grid-column:1/-1;">
-                <span data-lang="zh">^ 照片放在这里。把图片放到 web/photos/ 目录，然后告诉我加进来。</span>
-                <span data-lang="en">^ Photos go here. Drop images into web/photos/ and tell me to add them.</span>
-            </p>
-        </div>
+
+        <div class="gallery" id="gallery"></div>
+
         <footer>
             <span>&copy; 2026 Jico He</span>
             <span>built with Hermes Agent &middot; Cloudflare Pages</span>
             <div class="admin-dot" id="admin-dot" onclick="openAdmin()" title="管理">&#9670;</div>
         </footer>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-bg"></div>
+        <div class="lightbox-main" id="lightbox-main">
+            <button class="lb-close" onclick="closeLightbox()">&times;</button>
+            <button class="lb-arrow prev" onclick="navLightbox(-1)">&#8249;</button>
+            <img id="lb-img" src="" alt="">
+            <button class="lb-toggle" id="lb-toggle" onclick="togglePanel()" title="信息">&#9432;</button>
+            <button class="lb-arrow next" onclick="navLightbox(1)">&#8250;</button>
+            <div class="lb-panel" id="lb-panel">
+                <h3 id="lb-title"></h3>
+                <div class="lb-meta" id="lb-meta"></div>
+                <div class="lb-note" id="lb-note"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Admin -->
@@ -71,6 +254,110 @@
             <div class="dash-footer">Cloudflare Pages</div>
         </div>
     </div>
+
+    <script>
+        /* ================================================================
+           PHOTO DATA — edit this array to add/change photos and notes.
+           Each entry:
+             file:    filename in /photos/
+             title:   short title (zh / en)
+             date:    when taken
+             camera:  camera/lens info
+             note:    your personal thoughts (supports \\n for line breaks)
+           ================================================================ */
+        var photos = [
+            {
+                file: "IMG_7243.jpeg",
+                title: { zh: "IMG_7243", en: "IMG_7243" },
+                date: "",
+                camera: "",
+                note: { zh: "^ 在这里写你的想法。", en: "^ Write your thoughts here." }
+            },
+            {
+                file: "IMG_9523.jpeg",
+                title: { zh: "IMG_9523", en: "IMG_9523" },
+                date: "",
+                camera: "",
+                note: { zh: "^ 在这里写你的想法。", en: "^ Write your thoughts here." }
+            },
+            {
+                file: "IMG_9687.jpeg",
+                title: { zh: "IMG_9687", en: "IMG_9687" },
+                date: "",
+                camera: "",
+                note: { zh: "^ 在这里写你的想法。", en: "^ Write your thoughts here." }
+            }
+        ];
+
+        /* ---- Render gallery ---- */
+        var gallery = document.getElementById("gallery");
+        photos.forEach(function(photo, i) {
+            var item = document.createElement("div");
+            item.className = "gallery-item";
+            item.onclick = function() { openLightbox(i); };
+            var img = document.createElement("img");
+            img.src = photo.file;
+            img.alt = photo.title.zh;
+            img.loading = "lazy";
+            item.appendChild(img);
+            gallery.appendChild(item);
+        });
+
+        /* ---- Lightbox ---- */
+        var currentIndex = 0;
+        var lightbox = document.getElementById("lightbox");
+
+        function openLightbox(i) {
+            currentIndex = i;
+            showPhoto();
+            lightbox.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove("active");
+            document.body.style.overflow = "";
+            document.getElementById("lb-panel").classList.remove("open");
+        }
+
+        function navLightbox(dir) {
+            currentIndex = (currentIndex + dir + photos.length) % photos.length;
+            showPhoto();
+        }
+
+        function showPhoto() {
+            var p = photos[currentIndex];
+            var zh = document.documentElement.lang === "zh";
+            document.getElementById("lb-img").src = p.file;
+            document.getElementById("lb-img").alt = zh ? p.title.zh : p.title.en;
+            document.getElementById("lb-title").textContent = zh ? p.title.zh : p.title.en;
+
+            var meta = document.getElementById("lb-meta");
+            var metaHtml = "";
+            if (p.date) metaHtml += "<span>" + p.date + "</span>";
+            if (p.camera) metaHtml += "<span>" + p.camera + "</span>";
+            if (!metaHtml) metaHtml = "<span>" + (zh ? "暂无信息" : "No info yet") + "</span>";
+            meta.innerHTML = metaHtml;
+
+            var note = document.getElementById("lb-note");
+            note.textContent = zh ? p.note.zh : p.note.en;
+        }
+
+        function togglePanel() {
+            document.getElementById("lb-panel").classList.toggle("open");
+        }
+
+        /* ---- Keyboard ---- */
+        document.addEventListener("keydown", function(e) {
+            if (!lightbox.classList.contains("active")) return;
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowLeft") navLightbox(-1);
+            if (e.key === "ArrowRight") navLightbox(1);
+            if (e.key === "i" || e.key === "I") togglePanel();
+        });
+
+        lightbox.querySelector(".lightbox-bg").addEventListener("click", closeLightbox);
+    </script>
     <script src="/script.js"></script>
 </body>
 </html>
