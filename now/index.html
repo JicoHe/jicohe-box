@@ -22,11 +22,27 @@
             <button class="nav-btn" id="lang-en" onclick="setLang('en')">EN</button>
             <span class="nav-divider"></span>
             <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">深色</button>
-            <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="菜单">
+                <label for="menu-toggle" class="nav-hamburger" aria-label="菜单">
                 <span></span><span></span><span></span>
-            </button>
+            </label>
         </div>
     </nav>
+
+    <input type="checkbox" id="menu-toggle" class="menu-toggle-check">
+    <div class="mobile-menu">
+        <div class="mm-inner">
+            <a href="/"><span data-lang="zh">关于</span><span data-lang="en">About</span></a>
+            <a href="/reading/"><span data-lang="zh">阅读</span><span data-lang="en">Reading</span></a>
+            <a href="/photos/"><span data-lang="zh">照片</span><span data-lang="en">Photos</span></a>
+            <a href="/now/"><span data-lang="zh">此刻</span><span data-lang="en">Now</span></a>
+            <div class="mm-divider"></div>
+            <div class="mm-lang">
+                <button class="mm-btn on" id="mml-zh" onclick="setLang('zh')">中</button>
+                <button class="mm-btn" id="mml-en" onclick="setLang('en')">EN</button>
+                <button class="mm-btn" onclick="toggleTheme()" id="mml-theme">深色</button>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="page-header">
             <h1><span data-lang="zh">此刻</span><span data-lang="en">Now</span></h1>
@@ -77,18 +93,7 @@
         </div>
     </div>
     <script src="/script.js"></script>
-    <div class="mobile-menu" id="mobile-menu" style="display:none">
-                <a href="/"><span data-lang="zh">关于</span><span data-lang="en">About</span></a>
-                <a href="/reading/"><span data-lang="zh">阅读</span><span data-lang="en">Reading</span></a>
-                <a href="/photos/"><span data-lang="zh">照片</span><span data-lang="en">Photos</span></a>
-                <a href="/now/" style="color:var(--accent);"><span data-lang="zh">此刻</span><span data-lang="en">Now</span></a>
-            <div class="mm-divider"></div>
-            <div class="mm-lang">
-                <button class="mm-btn on" id="mml-zh" onclick="setLang('zh');toggleMobileMenu();">中</button>
-                <button class="mm-btn" id="mml-en" onclick="setLang('en');toggleMobileMenu();">EN</button>
-                <button class="mm-btn" onclick="toggleTheme();toggleMobileMenu();" id="mml-theme">深色</button>
-            </div>
-        </div>
+    
 
 </body>
 </html>

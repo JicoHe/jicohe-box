@@ -81,6 +81,14 @@ nav {
 }
 
 /* Hamburger (mobile) */
+.menu-toggle-check {
+    display: none;
+}
+.menu-toggle-check:checked ~ .mobile-menu {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+}
 .nav-hamburger {
     display: none;
     background: none; border: none; cursor: pointer;
@@ -110,16 +118,18 @@ nav {
 /* Mobile menu overlay */
 .mobile-menu {
     position: fixed; inset: 0; z-index: 150;
-    display: none; flex-direction: column;
-    background: rgba(0,0,0,0.3);
+    display: none; flex-direction: column; align-items: flex-start;
+    background: rgba(0,0,0,0.35);
     backdrop-filter: blur(32px) saturate(180%);
     -webkit-backdrop-filter: blur(32px) saturate(180%);
     padding: 5rem 2rem 2rem;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.3s ease;
 }
-.mobile-menu.open {
-    display: flex; opacity: 1;
+.mm-inner {
+    display: flex; flex-direction: column;
+    width: 100%;
 }
 .mobile-menu a {
     font-size: 1.3rem; font-weight: 600;
@@ -446,7 +456,7 @@ html[lang="en"] [data-lang-block="en"] { display: block; }
     .lightbox-main img { transition: none; }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px), (hover: none) and (pointer: coarse) {
     nav { padding: 0 1rem; }
     .nav-links { display: none; }
     .nav-hamburger { display: flex; }
