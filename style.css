@@ -375,6 +375,8 @@ html[lang="en"] [data-lang-block="en"] { display: block; }
     .gallery-item:hover { transform: none; }
     .gallery-item:active { transform: none; }
     .gallery.crossfading .gallery-item { filter: none; opacity: 1; }
+    .lb-panel { transition: none; }
+    .lightbox-main img { transition: none; }
 }
 
 @media (max-width: 600px) {
