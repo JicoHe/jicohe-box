@@ -85,9 +85,16 @@
 
         .lightbox-main {
             position: relative; z-index: 1;
-            display: flex; align-items: center;
             max-width: 94vw; max-height: 88vh;
             animation: lb-in 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .lb-inner {
+            display: flex; align-items: center;
+            transform: translateX(0);
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .lb-inner.shifted {
+            transform: translateX(-158px);
         }
         .lightbox.closing .lightbox-main {
             animation: lb-out 0.25s cubic-bezier(0.23, 1, 0.32, 1) forwards;
@@ -105,11 +112,6 @@
             position: relative;
             flex-shrink: 1; min-width: 0;
             display: inline-block;
-            transform: translateX(0);
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .lb-image-wrap.shifted {
-            transform: translateX(-316px);
         }
         .lightbox-main img {
             max-width: 100%; max-height: 85vh;
@@ -215,7 +217,7 @@
 
         @media (max-width: 900px) {
             .lightbox-main img { max-width: 90vw; }
-            .lb-image-wrap.shifted { transform: none; }
+            .lb-inner.shifted { transform: none; }
             .lb-panel {
                 position: fixed; right: 0; top: auto; bottom: 0;
                 width: 100%; max-height: 40vh;
@@ -285,6 +287,7 @@
         <div class="lightbox-bg"></div>
         <div class="lightbox-main" id="lightbox-main">
             <button class="lb-close" onclick="closeLightbox()">&times;</button>
+            <div class="lb-inner" id="lb-inner">
             <div class="lb-image-wrap">
                 <button class="lb-arrow prev" onclick="navLightbox(-1)">&#8249;</button>
                 <img id="lb-img" src="" alt="">
@@ -296,6 +299,7 @@
                 <div class="lb-specs" id="lb-specs"></div>
                 <div class="lb-note-label"><span data-lang="zh">笔记</span><span data-lang="en">Notes</span></div>
                 <div class="lb-note" id="lb-note"></div>
+            </div>
             </div>
         </div>
     </div>
@@ -471,7 +475,7 @@
             var lb = document.getElementById("lightbox");
             lb.classList.add("closing");
             document.getElementById("lb-panel").classList.remove("open");
-            document.querySelector(".lb-image-wrap").classList.remove("shifted");
+            document.getElementById("lb-inner").classList.remove("shifted");
             setTimeout(function() {
                 lb.classList.remove("active", "closing");
                 document.body.style.overflow = "";
@@ -508,7 +512,7 @@
 
         function togglePanel() {
             document.getElementById("lb-panel").classList.toggle("open");
-            document.querySelector(".lb-image-wrap").classList.toggle("shifted");
+            document.getElementById("lb-inner").classList.toggle("shifted");
         }
 
         document.addEventListener("keydown", function(e) {
