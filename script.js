@@ -171,8 +171,16 @@ function toggleMobileMenu() {
     var hamburger = document.querySelector(".nav-hamburger");
     var menu = document.getElementById("mobile-menu");
     if (!hamburger || !menu) return;
-    var open = menu.classList.toggle("open");
-    hamburger.classList.toggle("open", open);
+    var open = !menu.classList.contains("open");
+    if (open) {
+        menu.classList.add("open");
+        menu.style.display = "flex";
+        hamburger.classList.add("open");
+    } else {
+        menu.classList.remove("open");
+        menu.style.display = "none";
+        hamburger.classList.remove("open");
+    }
     document.body.style.overflow = open ? "hidden" : "";
 }
 document.addEventListener("click", function(e) {
