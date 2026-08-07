@@ -6,7 +6,24 @@
     <title>Photos · Jico He</title>
     <link rel="stylesheet" href="/style.css">
     <style>
-        /* ---- Gallery Grid (CSS columns masonry) ---- */
+        /* ---- Layout toggle buttons ---- */
+        .layout-toggle {
+            display: flex; gap: 0.3rem; margin-top: 0.8rem;
+        }
+        .layout-btn {
+            font-family: var(--font-mono);
+            font-size: 0.72rem; padding: 0.25rem 0.7rem;
+            border: 1px solid var(--border); border-radius: 4px;
+            background: var(--bg-soft); color: var(--text-muted);
+            cursor: pointer; transition: all 0.15s ease;
+        }
+        .layout-btn:hover { border-color: var(--accent); color: var(--text); }
+        .layout-btn.active {
+            border-color: var(--accent); color: var(--accent);
+            background: rgba(37, 99, 235, 0.06);
+        }
+
+        /* ---- Gallery: Masonry (default) ---- */
         .gallery {
             columns: 3 240px;
             column-gap: 0.8rem;
@@ -18,18 +35,35 @@
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid var(--border);
-            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+                        filter 0.2s ease, opacity 0.2s ease;
         }
-        .gallery-item:hover {
-            transform: scale(1.015);
-        }
-        .gallery-item:active {
-            transform: scale(0.98);
-        }
+        .gallery-item:hover { transform: scale(1.015); }
+        .gallery-item:active { transform: scale(0.98); }
         .gallery-item img {
-            display: block;
-            width: 100%;
-            height: auto;
+            display: block; width: 100%; height: auto;
+        }
+
+        /* ---- Gallery: Grid mode ---- */
+        .gallery.grid {
+            columns: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+        }
+        .gallery.grid .gallery-item {
+            margin-bottom: 0;
+            aspect-ratio: 3/2;
+        }
+        .gallery.grid .gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        /* ---- Layout transition: blur-bridge (Emil Kowalski technique) ---- */
+        .gallery.crossfading .gallery-item {
+            filter: blur(2px);
+            opacity: 0.7;
         }
 
         /* ---- Lightbox ---- */
@@ -38,7 +72,6 @@
             display: none; align-items: center; justify-content: center;
         }
         .lightbox.active { display: flex; }
-
         .lightbox-bg {
             position: absolute; inset: 0;
             background: rgba(0, 0, 0, 0.6);
@@ -58,7 +91,6 @@
             from { opacity: 0; transform: scale(0.92); }
             to { opacity: 1; transform: scale(1); }
         }
-
         .lightbox-main img {
             max-width: 100%; max-height: 85vh;
             border-radius: 12px;
@@ -66,7 +98,6 @@
             display: block;
         }
 
-        /* ---- Side panel ---- */
         .lb-panel {
             position: absolute; right: -340px; top: 0;
             width: 320px; max-height: 85vh;
@@ -84,66 +115,46 @@
             to { opacity: 1; transform: translateX(0); }
         }
         .lb-panel.open { display: block; }
-
-        .lb-panel h3 {
-            font-size: 1rem; font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
+        .lb-panel h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
         .lb-meta {
             font-family: var(--font-mono);
             font-size: 0.72rem; color: var(--text-muted);
-            margin-bottom: 1rem;
-            line-height: 1.6;
+            margin-bottom: 1rem; line-height: 1.6;
         }
-        .lb-meta span {
-            display: block;
-        }
+        .lb-meta span { display: block; }
         .lb-note {
             font-size: 0.88rem; color: var(--text-secondary);
-            line-height: 1.7;
-            white-space: pre-wrap;
+            line-height: 1.7; white-space: pre-wrap;
         }
 
-        /* ---- Toggle button ---- */
         .lb-toggle {
             position: absolute; right: -44px; top: 50%;
             transform: translateY(-50%);
-            width: 36px; height: 36px;
-            border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%;
             background: var(--bg);
             border: 1px solid var(--border);
             cursor: pointer;
             font-size: 1rem; color: var(--text-secondary);
             display: flex; align-items: center; justify-content: center;
-            transition: all 0.15s ease;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            z-index: 2;
+            transition: border-color 0.15s ease, color 0.15s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 2;
         }
-        .lb-toggle:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
+        .lb-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
-        /* ---- Close button ---- */
         .lb-close {
             position: absolute; top: -44px; right: 0;
-            width: 36px; height: 36px;
-            border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%;
             background: rgba(255,255,255,0.12);
-            border: none;
-            cursor: pointer;
+            border: none; cursor: pointer;
             font-size: 1.1rem; color: #fff;
             display: flex; align-items: center; justify-content: center;
-            transition: background 0.15s ease;
-            z-index: 3;
+            transition: background 0.15s ease; z-index: 3;
         }
         .lb-close:hover { background: rgba(255,255,255,0.22); }
 
-        /* ---- Nav arrows ---- */
         .lb-arrow {
             position: absolute; top: 50%; z-index: 2;
-            width: 40px; height: 40px;
-            border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -170,6 +181,7 @@
             .lb-arrow.prev { left: 8px; }
             .lb-arrow.next { right: 52px; }
             .gallery { columns: 2 160px; }
+            .gallery.grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -197,9 +209,17 @@
         <div class="page-header">
             <h1><span data-lang="zh">照片</span><span data-lang="en">Photos</span></h1>
             <p class="page-desc">
-                <span data-lang="zh">摄影作品。点击查看大图和笔记。</span>
-                <span data-lang="en">Photography. Click to view full size and notes.</span>
+                <span data-lang="zh">点击查看大图和笔记。</span>
+                <span data-lang="en">Click to view full size and notes.</span>
             </p>
+            <div class="layout-toggle">
+                <button class="layout-btn active" id="btn-masonry" onclick="setLayout('masonry')">
+                    <span data-lang="zh">瀑布流</span><span data-lang="en">Masonry</span>
+                </button>
+                <button class="layout-btn" id="btn-grid" onclick="setLayout('grid')">
+                    <span data-lang="zh">网格</span><span data-lang="en">Grid</span>
+                </button>
+            </div>
         </div>
 
         <div class="gallery" id="gallery"></div>
@@ -258,12 +278,6 @@
     <script>
         /* ================================================================
            PHOTO DATA — edit this array to add/change photos and notes.
-           Each entry:
-             file:    filename in /photos/
-             title:   short title (zh / en)
-             date:    when taken
-             camera:  camera/lens info
-             note:    your personal thoughts (supports \\n for line breaks)
            ================================================================ */
         var photos = [
             {
@@ -303,6 +317,46 @@
             gallery.appendChild(item);
         });
 
+        /* ---- Layout toggle (Emil Kowalski blur-crossfade technique) ---- */
+        var currentLayout = "masonry";
+        function setLayout(mode) {
+            if (mode === currentLayout) return;
+            currentLayout = mode;
+
+            // Step 1: blur + fade out
+            gallery.classList.add("crossfading");
+
+            // Step 2: swap layout class after blur settles
+            setTimeout(function() {
+                if (mode === "grid") {
+                    gallery.classList.add("grid");
+                } else {
+                    gallery.classList.remove("grid");
+                }
+                // Force reflow so the new layout renders under blur
+                gallery.offsetHeight;
+
+                // Step 3: fade back in
+                gallery.classList.remove("crossfading");
+            }, 180);
+
+            // Toggle active buttons
+            document.getElementById("btn-masonry").classList.toggle("active", mode === "masonry");
+            document.getElementById("btn-grid").classList.toggle("active", mode === "grid");
+
+            // Persist preference
+            localStorage.setItem("photo-layout", mode);
+        }
+
+        // Restore saved layout
+        (function() {
+            var saved = localStorage.getItem("photo-layout");
+            if (saved === "grid") {
+                currentLayout = null; // so setLayout doesn't skip
+                setLayout("grid");
+            }
+        })();
+
         /* ---- Lightbox ---- */
         var currentIndex = 0;
         var lightbox = document.getElementById("lightbox");
@@ -339,15 +393,13 @@
             if (!metaHtml) metaHtml = "<span>" + (zh ? "暂无信息" : "No info yet") + "</span>";
             meta.innerHTML = metaHtml;
 
-            var note = document.getElementById("lb-note");
-            note.textContent = zh ? p.note.zh : p.note.en;
+            document.getElementById("lb-note").textContent = zh ? p.note.zh : p.note.en;
         }
 
         function togglePanel() {
             document.getElementById("lb-panel").classList.toggle("open");
         }
 
-        /* ---- Keyboard ---- */
         document.addEventListener("keydown", function(e) {
             if (!lightbox.classList.contains("active")) return;
             if (e.key === "Escape") closeLightbox();
