@@ -85,9 +85,14 @@
 
         .lightbox-main {
             position: relative; z-index: 1;
-            display: flex; align-items: center; gap: 1rem;
+            display: flex; align-items: center; gap: 0;
             max-width: 94vw; max-height: 88vh;
+            padding-right: 0;
+            transition: padding-right 0.3s cubic-bezier(0.23, 1, 0.32, 1);
             animation: lb-in 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .lightbox-main.has-panel {
+            padding-right: 316px;
         }
         .lightbox.closing .lightbox-main {
             animation: lb-out 0.25s cubic-bezier(0.23, 1, 0.32, 1) forwards;
@@ -115,9 +120,10 @@
         }
         .lightbox-main img.switching { opacity: 0.35; }
 
-        /* Panel: flex sibling, slides in from right */
+        /* Panel: absolute at right edge, image slides left to make room */
         .lb-panel {
-            width: 300px; max-height: 85vh; flex-shrink: 0;
+            position: absolute; right: 0; top: 0; bottom: 0;
+            width: 300px; max-height: 85vh;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -125,13 +131,15 @@
             box-shadow: 0 16px 48px rgba(0,0,0,0.25);
             overflow-y: auto;
             opacity: 0;
-            transform: translateX(24px);
+            transform: translateX(320px);
+            pointer-events: none;
             transition: opacity 0.25s ease,
                         transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .lb-panel.open {
             opacity: 1;
             transform: translateX(0);
+            pointer-events: auto;
         }
 
         .lb-specs {
@@ -207,6 +215,7 @@
 
         @media (max-width: 900px) {
             .lightbox-main img { max-width: 90vw; }
+            .lightbox-main.has-panel { padding-right: 0; }
             .lb-panel {
                 position: fixed; right: 0; top: auto; bottom: 0;
                 width: 100%; max-height: 40vh;
@@ -462,6 +471,7 @@
             var lb = document.getElementById("lightbox");
             lb.classList.add("closing");
             document.getElementById("lb-panel").classList.remove("open");
+            document.getElementById("lightbox-main").classList.remove("has-panel");
             setTimeout(function() {
                 lb.classList.remove("active", "closing");
                 document.body.style.overflow = "";
@@ -498,6 +508,7 @@
 
         function togglePanel() {
             document.getElementById("lb-panel").classList.toggle("open");
+            document.getElementById("lightbox-main").classList.toggle("has-panel");
         }
 
         document.addEventListener("keydown", function(e) {
