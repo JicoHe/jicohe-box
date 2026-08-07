@@ -8,6 +8,10 @@ function setLang(lang) {
     var en = document.getElementById('lang-en');
     if (zh) zh.classList.toggle('on', lang === 'zh');
     if (en) en.classList.toggle('on', lang === 'en');
+    var mzh = document.getElementById('mml-zh');
+    var men = document.getElementById('mml-en');
+    if (mzh) mzh.classList.toggle('on', lang === 'zh');
+    if (men) men.classList.toggle('on', lang === 'en');
 }
 (function() {
     setLang(localStorage.getItem('lang') || 'zh');
@@ -20,6 +24,8 @@ function applyTheme() {
     document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
     var btn = document.getElementById("theme-btn");
     if (btn) btn.textContent = isDark ? "浅色" : "深色";
+    var mbtn = document.getElementById("mml-theme");
+    if (mbtn) mbtn.textContent = isDark ? "浅色" : "深色";
 }
 function toggleTheme() {
     localStorage.setItem("theme", document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
@@ -157,5 +163,21 @@ setInterval(function() {
 document.addEventListener("keydown", function(e) {
     if (e.key === "m" && !e.target.closest("input,textarea") && !document.getElementById("admin-overlay").classList.contains("active")) {
         openAdmin();
+    }
+});
+
+/* Mobile menu */
+function toggleMobileMenu() {
+    var hamburger = document.querySelector(".nav-hamburger");
+    var menu = document.getElementById("mobile-menu");
+    if (!hamburger || !menu) return;
+    var open = menu.classList.toggle("open");
+    hamburger.classList.toggle("open", open);
+    document.body.style.overflow = open ? "hidden" : "";
+}
+document.addEventListener("click", function(e) {
+    var menu = document.getElementById("mobile-menu");
+    if (menu && menu.classList.contains("open") && e.target === menu) {
+        toggleMobileMenu();
     }
 });

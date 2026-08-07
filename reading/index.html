@@ -74,5 +74,18 @@
         </div>
     </div>
     <script src="/script.js"></script>
+    <div class="mobile-menu" id="mobile-menu">
+                <a href="/"><span data-lang="zh">关于</span><span data-lang="en">About</span></a>
+                <a href="/reading/" style="color:var(--accent);"><span data-lang="zh">阅读</span><span data-lang="en">Reading</span></a>
+                <a href="/photos/"><span data-lang="zh">照片</span><span data-lang="en">Photos</span></a>
+                <a href="/now/"><span data-lang="zh">此刻</span><span data-lang="en">Now</span></a>
+            <div class="mm-divider"></div>
+            <div class="mm-lang">
+                <button class="mm-btn on" id="mml-zh" onclick="setLang('zh');toggleMobileMenu();">中</button>
+                <button class="mm-btn" id="mml-en" onclick="setLang('en');toggleMobileMenu();">EN</button>
+                <button class="mm-btn" onclick="toggleTheme();toggleMobileMenu();" id="mml-theme">深色</button>
+            </div>
+        </div>
+
 </body>
 </html>
