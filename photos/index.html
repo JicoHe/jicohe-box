@@ -85,14 +85,9 @@
 
         .lightbox-main {
             position: relative; z-index: 1;
-            display: flex; align-items: center; gap: 0;
+            display: flex; align-items: center;
             max-width: 94vw; max-height: 88vh;
-            padding-right: 0;
-            transition: padding-right 0.3s cubic-bezier(0.23, 1, 0.32, 1);
             animation: lb-in 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .lightbox-main.has-panel {
-            padding-right: 316px;
         }
         .lightbox.closing .lightbox-main {
             animation: lb-out 0.25s cubic-bezier(0.23, 1, 0.32, 1) forwards;
@@ -110,6 +105,11 @@
             position: relative;
             flex-shrink: 1; min-width: 0;
             display: inline-block;
+            transform: translateX(0);
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .lb-image-wrap.shifted {
+            transform: translateX(-158px);
         }
         .lightbox-main img {
             max-width: 100%; max-height: 85vh;
@@ -215,7 +215,7 @@
 
         @media (max-width: 900px) {
             .lightbox-main img { max-width: 90vw; }
-            .lightbox-main.has-panel { padding-right: 0; }
+            .lb-image-wrap.shifted { transform: none; }
             .lb-panel {
                 position: fixed; right: 0; top: auto; bottom: 0;
                 width: 100%; max-height: 40vh;
@@ -471,7 +471,7 @@
             var lb = document.getElementById("lightbox");
             lb.classList.add("closing");
             document.getElementById("lb-panel").classList.remove("open");
-            document.getElementById("lightbox-main").classList.remove("has-panel");
+            document.querySelector(".lb-image-wrap").classList.remove("shifted");
             setTimeout(function() {
                 lb.classList.remove("active", "closing");
                 document.body.style.overflow = "";
@@ -508,7 +508,7 @@
 
         function togglePanel() {
             document.getElementById("lb-panel").classList.toggle("open");
-            document.getElementById("lightbox-main").classList.toggle("has-panel");
+            document.querySelector(".lb-image-wrap").classList.toggle("shifted");
         }
 
         document.addEventListener("keydown", function(e) {
