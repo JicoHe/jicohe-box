@@ -97,24 +97,23 @@ nav {
     left: 50%;
     width: 22px;
     height: 2px;
-    margin: -1px 0 0 -11px;
     background: var(--text);
     border-radius: 2px;
     transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1),
                 opacity 0.2s ease;
-    transform-origin: center;
+    transform-origin: center center;
 }
 .nav-hamburger span:first-child {
-    transform: translateY(-7px) rotate(0deg);
+    transform: translate(-50%, -50%) translateY(-7px) rotate(0deg);
 }
 .nav-hamburger span:last-child {
-    transform: translateY(7px) rotate(0deg);
+    transform: translate(-50%, -50%) translateY(7px) rotate(0deg);
 }
 #menu-toggle:checked ~ nav .nav-hamburger span:first-child {
-    transform: translateY(0) rotate(45deg);
+    transform: translate(-50%, -50%) translateY(0) rotate(45deg);
 }
 #menu-toggle:checked ~ nav .nav-hamburger span:last-child {
-    transform: translateY(0) rotate(-45deg);
+    transform: translate(-50%, -50%) translateY(0) rotate(-45deg);
 }
 
 /* Mobile menu overlay — frosted glass + fade */
@@ -169,7 +168,6 @@ nav {
     text-decoration: none;
     padding: 0.8rem 0;
     letter-spacing: -0.02em;
-    transition: color 0.15s ease;
 }
 .mobile-menu a:hover { color: var(--accent); }
 .mobile-menu .mm-divider {
