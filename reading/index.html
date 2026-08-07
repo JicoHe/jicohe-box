@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading · Jico He</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+'    <nav>
+        <div class="nav-left">
+            <a href="/" class="nav-name">Jico He</a>
+            <div class="nav-links">
+<a href="/" class="nav-link"><span data-lang="zh">关于</span><span data-lang="en">About</span></a>
+<a href="/reading/" class="nav-link active"><span data-lang="zh">阅读</span><span data-lang="en">Reading</span></a>
+<a href="/photos/" class="nav-link"><span data-lang="zh">照片</span><span data-lang="en">Photos</span></a>
+<a href="/now/" class="nav-link"><span data-lang="zh">此刻</span><span data-lang="en">Now</span></a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="nav-btn on" id="lang-zh" onclick="setLang('zh')">中</button>
+            <button class="nav-btn" id="lang-en" onclick="setLang('en')">EN</button>
+            <span class="nav-divider"></span>
+            <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">深色</button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="page-header">
+            <h1><span data-lang="zh">阅读</span><span data-lang="en">Reading</span></h1>
+            <p class="page-desc">
+                <span data-lang="zh">正在读的书和论文。</span>
+                <span data-lang="en">Books and papers I'm reading.</span>
+            </p>
+        </div>
+        <ul class="item-list">
+            <li class="item-row">
+                <p class="placeholder">
+                    <span data-lang="zh">^ 书和论文会列在这里。格式：标题 — 作者，加上简短笔记。</span>
+                    <span data-lang="en">^ Books and papers will go here. Format: Title — Author, with a short note.</span>
+                </p>
+            </li>
+        </ul>
+        <footer>
+            <span>&copy; 2026 Jico He</span>
+            <span>Cloudflare Pages</span>
+            <div class="admin-dot" id="admin-dot" onclick="openAdmin()" title="管理">&#9670;</div>
+        </footer>
+    </div>
+
+    <!-- Admin -->
+    <div class="admin-overlay" id="admin-overlay">
+        <div class="admin-modal" id="admin-modal">
+            <div class="am-header"><h2><span data-lang="zh">管理入口</span><span data-lang="en">Admin</span></h2></div>
+            <div class="am-body">
+                <div class="pw-row">
+                    <input type="password" id="pw-input" placeholder="密码…" autocomplete="off">
+                    <button onclick="verifyPassword()"><span data-lang="zh">解锁</span><span data-lang="en">Unlock</span></button>
+                </div>
+                <div class="lock-msg" id="lock-msg"></div>
+            </div>
+            <div class="am-footer"><button class="am-close" onclick="closeAdmin()"><span data-lang="zh">&larr; 返回</span><span data-lang="en">&larr; Back</span></button></div>
+        </div>
+        <div class="admin-dashboard" id="admin-dashboard">
+            <div class="dash-header"><span class="dash-title">Dashboard</span><button class="dash-close" onclick="closeDashboard()">&times;</button></div>
+            <div class="service-grid">
+                <a href="https://ha.jicohe-box.cn" target="_blank" class="service-card"><div class="s-title">HAOS</div><div class="s-desc">Home Assistant &rarr;</div></a>
+                <div class="service-card"><div class="s-title">DeepSeek API</div><div class="token-num" id="ds-balance">&mdash;</div><div class="s-desc" id="ds-meta">&hellip;</div><button onclick="fetchBalance()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.68rem;margin-top:0.15rem;font-family:inherit;">&#8635;</button></div>
+                <a href="https://code.jicohe-box.cn" target="_blank" class="service-card"><div class="s-title">Code</div><div class="s-desc">VS Code &rarr;</div></a>
+            </div>
+            <div class="dash-actions">
+                <button onclick="logoutAdmin()"><span data-lang="zh">退出登录</span><span data-lang="en">Log out</span></button>
+            </div>
+            <div class="dash-footer">Cloudflare Pages</div>
+        </div>
+    </div>
+    <script src="/script.js"></script>
+</body>
+</html>
